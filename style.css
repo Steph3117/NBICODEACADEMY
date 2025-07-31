@@ -1,0 +1,214 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+header {
+  background-color: #003366;
+  color: white;
+  padding: 20px 40px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.5em;
+}
+
+header p {
+  margin: 5px 0 0;
+  font-size: 1.2em;
+}
+
+nav {
+  background-color: #0055a5;
+}
+
+.nav-tabs {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  background-color: #0055a5;
+}
+
+.nav-tabs li {
+  margin: 0;
+}
+
+.nav-tabs a {
+  display: block;
+  padding: 14px 20px;
+  text-decoration: none;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.nav-tabs a:hover {
+  background-color: #0074d9;
+}
+
+main {
+  padding: 40px;
+  max-width: 1000px;
+  margin: auto;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+main h2 {
+  color: #003366;
+  margin-top: 0;
+}
+
+ul {
+  padding-left: 20px;
+}
+pre {
+  overflow-x: auto;
+  white-space: pre-wrap; /* or pre-line, or keep pre if you want horizontal scroll */
+  word-break: break-word;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 4px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.example-box {
+    border: 1px dashed #ccc;
+    background-color: #fafafa;
+    padding: 15px;
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
+.toc {
+    background: #e6f0ff;
+    border: 2px solid #0055a5;
+    padding: 20px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 85, 165, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.toc h3 {
+    font-size: 1.5em;
+    margin-top: 0;
+    color: #003366;
+    border-bottom: 1px solid #0055a5;
+    padding-bottom: 8px;
+}
+
+.toc ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 15px 0 0;
+}
+
+.toc ul li {
+    margin-bottom: 8px;
+}
+
+.toc ul li a {
+    text-decoration: none;
+    color: #0055a5;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.toc ul li a:hover {
+    color: #0074d9;
+    text-decoration: underline;
+}
+
+.back-to-top-container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.back-to-top-btn {
+  background-color: #0055a5;
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease;
+}
+
+.back-to-top-btn:hover {
+  background-color: #0074d9;
+}
+
+.code-block {
+  position: relative;
+  display: flex;
+  align-items: center;        /* Vertical centering */
+  background-color: #f0f0f0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.code-block pre {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  flex: 1;
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.copy-btn {
+  margin-right: 12px;
+  background-color: #0074d9;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.3s ease;
+}
+
+.copy-btn:hover {
+  background-color: #005fa3;
+}
+
+
+.style-controls {
+  background: #f2f2f2;
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 25px;
+  border-radius: 8px;
+}
+.style-controls label {
+  display: block;
+  margin-bottom: 8px;
+}
+#button-workspace h3 {
+  color: #003366;
+}
+#wsOutput {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
