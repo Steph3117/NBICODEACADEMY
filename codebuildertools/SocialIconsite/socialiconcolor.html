@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SVG Color Changer & PNG Export (GitHub)</title>
+  <style>
+    :root { --gap: 10px; }
+    body { font-family: system-ui, sans-serif; padding: 20px; background: #f4f4f4; }
+    .row { display: flex; flex-wrap: wrap; gap: var(--gap); align-items: center; }
+    label { font-weight: 600; }
+    select, input[type="color"], input[type="number"], button { padding: 8px; font-size: 16px; }
+    #previewWrap { margin-top: 16px; display: inline-block; background: #fff; padding: 8px; border-radius: 8px; }
+    canvas { display: block; background: white; }
+    small { color:#555; }
+  </style>
+</head>
+<body>
+
+  <h2>🎨 SVG Icon Color Changer (GitHub-hosted)</h2>
+
+  <div class="row">
+    <div>
+      <label for="svgSelect">Choose SVG Icon:</label><br />
+      <select id="svgSelect"></select>
+    </div>
+
+    <div>
+      <label for="colorPicker">Pick Color:</label><br />
+      <input type="color" id="colorPicker" value="#000000" />
+    </div>
+
+    <div>
+      <label for="pngScale">PNG Scale (×):</label><br />
+      <input type="number" id="pngScale" value="4" min="1" max="20" step="1" />
+    </div>
+
+    <div style="align-self:end;">
+      <button id="downloadBtn">Download PNG</button>
+    </div>
+  </div>
+
+  <div style="margin-top:8px;">
+    <small>Serves from your GitHub repo folder: <code>codebuildertools/SocialIconsite/</code>.</small>
+  </div>
+
+  <div id="previewWrap">
+    <canvas id="canvas" width="300" height="300"></canvas>
+  </div>
+
+  <script>
+    // =========================
+    // 🔧 CONFIG — set these
+    // =========================
+    const GH_USER   = 'Steph3117';               // <-- your GitHub username
+    const GH_REPO   = 'NBICODEACADEMY';      // <-- your repo
+    const GH_BRANCH = 'main';                // <-- branch name
+    const USE = 'pages'; // 'pages' or 'raw'
+
+    // File list from your screenshot (add/remove as needed)
+    const FILES = [
+      'Bluesky Circle.svg',
+      'Bluesky Square.svg',
+      'Facebook Circle.svg',
+      'Facebook Square.svg',
+      'Instagram Circle.svg',
+      'Instagram Square.svg',
+      'TikTok Circle.svg',
+      'TikTok Square.svg',
+      'X Circle.svg',
+      'X Square.svg',
+      'YouTube Circle.svg',
+      'YouTube Square.svg'
+    ];
+
+    // Build the base URL
+    const BASE = USE === 'pages'
+      ? `https://${GH_USER}.github.io/${GH_REPO}/codebuildertools/SocialIconsite/`
+      : `https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/${GH_BRANCH}/codebuildertools/SocialIconsite/`;
+
+    // =========================
+    // App
+    // =========================
+    const selectEl    = document.getElementById('svgSelect');
+    const colorPicker = document.getElementById('colorPicker');
+    const pngScaleEl  = document.getElementById('pngScale');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const canvas      = document.getElementById('canvas');
+    const ctx         = canvas.getContext('2d');
+
+    let currentSVGText = '';
+
+    // Populate dropdown
+    function initSelect() {
+      selectEl.innerHTML = '';
+      for (const name of FILES) {
+        const opt = document.createElement('option');
+        opt.value = name;
+        opt.textContent = name.replace(/\.svg$/i,'');
+        selectEl.appendChild(opt);
+      }
+    }
+
+    async function fetchSVGText(fileName) {
+      const url = BASE + encodeURIComponent(fileName);
+      const res = await fetch(url, { cache: 'no-cache' });
+      if (!res.ok) throw new Error(`Failed to fetch: ${url}`);
+      return await res.text();
+    }
+
+    function parseSVG(text) {
+      const doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+      const svg = doc.documentElement;
+      if (!svg || svg.nodeName.toLowerCase() !== 'svg') throw new Error('Invalid SVG');
+      if (!svg.getAttribute('xmlns')) svg.setAttribute('xmlns','http://www.w3.org/2000/svg');
+      return svg;
+    }
+
+    function recolorSVG(svgText, color) {
+      const svg = parseSVG(svgText);
+      svg.querySelectorAll('*').forEach(el => {
+        const tag = el.tagName.toLowerCase();
+        if (['defs','clipPath','mask','pattern','metadata','script','style','title','desc'].includes(tag)) return;
+        const fill   = el.getAttribute('fill');
+        const stroke = el.getAttribute('stroke');
+        if (fill   !== 'none')  el.setAttribute('fill',   color);
+        if (stroke !== 'none')  el.setAttribute('stroke', color);
+      });
+      return new XMLSerializer().serializeToString(svg);
+    }
+
+    function getSVGSize(svgText) {
+      const svg = parseSVG(svgText);
+      const vb = svg.getAttribute('viewBox');
+      if (vb) {
+        const [, , w, h] = vb.split(/\s+/).map(Number);
+        if (w > 0 && h > 0) return { width: w, height: h };
+      }
+      const num = v => v ? parseFloat(String(v).match(/[\d.]+/)?.[0]) : NaN;
+      const w = num(svg.getAttribute('width'));
+      const h = num(svg.getAttribute('height'));
+      return (w > 0 && h > 0) ? { width: w, height: h } : { width: 300, height: 300 };
+    }
+
+    function render(svgText, color) {
+      const colored = recolorSVG(svgText, color);
+      const { width, height } = getSVGSize(colored);
+      canvas.width = Math.ceil(width);
+      canvas.height = Math.ceil(height);
+
+      const blob = new Blob([colored], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const img = new Image();
+      img.crossOrigin = 'anonymous'; // needed for canvas export from cross-origin
+      img.onload = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        URL.revokeObjectURL(url);
+      };
+      img.src = url;
+    }
+
+    async function loadCurrent() {
+      const fileName = selectEl.value;
+      currentSVGText = await fetchSVGText(fileName);
+      render(currentSVGText, colorPicker.value);
+    }
+
+    // Events
+    selectEl.addEventListener('change', loadCurrent);
+    colorPicker.addEventListener('input', () => {
+      if (currentSVGText) render(currentSVGText, colorPicker.value);
+    });
+
+    downloadBtn.addEventListener('click', async () => {
+      if (!currentSVGText) return;
+      const color = colorPicker.value;
+      const scaledSVG = recolorSVG(currentSVGText, color);
+      const { width, height } = getSVGSize(scaledSVG);
+      const scale = Math.max(1, Math.min(20, Number(pngScaleEl.value) || 4));
+
+      const off = document.createElement('canvas');
+      off.width = Math.ceil(width * scale);
+      off.height = Math.ceil(height * scale);
+      const offctx = off.getContext('2d');
+
+      const blob = new Blob([scaledSVG], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        offctx.drawImage(img, 0, 0, off.width, off.height);
+        URL.revokeObjectURL(url);
+
+        const a = document.createElement('a');
+        const base = (selectEl.value || 'icon').replace(/\.svg$/i,'');
+        a.download = `${base}-${color.replace('#','')}.png`;
+        a.href = off.toDataURL('image/png');
+        a.click();
+      };
+      img.src = url;
+    });
+
+    // Init
+    (async function start() {
+      initSelect();
+      selectEl.value = FILES.find(n => /bluesky\s*square\.svg/i.test(n)) || FILES[0];
+      await loadCurrent();
+    })();
+  </script>
+</body>
+</html>
