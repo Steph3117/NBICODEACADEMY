@@ -23,33 +23,56 @@ header p {
   font-size: 1.2em;
 }
 
-nav {
-  background-color: #0055a5;
-}
-
 .nav-tabs {
-  list-style-type: none;
+  list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
-  justify-content: center;
-  background-color: #0055a5;
+  background: #003366;
 }
 
-.nav-tabs li {
-  margin: 0;
+.nav-tabs > li {
+  position: relative; /* Needed for dropdown positioning */
 }
 
 .nav-tabs a {
   display: block;
-  padding: 14px 20px;
+  padding: 12px 16px;
+  color: #fff;
   text-decoration: none;
-  color: white;
-  transition: background-color 0.3s ease;
 }
 
 .nav-tabs a:hover {
-  background-color: #0074d9;
+  background: #0055aa;
+}
+
+/* Dropdown menu hidden by default */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  min-width: 180px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.dropdown-menu li a {
+  padding: 10px 14px;
+  color: #333;
+}
+
+.dropdown-menu li a:hover {
+  background: #f2f2f2;
+}
+
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-menu {
+  display: block;
 }
 
 main {
@@ -211,4 +234,11 @@ pre {
   border-radius: 6px;
   padding: 10px;
   background-color: #f9f9f9;
+}
+
+.main-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 120px); /* full height minus header/footer */
 }

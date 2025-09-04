@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Email UI/UX Checklist</title>
+  <style>
+    h1 {
+      font-size: 1.8em;
+      margin-bottom: 0.5em;
+    }
+    h2 {
+      margin-top: 1.5em;
+      color: #444;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 4px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin: 8px 0;
+      display: flex;
+      align-items: center;
+    }
+    input[type="checkbox"] {
+      margin-right: 10px;
+      transform: scale(1.2);
+    }
+    a {
+      color: #0645AD;
+      text-decoration: underline;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    nav {
+  background-color: #0055a5;
+}
+
+  </style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header>
+  <h1>NBICodeAcademy</h1>
+  <p>by New Blue Interactive</p>
+  <nav>
+    <ul class="nav-tabs">
+      <li><a href="index.html">Home</a></li>
+
+      <li class="dropdown">
+        <a href="tools.html">NBI Email Tools ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="EmailChecklist.html">Email Checklist</a></li>
+          <li><a href="snippetlibrary.html">Snippet Library</a></li>
+          <li><a href="footertools.html">Footer Code Tool</a></li>
+          <li><a href="headertools.html">Header Code Tool</a></li>
+          <li><a href="emailbodycode.html">Email Body Tool</a></li>
+
+          <li><a href="headertools.html">Email Wrappers</a></li>
+          <li><a href="headertools.html">Buttons</a></li>
+          <li><a href="headertools.html">Table and Snippets</a></li>
+          <li><a href="codebuildertools/SocialIconsite/socialiconcolor.html">Social Icon Tool</a></li>
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a href="trainings.html">Trainings ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="trainings.html#workshops">Workshops</a></li>
+          <li><a href="trainings.html#videos">Video Library</a></li>
+        </ul>
+      </li>
+
+      <li><a href="docs.html">Documentation</a></li>
+    </ul>
+  </nav>
+</header>
+
+  <div class="container">
+    <h1>Email Checklist</h1>
+
+    <h2>1. Text & Fonts</h2>
+    <ul>
+      <li><input type="checkbox"> Avoid bolded text (Gmail rendering issue)</li>
+      <li><input type="checkbox"> Use a friendly, readable font (system font recommended)</li>
+      <li><input type="checkbox"> If using a web font, embed via Google Fonts &lt;link&gt;</li>
+      <li><input type="checkbox"> Use black text on white backgrounds (not gray)</li>
+      <li><input type="checkbox"> Avoid white text on light backgrounds</li>
+      <li><input type="checkbox"> Ensure color contrast ratio ≥ 5:1 (<a href="https://webaim.org/resources/contrastchecker/" target="_blank">Contrast Checker</a>)</li>
+    </ul>
+
+    <h2>2. Structure & Accessibility</h2>
+    <ul>
+      <li><input type="checkbox"> Add <code>role="presentation"</code> to all &lt;table&gt; elements</li>
+      <li><input type="checkbox"> NGP Page Wrapper: Add <code>&lt;html lang="en"&gt;</code> at the start and <code>&lt;/html&gt;</code> at the end (Email on Acid requirement)</li>
+      <li><input type="checkbox"> Remove <code>display:none</code> hidden text blocks</li>
+      <li><input type="checkbox"> Provide alt text for all images (<a href="https://teachonline.asu.edu/image-accessibility-generator" target="_blank">Alt Text Generator</a>)</li>
+    </ul>
+
+    <h2>3. Links & Buttons</h2>
+    <ul>
+      <li><input type="checkbox"> Underline all links (including button text) EX: style=text-decoration: underline;</li>
+      <li><input type="checkbox"> In &lt;a&gt; tags, include <code>style="text-decoration: underline;"</code></li>
+      <li><input type="checkbox"> Ensure buttons are large enough at 200% zoom (check footer)</li>
+      <li><input type="checkbox"> For button width, set <code>min-width: 33%</code>; avoid max-width or fixed width</li>
+    </ul>
+
+    <h2>4. Images</h2>
+    <ul>
+      <li><input type="checkbox"> Keep all images under 200KB</li>
+      <li><input type="checkbox"> Add a signature image for sign-off</li>
+      <li><input type="checkbox"> Apply the same rules to logo images (contrast, alt text, size under 200KB)</li>
+      <li><input type="checkbox"> Social Icons can be downloaded with transparent background, or copied + color can be changed ( <a href="codebuildertools/SocialIconsite/socialiconcolor.html"> here</a>)</li>
+    </ul>
+  </div>
+</body>
+</html>
