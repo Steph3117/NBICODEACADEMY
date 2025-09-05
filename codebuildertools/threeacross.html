@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>NBI – 6-Button Email Block Builder</title>
+<title>NBI – 3-Button Inline Builder</title>
 <style>
   :root { --ink:#0f172a; --muted:#6b7280; --bg:#f6f7fb; --card:#ffffff; --brand:#25408F; }
   * { box-sizing: border-box; }
   body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:var(--bg); color:var(--ink); }
   header { padding:16px 20px; background:var(--brand); color:#fff; font-weight:700; }
-  .wrap { display:grid; grid-template-columns: 380px 1fr; gap:18px; padding:18px; max-width:1250px; margin:0 auto; }
+  .wrap { display:grid; grid-template-columns: 380px 1fr; gap:18px; padding:18px; max-width:1200px; margin:0 auto; }
   .card { background:var(--card); border-radius:12px; box-shadow:0 8px 24px rgba(2,6,23,.06); }
   .card h2 { margin:0; padding:14px 16px; font-size:16px; border-bottom:1px solid #e5e7eb; }
   .card .body { padding:14px 16px; }
@@ -24,10 +24,7 @@
   textarea { width:100%; min-height:160px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:12.5px; padding:12px; border:1px solid #d1d5db; border-radius:8px; }
   .preview-pane { padding:20px; }
   .preview-note { font-size:12px; color:var(--muted); margin-bottom:8px; }
-  .grid-3x2 { display:grid; grid-template-columns: repeat(2, minmax(240px, 1fr)); gap:12px; }
-  /* Email preview framing only */
   .email-frame { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:16px; }
-  .tiny { font-size:12px; color:var(--muted); }
 </style>
 <link rel="stylesheet" href="../style.css" />
 </head>
@@ -81,73 +78,71 @@
             <option value="0">Button 1</option>
             <option value="1">Button 2</option>
             <option value="2">Button 3</option>
-            <option value="3">Button 4</option>
-            <option value="4">Button 5</option>
-            <option value="5">Button 6</option>
           </select>
         </div>
         <div>
-          <label>Quick set: Preset amounts</label>
+          <label>Quick preset</label>
           <select id="quickPreset">
             <option value="">—</option>
             <option value="5">$5</option>
-            <option value="10">$10</option>
             <option value="25">$25</option>
             <option value="50">$50</option>
-            <option value="100">$100</option>
             <option value="OTHER">OTHER</option>
           </select>
         </div>
       </div>
 
-      <!-- Input 1: bgcolor -->
       <div class="row">
         <div>
-          <label>Button background color (bgcolor)</label>
+          <label>Button background (bgcolor)</label>
           <input type="color" id="bgcolor" />
         </div>
-        <!-- Input 10: text color -->
         <div>
           <label>Text color</label>
           <input type="color" id="fontColor" />
         </div>
       </div>
 
-      <!-- Input 2/3: border radius values -->
       <div class="row">
         <div>
           <label>Border radius (px)</label>
           <input type="number" id="radius" min="0" step="1" />
         </div>
-        <!-- Input 4: width -->
         <div>
           <label>Button width (px)</label>
-          <input type="number" id="widthPx" min="120" step="1" />
+          <input type="number" id="widthPx" min="80" step="1" />
         </div>
       </div>
 
-      <!-- Input 6: font-size, Input 7/8/9 font family/weight/style -->
       <div class="row">
         <div>
-          <label>Font size (px)</label>
-          <input type="number" id="fontSize" min="10" step="1" />
+          <label>Padding (all sides, px)</label>
+          <input type="number" id="padding" min="0" step="1" />
         </div>
         <div>
           <label>Line height (px)</label>
           <input type="number" id="lineHeight" min="10" step="1" />
         </div>
       </div>
+
       <div class="row">
+        <div>
+          <label>Font size (px)</label>
+          <input type="number" id="fontSize" min="10" step="1" />
+        </div>
         <div>
           <label>Font family</label>
           <select id="fontFamily">
-            <option value="Arial, sans-serif">Arial, sans-serif</option>
             <option value="Helvetica, Arial, sans-serif">Helvetica, Arial, sans-serif</option>
+            <option value="Arial, sans-serif">Arial, sans-serif</option>
             <option value="'Segoe UI', Arial, sans-serif">'Segoe UI', Arial, sans-serif</option>
             <option value="Georgia, serif">Georgia, serif</option>
             <option value="Tahoma, Geneva, sans-serif">Tahoma, Geneva, sans-serif</option>
           </select>
         </div>
+      </div>
+
+      <div class="row">
         <div>
           <label>Font weight</label>
           <select id="fontWeight">
@@ -158,8 +153,6 @@
             <option value="800">800</option>
           </select>
         </div>
-      </div>
-      <div class="row">
         <div>
           <label>Font style</label>
           <select id="fontStyle">
@@ -167,44 +160,46 @@
             <option value="italic">Italic</option>
           </select>
         </div>
-        <!-- Input 5: href -->
+      </div>
+
+      <div class="row" style="grid-template-columns:1fr;">
         <div>
           <label>Link URL (href)</label>
           <input type="text" id="href" placeholder="https://www.newblueinteractive.com?amount=5" />
         </div>
       </div>
 
-      <!-- Input 11: link text -->
       <div class="row" style="grid-template-columns:1fr;">
         <div>
           <label>Button text</label>
-          <input type="text" id="btnText" placeholder='DONATE $5 NOW »' />
+          <input type="text" id="btnText" placeholder="DONATE $5" />
         </div>
       </div>
 
       <div class="actions">
         <button id="apply">Apply to selected button</button>
-        <button class="secondary" id="resetOne">Reset selected button</button>
+        <button class="secondary" id="resetOne">Reset selected</button>
         <button class="ghost" id="resetAll">Reset all</button>
       </div>
     </div>
   </section>
 
-  <!-- Preview + Export -->
+  <!-- Preview -->
   <section class="card">
     <h2>Live Preview</h2>
     <div class="body preview-pane">
-      <div class="preview-note tiny">This preview simulates the email block. The generated HTML uses table layout, inline styles, and includes both <code>-webkit-border-radius</code> and <code>border-radius</code>.</div>
+      <div class="preview-note">Exact 3-button inline table, email-safe, with inline styles and <code>-webkit-border-radius</code> + <code>border-radius</code>.</div>
       <div id="preview" class="email-frame"></div>
     </div>
   </section>
 
+  <!-- Export -->
   <section class="card" style="grid-column: 1 / span 2;">
     <h2>Export HTML</h2>
     <div class="body">
       <textarea id="exportHtml" readonly></textarea>
       <div class="actions">
-        <button id="copyHtml">Copy HTML to Clipboard</button>
+        <button id="copyHtml">Copy HTML</button>
         <button class="secondary" id="refreshHtml">Refresh Export</button>
       </div>
     </div>
@@ -212,107 +207,79 @@
 </div>
 
 <script>
-/** Model for 6 buttons – defaults taken from your snippet */
+/** Defaults taken from your 3-button snippet */
 const defaultButtons = [
-  // Button 1
   {
-    bgcolor: "#008CFF",                 // Input 1
-    radius: 1,                          // Input 2/3 (px)
-    widthPx: 270,                       // Input 4
-    href: "https://www.newblueinteractive.com?amount=5", // Input 5
-    fontSize: 19,                       // Input 6
-    fontFamily: "Arial, sans-serif",    // Input 7
-    fontWeight: "bold",                 // Input 8
-    fontStyle: "normal",                // Input 9
-    fontColor: "#ffffff",               // Input 10
-    lineHeight: 33,
-    text: "DONATE $5 NOW »"             // Input 11
-  },
-  // Button 2
-  {
-    bgcolor: "#bf1d2d",
-    radius: 1,
-    widthPx: 270,
-    href: "https://www.newblueinteractive.com?amount=10",
-    fontSize: 19,
-    fontFamily: "Arial, sans-serif",
+    bgcolor: "#008CFF",
+    radius: 4,
+    widthPx: 160,
+    href: "https://www.newblueinteractive.com?amount=5",
+    padding: 9,
+    fontSize: 17,
+    fontFamily: "Helvetica, Arial, sans-serif",
     fontWeight: "bold",
     fontStyle: "normal",
     fontColor: "#ffffff",
-    lineHeight: 33,
-    text: "DONATE $10 NOW »"
+    lineHeight: 25,
+    text: "DONATE $5"
   },
-  // Button 3
   {
     bgcolor: "#008CFF",
-    radius: 1,
-    widthPx: 270,
+    radius: 4,
+    widthPx: 160,
     href: "https://www.newblueinteractive.com?amount=25",
-    fontSize: 19,
-    fontFamily: "Arial, sans-serif",
+    padding: 9,
+    fontSize: 17,
+    fontFamily: "Helvetica, Arial, sans-serif",
     fontWeight: "bold",
     fontStyle: "normal",
     fontColor: "#ffffff",
-    lineHeight: 33,
-    text: "DONATE $25 NOW »"
+    lineHeight: 25,
+    text: "DONATE $25"
   },
-  // Button 4
   {
     bgcolor: "#008CFF",
-    radius: 1,
-    widthPx: 270,
+    radius: 4,
+    widthPx: 160,
     href: "https://www.newblueinteractive.com?amount=50",
-    fontSize: 19,
-    fontFamily: "Arial, sans-serif",
+    padding: 9,
+    fontSize: 17,
+    fontFamily: "Helvetica, Arial, sans-serif",
     fontWeight: "bold",
     fontStyle: "normal",
     fontColor: "#ffffff",
-    lineHeight: 33,
-    text: "DONATE $50 NOW »"
-  },
-  // Button 5
-  {
-    bgcolor: "#008CFF",
-    radius: 1,
-    widthPx: 270,
-    href: "https://www.newblueinteractive.com?amount=100",
-    fontSize: 19,
-    fontFamily: "Arial, sans-serif",
-    fontWeight: "bold",
-    fontStyle: "normal",
-    fontColor: "#ffffff",
-    lineHeight: 33,
-    text: "DONATE $100 NOW »"
-  },
-  // Button 6
-  {
-    bgcolor: "#008CFF",
-    radius: 1,
-    widthPx: 270,
-    href: "https://www.newblueinteractive.com?amount=15",
-    fontSize: 19,
-    fontFamily: "Arial, sans-serif",
-    fontWeight: "bold",
-    fontStyle: "normal",
-    fontColor: "#ffffff",
-    lineHeight: 33,
-    text: "DONATE OTHER »"
+    lineHeight: 25,
+    text: "DONATE $50"
   }
 ];
 
 let buttons = JSON.parse(JSON.stringify(defaultButtons));
 
-/** Helpers */
 const $ = (id) => document.getElementById(id);
 const whichBtn = $("whichBtn");
 
-/** Populate controls from current selected button */
+function toHex(c) {
+  if (/^#/.test(c)) return c;
+  const m = c.match(/rgb\\((\\d+),\\s*(\\d+),\\s*(\\d+)\\)/i);
+  if (!m) return "#000000";
+  const h = [m[1], m[2], m[3]].map(n => {
+    const v = Math.max(0, Math.min(255, parseInt(n,10)));
+    return v.toString(16).padStart(2,"0");
+  }).join("");
+  return "#"+h;
+}
+
+function escapeHtml(txt) {
+  return txt.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
 function loadControls(idx) {
   const b = buttons[idx];
   $("bgcolor").value    = toHex(b.bgcolor);
   $("fontColor").value  = toHex(b.fontColor);
   $("radius").value     = b.radius;
   $("widthPx").value    = b.widthPx;
+  $("padding").value    = b.padding;
   $("fontSize").value   = b.fontSize;
   $("lineHeight").value = b.lineHeight;
   $("fontFamily").value = b.fontFamily;
@@ -322,77 +289,47 @@ function loadControls(idx) {
   $("btnText").value    = b.text;
 }
 
-/** Convert any rgb(...) to hex for color inputs (basic) */
-function toHex(c) {
-  if (/^#/.test(c)) return c;
-  const m = c.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/i);
-  if (!m) return "#000000";
-  const h = [m[1], m[2], m[3]].map(n => {
-    const v = Math.max(0, Math.min(255, parseInt(n,10)));
-    return v.toString(16).padStart(2,"0");
-  }).join("");
-  return "#"+h;
-}
-
-/** Escape text content inside the <a> */
-function escapeHtml(txt) {
-  return txt.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-}
-
-/** Build one button cell (TD) HTML based on a config */
-function renderButtonCell(b) {
-  const tdStyle = ` -webkit-border-radius:${b.radius}px; border-radius:${b.radius}px; width:${b.widthPx}px;`;
-  const aStyle  = `padding: 13px; display: block; font-size: ${b.fontSize}px; font-family: ${b.fontFamily}; font-weight: ${b.fontWeight}; font-style:${b.fontStyle}; color:${b.fontColor}; letter-spacing: 0em; text-decoration:none; line-height:${b.lineHeight}px;`;
+function renderButtonCell(b, includeTargetBlank) {
+  const tdStyle = ` -webkit-border-radius:${b.radius}px; border-radius:${b.radius}px; width: ${b.widthPx}px;`;
+  const aStyle  = `padding:${b.padding}px ${b.padding}px ${b.padding}px ${b.padding}px; display: block; font-size: ${b.fontSize}px; font-family:${b.fontFamily}; font-weight:${b.fontWeight}; font-style:${b.fontStyle}; color:${b.fontColor}; letter-spacing: 0em; text-decoration:none; line-height:${b.lineHeight}px;`;
   const safeText = escapeHtml(b.text);
+  const target = includeTargetBlank ? ' target="_blank"' : '';
 
   return `
-  <table border="0" cellpadding="0" cellspacing="0" height="50" style="width: ${b.widthPx}px">
+  <table border="0" cellpadding="0" cellspacing="0" height="50">
     <tbody>
       <tr>
-        <td align="center" bgcolor="${b.bgcolor}" height="59" style="${tdStyle}" width="${b.widthPx}">
-          <a height="59" href="${b.href}" style="${aStyle}" target="_blank">${safeText}</a>
+        <td align="center" bgcolor="${b.bgcolor}" height="50" style="${tdStyle}" width="${b.widthPx}">
+          <a href="${b.href}" style="${aStyle}"${target}>${safeText}</a>
         </td>
       </tr>
     </tbody>
   </table>`.trim();
 }
 
-/** Build full two-column x three-row table block */
+/** Full single-row / three-button block (first button no target, 2 & 3 use _blank as in your snippet) */
 function renderBlock() {
-  const rows = [
-    [buttons[0], buttons[1]],
-    [buttons[2], buttons[3]],
-    [buttons[4], buttons[5]],
-  ];
-
-  const trs = rows.map(row => {
-    const tds = row.map((b, i) => {
-      const inner = renderButtonCell(b);
-      return `
+  const tds = buttons.map((b, i) => {
+    const inner = renderButtonCell(b, i !== 0); // Button 2 & 3 had target="_blank"
+    return `
       <td align="center" style="padding:4px 8px; display: inline-block;">
         ${inner}
       </td>`.trim();
-    }).join("\n");
-    return `<tr>\n${tds}\n</tr>`;
   }).join("\n");
 
   return `
 <table align="center" border="0" cellpadding="0" cellspacing="0" style="max-width: 100%">
   <tbody align="center">
-    ${trs}
+    <tr>
+${tds}
+    </tr>
   </tbody>
 </table>`.trim();
 }
 
-/** Refresh preview and export block */
-function refreshPreview() {
-  $("preview").innerHTML = renderBlock();
-}
-function refreshExport() {
-  $("exportHtml").value = renderBlock();
-}
+function refreshPreview(){ $("preview").innerHTML = renderBlock(); }
+function refreshExport(){ $("exportHtml").value = renderBlock(); }
 
-/** Apply controls to selected button */
 $("apply").addEventListener("click", () => {
   const idx = parseInt(whichBtn.value,10);
   const b = buttons[idx];
@@ -400,6 +337,7 @@ $("apply").addEventListener("click", () => {
   b.fontColor  = $("fontColor").value || b.fontColor;
   b.radius     = Number($("radius").value) || b.radius;
   b.widthPx    = Number($("widthPx").value) || b.widthPx;
+  b.padding    = Number($("padding").value) || b.padding;
   b.fontSize   = Number($("fontSize").value) || b.fontSize;
   b.lineHeight = Number($("lineHeight").value) || b.lineHeight;
   b.fontFamily = $("fontFamily").value || b.fontFamily;
@@ -412,7 +350,6 @@ $("apply").addEventListener("click", () => {
   refreshExport();
 });
 
-/** Reset selected button to default */
 $("resetOne").addEventListener("click", () => {
   const idx = parseInt(whichBtn.value,10);
   buttons[idx] = JSON.parse(JSON.stringify(defaultButtons[idx]));
@@ -421,7 +358,6 @@ $("resetOne").addEventListener("click", () => {
   refreshExport();
 });
 
-/** Reset all buttons */
 $("resetAll").addEventListener("click", () => {
   buttons = JSON.parse(JSON.stringify(defaultButtons));
   loadControls(parseInt(whichBtn.value,10));
@@ -429,48 +365,34 @@ $("resetAll").addEventListener("click", () => {
   refreshExport();
 });
 
-/** Copy to clipboard */
 $("copyHtml").addEventListener("click", async () => {
   const txt = $("exportHtml").value;
-  try {
-    await navigator.clipboard.writeText(txt);
-    alert("HTML copied to clipboard!");
-  } catch (e) {
-    // Fallback
-    $("exportHtml").select();
-    document.execCommand("copy");
-    alert("HTML copied (fallback)!");
+  try { await navigator.clipboard.writeText(txt); alert("HTML copied!"); }
+  catch (e) {
+    $("exportHtml").select(); document.execCommand("copy"); alert("HTML copied (fallback).");
   }
 });
 $("refreshHtml").addEventListener("click", refreshExport);
 
-/** Quick preset dropdown: fills href and text for common amounts */
 $("quickPreset").addEventListener("change", (e) => {
-  const v = e.target.value;
-  if (!v) return;
+  const v = e.target.value; if (!v) return;
   const idx = parseInt(whichBtn.value,10);
   const b = buttons[idx];
   if (v === "OTHER") {
-    b.text = "DONATE OTHER »";
-    // keep existing href unless you want to set a generic OTHER URL
+    b.text = "DONATE OTHER";
+    // keep href unchanged or set generic: b.href = "https://www.newblueinteractive.com?amount=";
   } else {
-    b.text = `DONATE $${v} NOW »`;
+    b.text = `DONATE $${v}`;
     b.href = `https://www.newblueinteractive.com?amount=${v}`;
   }
-  loadControls(idx);
-  refreshPreview();
-  refreshExport();
+  loadControls(idx); refreshPreview(); refreshExport();
 });
 
-/** Initialize UI */
 (function init(){
   loadControls(0);
   refreshPreview();
   refreshExport();
-
-  whichBtn.addEventListener("change", () => {
-    loadControls(parseInt(whichBtn.value,10));
-  });
+  whichBtn.addEventListener("change", () => loadControls(parseInt(whichBtn.value,10)));
 })();
 </script>
 </body>
