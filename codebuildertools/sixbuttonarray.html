@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Email CTA Grid — No-Code Editor</title>
+<style>
+  :root { --brand:#25408F; --ink:#0f172a; --muted:#6b7280; --bg:#f6f7fb; --white:#fff; --radius:14px; --shadow:0 8px 24px rgba(2,6,23,.08); }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:var(--ink); background:var(--bg); }
+  header { padding:16px 24px; background:var(--white); border-bottom:1px solid #e5e7eb; position:sticky; top:0; z-index:10; }
+  header h1 { font-size:1.1rem; margin:0; font-weight:700; }
+  .wrap { display:grid; grid-template-columns: 340px 1fr; gap:18px; padding:18px; max-width:1200px; margin:0 auto; }
+  .panel { background:var(--white); border:1px solid #e5e7eb; border-radius:12px; box-shadow:var(--shadow); }
+  .controls { padding:16px; display:grid; gap:14px; }
+  .control { display:grid; gap:6px; }
+  .row { display:flex; gap:10px; align-items:center; }
+  label { font-weight:600; font-size:.9rem; color:#1f2937; }
+  input[type="text"], input[type="number"], select, textarea {
+    width:100%; padding:10px 12px; border:1px solid #d1d5db; border-radius:10px; background: #fff; font: inherit;
+  }
+  input[type="color"] { width:44px; height:36px; padding:0; border:1px solid #d1d5db; border-radius:8px; background:#fff; }
+  input[type="range"] { width:100%; }
+  .small { color:var(--muted); font-size:.82rem; }
+  .buttons { display:flex; gap:10px; }
+  button {
+    appearance:none; border:0; background:var(--brand); color:#fff; padding:10px 14px; border-radius:10px; font-weight:700; cursor:pointer;
+  }
+  button.secondary { background:#111827; }
+  .previewWrap { padding:18px; }
+  .previewCanvas {
+    background:#ffffff; border:1px dashed #cbd5e1; border-radius:12px; padding:16px; overflow:auto;
+  }
+  .code-area { height:180px; resize:vertical; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  .grid { display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+  .hint { background:#f1f5f9; color:#334155; border:1px solid #e2e8f0; border-radius:10px; padding:8px 10px; font-size:.85rem; }
+</style>
+<link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <header>
+  <h1>NBICodeAcademy</h1>
+  <p>by New Blue Interactive</p>
+  <nav>
+    <ul class="nav-tabs">
+      <li><a href="../index.html">Home</a></li>
+
+      <li class="dropdown">
+        <a href="../tools.html">NBI Email Tools ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="../EmailChecklist.html">Email Checklist</a></li>
+          <li><a href="../snippetlibrary.html">Snippet Library</a></li>
+          <li><a href="footertools.html">Footer Code Tool</a></li>
+          <li><a href="headertools.html">Header Code Tool</a></li>
+          <li><a href="emailbodycode.html">Email Body Tool</a></li>
+
+          <li><a href="headertools.html">Email Wrappers</a></li>
+          <li><a href="headertools.html">Buttons</a></li>
+          <li><a href="headertools.html">Table and Snippets</a></li>
+          <li><a href="SocialIconsite/socialiconcolor.html">Social Icon Tool</a></li>
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a href="../trainings.html">Trainings ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="trainings.html#workshops">Workshops</a></li>
+          <li><a href="trainings.html#videos">Video Library</a></li>
+        </ul>
+      </li>
+
+      <li><a href="docs.html">Documentation</a></li>
+    </ul>
+  </nav>
+</header>
+  <div class="wrap">
+    <!-- LEFT: CONTROLS -->
+    <div class="panel">
+      <form id="form" class="controls" onsubmit="return false">
+        <div class="control">
+          <label for="font">Font family</label>
+          <select id="font">
+            <option value="Arial, sans-serif">Arial, sans-serif</option>
+            <option value="Helvetica, Arial, sans-serif">Helvetica, Arial, sans-serif</option>
+            <option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">'Segoe UI', Tahoma, Geneva, Verdana, sans-serif</option>
+            <option value="Verdana, Geneva, sans-serif">Verdana, Geneva, sans-serif</option>
+            <option value="Georgia, serif">Georgia, serif</option>
+            <option value="'Times New Roman', Times, serif">'Times New Roman', Times, serif</option>
+          </select>
+        </div>
+
+        <div class="grid">
+          <div class="control">
+            <label for="fontSize">Font size (px)</label>
+            <input id="fontSize" type="range" min="12" max="28" step="1" value="19" />
+            <div class="row small"><span id="fontSizeVal">19</span> px</div>
+          </div>
+          <div class="control">
+            <label for="lineHeight">Line height (px)</label>
+            <input id="lineHeight" type="range" min="24" max="48" step="1" value="33" />
+            <div class="row small"><span id="lineHeightVal">33</span> px</div>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="control">
+            <label for="textColor">Text color</label>
+            <div class="row">
+              <input id="textColor" type="color" value="#ffffff" />
+              <input id="textColorHex" type="text" value="#ffffff" />
+            </div>
+          </div>
+          <div class="control">
+            <label for="bgColor">Button background</label>
+            <div class="row">
+              <input id="bgColor" type="color" value="#008CFF" />
+              <input id="bgColorHex" type="text" value="#008CFF" />
+            </div>
+          </div>
+        </div>
+
+        <div class="control">
+          <label>Button texts</label>
+          <div class="grid">
+            <input id="t0" type="text" />
+            <input id="t1" type="text" />
+            <input id="t2" type="text" />
+            <input id="t3" type="text" />
+            <input id="t4" type="text" />
+          </div>
+          <div class="small hint">These map to the five links in order (top-left → top-right → next row, etc.).</div>
+        </div>
+
+        <div class="buttons">
+          <button id="apply">Apply to preview</button>
+          <button id="copy" class="secondary">Copy updated HTML</button>
+        </div>
+
+        <div class="control">
+          <label>Original snippet (read-only)</label>
+          <textarea id="original" class="code-area" readonly></textarea>
+        </div>
+      </form>
+    </div>
+
+    <!-- RIGHT: PREVIEW -->
+    <div class="panel previewWrap">
+      <div class="hint" style="margin-bottom:10px;">Live preview below uses overrides without altering your source. “Copy updated HTML” will export the same structure with your new inline styles & texts.</div>
+      <div id="preview" class="previewCanvas">
+        <!-- your snippet is injected below verbatim -->
+      </div>
+    </div>
+  </div>
+
+<script>
+/* ===== 1) YOUR EXACT SNIPPET — UNCHANGED ===== */
+const SNIPPET = `<table align="center" border="0" cellpadding="0" cellspacing="0" style="max-width: 100%">
+    <tbody align="center">
+        <tr>
+            <td align="center" style="padding:4px 8px; display: inline-block;">
+            <table border="0" cellpadding="0" cellspacing="0" height="50" style="width: 270px">
+                <tbody>
+                    <tr>
+                        <td align="center" bgcolor="#008CFF" height="59" style=" -webkit-border-radius:1px; border-radius:1px; width:270px;" width="270"><a height="59" href="https://www.newblueinteractive.com?amount=5" style="padding: 13px; display: block; font-size: 19px; font-family: Arial, sans-serif; font-weight: bold; font-style:normal; color:#ffffff; letter-spacing: 0em; text-decoration:none; line-height:33px;" target="_blank">DONATE $5 NOW »</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            </td>
+            <td align="center" style="padding:4px 8px; display: inline-block">
+            <table border="0" cellpadding="0" cellspacing="0" height="50" style="width: 270px">
+                <tbody>
+                    <tr>
+                        <td align="center" bgcolor="#bf1d2d" height="59" style=" -webkit-border-radius:1px; border-radius:1px; width:270px;" width="270"><a height="59" href="https://www.newblueinteractive.com?amount=10" style="padding: 13px; display: block; font-size: 19px; font-family: Arial, sans-serif; font-weight: bold; font-style:normal; color:#fff; letter-spacing: 0em; text-decoration:none; line-height:33px;" target="_blank">DONATE $10 NOW »</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" style="padding:4px 8px; display: inline-block">
+            <table border="0" cellpadding="0" cellspacing="0" height="50" style="width: 270px">
+                <tbody>
+                    <tr>
+                        <td align="center" bgcolor="#008CFF" height="59" style=" -webkit-border-radius:1px; border-radius:1px; width:270px;" width="270"><a height="59" href="https://www.newblueinteractive.com?amount=25" style="padding: 13px; display: block; font-size: 19px; font-family: Arial, sans-serif; font-weight: bold; font-style:normal; color:#ffffff; letter-spacing: 0em; text-decoration:none; line-height:33px;" target="_blank">DONATE $25 NOW »</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            </td>
+            <td align="center" style="padding:4px 8px; display: inline-block">
+            <table border="0" cellpadding="0" cellspacing="0" height="50" style="width: 270px">
+                <tbody>
+                    <tr>
+                        <td align="center" bgcolor="#008CFF" height="59" style=" -webkit-border-radius:1px; border-radius:1px; width:270px;" width="270"><a height="59" href="https://www.newblueinteractive.com?amount=50" style="padding: 13px; display: block; font-size: 19px; font-family: Arial, sans-serif; font-weight: bold; font-style:normal; color:#ffffff; letter-spacing: 0em; text-decoration:none; line-height:33px;" target="_blank">DONATE $50 NOW »</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" style="padding:4px 8px; display: inline-block">
+            <table border="0" cellpadding="0" cellspacing="0" height="50" style="width: 270px">
+                <tbody>
+                    <tr>
+                        <td align="center" bgcolor="#008CFF" height="59" style=" -webkit-border-radius:1px; border-radius:1px; width:270px;" width="270"><a height="59" href="https://www.newblueinteractive.com?amount=100" style="padding: 13px; display: block; font-size: 19px; font-family: Arial, sans-serif; font-weight: bold; font-style:normal; color:#ffffff; letter-spacing: 0em; text-decoration:none; line-height:33px;" target="_blank">DONATE $100 NOW »</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            </td>
+            <td align="center" style="padding:4px 8px; display: inline-block">
+            <table border="0" cellpadding="0" cellspacing="0" height="50" style="width: 270px">
+                <tbody>
+                    <tr>
+                        <td align="center" bgcolor="#008CFF" height="59" style=" -webkit-border-radius:1px; border-radius:1px; width:270px;" width="270"><a height="59" href="https://www.newblueinteractive.com?amount=15" style="padding: 13px; display: block; font-size: 19px; font-family: Arial, sans-serif; font-weight: bold; font-style:normal; color:#ffffff; letter-spacing: 0em; text-decoration:none; line-height:33px;" target="_blank">DONATE OTHER »</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            </td>
+        </tr>
+    </tbody>
+</table>`;
+
+/* ===== 2) BOOTSTRAP UI ===== */
+const preview = document.getElementById('preview');
+const originalTA = document.getElementById('original');
+originalTA.value = SNIPPET.trim();
+preview.innerHTML = `<div id="snippetHost">${SNIPPET}</div>`;
+
+// cache controls
+const fontSel = document.getElementById('font');
+const fontSize = document.getElementById('fontSize');
+const fontSizeVal = document.getElementById('fontSizeVal');
+const lineHeight = document.getElementById('lineHeight');
+const lineHeightVal = document.getElementById('lineHeightVal');
+const textColor = document.getElementById('textColor');
+const textColorHex = document.getElementById('textColorHex');
+const bgColor = document.getElementById('bgColor');
+const bgColorHex = document.getElementById('bgColorHex');
+const tInputs = [0,1,2,3,4].map(i=>document.getElementById('t'+i));
+const applyBtn = document.getElementById('apply');
+const copyBtn = document.getElementById('copy');
+
+// hydrate text inputs with current link texts
+function getLinks(host=document) {
+  return host.querySelectorAll('#snippetHost a');
+}
+function getButtonTds(host=document) {
+  return host.querySelectorAll('#snippetHost td[bgcolor]');
+}
+(function seedTexts(){
+  const links = getLinks(preview);
+  links.forEach((a,i)=>{ if(tInputs[i]) tInputs[i].value = a.textContent.trim(); });
+})();
+
+// mirror range values
+fontSize.addEventListener('input', ()=>{ fontSizeVal.textContent = fontSize.value; });
+lineHeight.addEventListener('input', ()=>{ lineHeightVal.textContent = lineHeight.value; });
+
+// sync hex <-> color inputs
+function linkColorPickers(colorInput, hexInput){
+  colorInput.addEventListener('input', ()=> hexInput.value = colorInput.value);
+  hexInput.addEventListener('input', ()=> {
+    const v = hexInput.value.trim();
+    if(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(v)) colorInput.value = v;
+  });
+}
+linkColorPickers(textColor, textColorHex);
+linkColorPickers(bgColor, bgColorHex);
+
+// apply to preview (without mutating original string shown above)
+applyBtn.addEventListener('click', ()=>{
+  const host = preview.querySelector('#snippetHost');
+  const links = getLinks(preview);
+  const btnTds = getButtonTds(preview);
+
+  // update texts
+  links.forEach((a,i)=>{ if(tInputs[i] && tInputs[i].value.trim()!=='') a.textContent = tInputs[i].value; });
+
+  // update styles inline (email-safe)
+  links.forEach((a)=>{
+    a.style.fontFamily = fontSel.value;
+    a.style.fontSize   = fontSize.value + 'px';
+    a.style.lineHeight = lineHeight.value + 'px';
+    a.style.color      = textColorHex.value;
+  });
+
+  // update button background (all buttons together)
+  btnTds.forEach(td=>{
+    td.setAttribute('bgcolor', bgColorHex.value);
+    td.style.backgroundColor = bgColorHex.value; // belt + suspenders for clients that ignore bgcolor
+  });
+});
+
+// export updated HTML (keeps structure)
+copyBtn.addEventListener('click', async ()=>{
+  // clone a DOM copy to serialize
+  const temp = document.createElement('div');
+  temp.innerHTML = SNIPPET; // start from original
+  const srcLinks = temp.querySelectorAll('a');
+  const srcTds = temp.querySelectorAll('td[bgcolor]');
+
+  // apply same mutations to the clone
+  srcLinks.forEach((a,i)=>{
+    if(tInputs[i] && tInputs[i].value.trim()!=='') a.textContent = tInputs[i].value;
+
+    // parse inline style safely then rewrite properties we manage
+    const s = a.getAttribute('style') || '';
+    const styleMap = Object.fromEntries(s.split(';').map(x=>x.trim()).filter(Boolean).map(x=>{
+      const k = x.split(':')[0].trim(); const v = x.split(':').slice(1).join(':').trim(); return [k.toLowerCase(), v];
+    }));
+    styleMap['font-family'] = fontSel.value;
+    styleMap['font-size']   = fontSize.value + 'px';
+    styleMap['line-height'] = lineHeight.value + 'px';
+    styleMap['color']       = textColorHex.value;
+    // rebuild style string, preserve other rules
+    const rebuilt = Object.entries(styleMap).map(([k,v])=>`${k}: ${v}`).join('; ') + ';';
+    a.setAttribute('style', rebuilt);
+  });
+
+  srcTds.forEach(td=>{
+    td.setAttribute('bgcolor', bgColorHex.value);
+    const s = td.getAttribute('style') || '';
+    // keep existing plus add background
+    const styleMap = Object.fromEntries(s.split(';').map(x=>x.trim()).filter(Boolean).map(x=>{
+      const k = x.split(':')[0].trim(); const v = x.split(':').slice(1).join(':').trim(); return [k.toLowerCase(), v];
+    }));
+    styleMap['background-color'] = bgColorHex.value;
+    const rebuilt = Object.entries(styleMap).map(([k,v])=>`${k}: ${v}`).join('; ') + ';';
+    td.setAttribute('style', rebuilt);
+  });
+
+  const outHtml = temp.innerHTML.trim();
+  try {
+    await navigator.clipboard.writeText(outHtml);
+    copyBtn.textContent = 'Copied! ✅';
+    setTimeout(()=>copyBtn.textContent='Copy updated HTML', 1200);
+  } catch(e){
+    // fallback: show in a prompt
+    window.prompt('Copy HTML:', outHtml);
+  }
+});
+
+// set sensible defaults on load
+document.addEventListener('DOMContentLoaded', ()=> {
+  // initialize with an "Apply" so preview reflects controls
+  applyBtn.click();
+});
+</script>
+</body>
+</html>
