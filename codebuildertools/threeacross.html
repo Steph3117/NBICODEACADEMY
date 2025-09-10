@@ -3,28 +3,51 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>NBI – 3-Button Inline Builder</title>
+<title>NBI – Multi-Button Bulk Editor (3-up)</title>
 <style>
   :root { --ink:#0f172a; --muted:#6b7280; --bg:#f6f7fb; --card:#ffffff; --brand:#25408F; }
-  * { box-sizing: border-box; }
-  body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:var(--bg); color:var(--ink); }
-  header { padding:16px 20px; background:var(--brand); color:#fff; font-weight:700; }
-  .wrap { display:grid; grid-template-columns: 380px 1fr; gap:18px; padding:18px; max-width:1200px; margin:0 auto; }
+  * { box-sizing:border-box }
+  body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:var(--bg); color:var(--ink); }
+  header { padding:16px 20px; background:var(--brand); color:#fff; }
+  header h1 { margin:0; font-size:28px; line-height:1.1; }
+  header p { margin:2px 0 8px; opacity:.9 }
+  nav .nav-tabs { list-style:none; padding:0; margin:0; display:flex; gap:18px; }
+  nav .nav-tabs a { color:#fff; text-decoration:none; font-weight:600 }
+  .dropdown { position:relative }
+  .dropdown-menu { display:none; position:absolute; background:#13306e; padding:8px; border-radius:8px; list-style:none; margin-top:6px; min-width:220px }
+  .dropdown:hover .dropdown-menu { display:block }
+  .dropdown-menu a { display:block; padding:6px 8px }
+
+  .wrap { display:grid; grid-template-columns: 460px 1fr; gap:18px; padding:18px; max-width:1100px; margin:0 auto; }
   .card { background:var(--card); border-radius:12px; box-shadow:0 8px 24px rgba(2,6,23,.06); }
   .card h2 { margin:0; padding:14px 16px; font-size:16px; border-bottom:1px solid #e5e7eb; }
   .card .body { padding:14px 16px; }
+
   .row { display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:10px; }
+  .row.full { grid-template-columns:1fr; }
   label { font-size:12px; color:var(--muted); display:block; margin-bottom:6px; }
-  input[type="text"], input[type="number"], select { width:100%; padding:8px 10px; border:1px solid #d1d5db; border-radius:8px; font-size:14px; }
+  input[type="text"], input[type="number"], input[type="url"], select {
+    width:100%; padding:8px 10px; border:1px solid #d1d5db; border-radius:8px; font-size:14px;
+  }
   input[type="color"] { width:100%; height:36px; padding:0; border:1px solid #d1d5db; border-radius:8px; }
   .actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
   button { appearance:none; border:0; background:#111827; color:#fff; padding:9px 12px; border-radius:10px; cursor:pointer; font-weight:600; }
   button.secondary { background:#334155; }
-  button.ghost { background:#e5e7eb; color:#111827; }
-  textarea { width:100%; min-height:160px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:12.5px; padding:12px; border:1px solid #d1d5db; border-radius:8px; }
+  textarea { width:100%; min-height:160px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:12.5px; padding:12px; border:1px solid #d1d5db; border-radius:8px; }
+
   .preview-pane { padding:20px; }
   .preview-note { font-size:12px; color:var(--muted); margin-bottom:8px; }
-  .email-frame { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:16px; }
+  .email-frame { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:16px; overflow:auto; }
+
+  /* Checklist */
+  .selectall { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .btn-list { display:grid; gap:8px; margin-bottom:12px; }
+  .btn-item { display:grid; grid-template-columns: 24px 1fr; gap:10px; padding:8px; border:1px solid #e5e7eb; border-radius:10px; background:#f9fafb; }
+  .btn-meta { display:flex; flex-direction:column; gap:6px; }
+  .btn-top { display:flex; gap:8px; align-items:center; }
+  .btn-top code { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:260px; }
+  .btn-url { display:grid; grid-template-columns: 1fr auto; gap:8px; }
+  .muted { color:var(--muted) }
 </style>
 <link rel="stylesheet" href="../style.css" />
 </head>
@@ -41,8 +64,8 @@
         <ul class="dropdown-menu">
           <li><a href="../EmailChecklist.html">Email Checklist</a></li>
           <li><a href="../snippetlibrary.html">Snippet Library</a></li>
-          <li><a href="choosethetool.html">Email Link Library</a></li>
-          <li><a href="SocialIconsite/socialiconcolor.html">Social Icon Tool</a></li>
+          <li><a href="../codebuildertools/choosethetool.html">Email Link Library</a></li>
+          <li><a href="../codebuildertools/SocialIconsite/socialiconcolor.html">Social Icon Tool</a></li>
         </ul>
       </li>
 
@@ -59,76 +82,71 @@
   </nav>
 </header>
 
-
 <div class="wrap">
-  <!-- Controls -->
+  <!-- LEFT: Editor + checklist -->
   <section class="card">
     <h2>Editor</h2>
     <div class="body">
-      <div class="row">
-        <div>
-          <label>Pick button to edit</label>
-          <select id="whichBtn">
-            <option value="0">Button 1</option>
-            <option value="1">Button 2</option>
-            <option value="2">Button 3</option>
-          </select>
-        </div>
-        <div>
-          <label>Quick preset</label>
-          <select id="quickPreset">
-            <option value="">—</option>
-            <option value="5">$5</option>
-            <option value="25">$25</option>
-            <option value="50">$50</option>
-            <option value="OTHER">OTHER</option>
-          </select>
-        </div>
+      <div class="selectall">
+        <input id="toggleAll" type="checkbox" />
+        <label for="toggleAll"><strong>Select all buttons</strong></label>
       </div>
+      <div id="buttonList" class="btn-list"></div>
 
       <div class="row">
         <div>
-          <label>Button background (bgcolor)</label>
-          <input type="color" id="bgcolor" />
+          <label>Background color</label>
+          <input type="color" id="bg" value="#2196F3" />
         </div>
         <div>
           <label>Text color</label>
-          <input type="color" id="fontColor" />
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label>Border radius (px)</label>
-          <input type="number" id="radius" min="0" step="1" />
-        </div>
-        <div>
-          <label>Button width (px)</label>
-          <input type="number" id="widthPx" min="80" step="1" />
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label>Padding (all sides, px)</label>
-          <input type="number" id="padding" min="0" step="1" />
-        </div>
-        <div>
-          <label>Line height (px)</label>
-          <input type="number" id="lineHeight" min="10" step="1" />
+          <input type="color" id="fg" value="#ffffff" />
         </div>
       </div>
 
       <div class="row">
         <div>
           <label>Font size (px)</label>
-          <input type="number" id="fontSize" min="10" step="1" />
+          <input type="number" id="fs" min="10" step="1" value="18" />
         </div>
+        <div>
+          <label>Width (px)</label>
+          <input type="number" id="w" min="120" step="1" value="180" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Line height (px)</label>
+          <input type="number" id="lh" min="24" step="1" value="50" />
+        </div>
+        <div>
+          <label>Border radius (px)</label>
+          <input type="number" id="br" min="0" step="1" value="7" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Height (px) — TD wrapper</label>
+          <input type="number" id="heightPx" min="20" step="1" value="50" />
+        </div>
+        <div>
+          <label>Underline</label>
+          <select id="underline">
+            <option value="underline" selected>Underline</option>
+            <option value="none">No underline</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- NEW: Font family -->
+      <div class="row full">
         <div>
           <label>Font family</label>
           <select id="fontFamily">
+            <option value="Arial, Helvetica, sans-serif" selected>Arial, Helvetica, sans-serif</option>
             <option value="Helvetica, Arial, sans-serif">Helvetica, Arial, sans-serif</option>
-            <option value="Arial, sans-serif">Arial, sans-serif</option>
             <option value="'Segoe UI', Arial, sans-serif">'Segoe UI', Arial, sans-serif</option>
             <option value="Georgia, serif">Georgia, serif</option>
             <option value="Tahoma, Geneva, sans-serif">Tahoma, Geneva, sans-serif</option>
@@ -136,53 +154,34 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row full">
         <div>
-          <label>Font weight</label>
-          <select id="fontWeight">
-            <option value="normal">Normal</option>
-            <option value="bold" selected>Bold</option>
-            <option value="600">600</option>
-            <option value="700">700</option>
-            <option value="800">800</option>
-          </select>
-        </div>
-        <div>
-          <label>Font style</label>
-          <select id="fontStyle">
-            <option value="normal" selected>Normal</option>
-            <option value="italic">Italic</option>
-          </select>
+          <label>Replace button text (optional)</label>
+          <input type="text" id="btnText" placeholder="Leave blank to keep current text" />
         </div>
       </div>
 
-      <div class="row" style="grid-template-columns:1fr;">
+      <div class="row full">
         <div>
-          <label>Link URL (href)</label>
-          <input type="text" id="href" placeholder="https://www.newblueinteractive.com?amount=5" />
-        </div>
-      </div>
-
-      <div class="row" style="grid-template-columns:1fr;">
-        <div>
-          <label>Button text</label>
-          <input type="text" id="btnText" placeholder="DONATE $5" />
+          <label>Set/replace URL “amount” parameter (optional)</label>
+          <input type="number" id="amount" min="1" step="1" placeholder="e.g., 5 or 25" />
         </div>
       </div>
 
       <div class="actions">
-        <button id="apply">Apply to selected button</button>
-        <button class="secondary" id="resetOne">Reset selected</button>
-        <button class="ghost" id="resetAll">Reset all</button>
+        <button id="apply">Apply to selected</button>
+        <button class="secondary" id="resetAll">Reset to original</button>
       </div>
     </div>
   </section>
 
-  <!-- Preview -->
+  <!-- RIGHT: Preview -->
   <section class="card">
     <h2>Live Preview</h2>
     <div class="body preview-pane">
-      <div class="preview-note">Exact 3-button inline table, email-safe, with inline styles and <code>-webkit-border-radius</code> + <code>border-radius</code>.</div>
+      <div class="preview-note">
+        Uses your 3-button snippet below. VML/MSO stays intact. Edits target only the regular <code>&lt;a&gt;</code> buttons.
+      </div>
       <div id="preview" class="email-frame"></div>
     </div>
   </section>
@@ -200,194 +199,295 @@
   </section>
 </div>
 
-<script>
-/** Defaults taken from your 3-button snippet */
-const defaultButtons = [
-  {
-    bgcolor: "#008CFF",
-    radius: 4,
-    widthPx: 160,
-    href: "https://www.newblueinteractive.com?amount=5",
-    padding: 9,
-    fontSize: 17,
-    fontFamily: "Helvetica, Arial, sans-serif",
-    fontWeight: "bold",
-    fontStyle: "normal",
-    fontColor: "#ffffff",
-    lineHeight: 25,
-    text: "DONATE $5"
-  },
-  {
-    bgcolor: "#008CFF",
-    radius: 4,
-    widthPx: 160,
-    href: "https://www.newblueinteractive.com?amount=25",
-    padding: 9,
-    fontSize: 17,
-    fontFamily: "Helvetica, Arial, sans-serif",
-    fontWeight: "bold",
-    fontStyle: "normal",
-    fontColor: "#ffffff",
-    lineHeight: 25,
-    text: "DONATE $25"
-  },
-  {
-    bgcolor: "#008CFF",
-    radius: 4,
-    widthPx: 160,
-    href: "https://www.newblueinteractive.com?amount=50",
-    padding: 9,
-    fontSize: 17,
-    fontFamily: "Helvetica, Arial, sans-serif",
-    fontWeight: "bold",
-    fontStyle: "normal",
-    fontColor: "#ffffff",
-    lineHeight: 25,
-    text: "DONATE $50"
-  }
-];
-
-let buttons = JSON.parse(JSON.stringify(defaultButtons));
-
-const $ = (id) => document.getElementById(id);
-const whichBtn = $("whichBtn");
-
-function toHex(c) {
-  if (/^#/.test(c)) return c;
-  const m = c.match(/rgb\\((\\d+),\\s*(\\d+),\\s*(\\d+)\\)/i);
-  if (!m) return "#000000";
-  const h = [m[1], m[2], m[3]].map(n => {
-    const v = Math.max(0, Math.min(255, parseInt(n,10)));
-    return v.toString(16).padStart(2,"0");
-  }).join("");
-  return "#"+h;
-}
-
-function escapeHtml(txt) {
-  return txt.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-}
-
-function loadControls(idx) {
-  const b = buttons[idx];
-  $("bgcolor").value    = toHex(b.bgcolor);
-  $("fontColor").value  = toHex(b.fontColor);
-  $("radius").value     = b.radius;
-  $("widthPx").value    = b.widthPx;
-  $("padding").value    = b.padding;
-  $("fontSize").value   = b.fontSize;
-  $("lineHeight").value = b.lineHeight;
-  $("fontFamily").value = b.fontFamily;
-  $("fontWeight").value = String(b.fontWeight);
-  $("fontStyle").value  = b.fontStyle;
-  $("href").value       = b.href;
-  $("btnText").value    = b.text;
-}
-
-function renderButtonCell(b, includeTargetBlank) {
-  const tdStyle = ` -webkit-border-radius:${b.radius}px; border-radius:${b.radius}px; width: ${b.widthPx}px;`;
-  const aStyle  = `padding:${b.padding}px ${b.padding}px ${b.padding}px ${b.padding}px; display: block; font-size: ${b.fontSize}px; font-family:${b.fontFamily}; font-weight:${b.fontWeight}; font-style:${b.fontStyle}; color:${b.fontColor}; letter-spacing: 0em; text-decoration:none; line-height:${b.lineHeight}px;`;
-  const safeText = escapeHtml(b.text);
-  const target = includeTargetBlank ? ' target="_blank"' : '';
-
-  return `
-  <table border="0" cellpadding="0" cellspacing="0" height="50">
-    <tbody>
-      <tr>
-        <td align="center" bgcolor="${b.bgcolor}" height="50" style="${tdStyle}" width="${b.widthPx}">
-          <a href="${b.href}" style="${aStyle}"${target}>${safeText}</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>`.trim();
-}
-
-/** Full single-row / three-button block (first button no target, 2 & 3 use _blank as in your snippet) */
-function renderBlock() {
-  const tds = buttons.map((b, i) => {
-    const inner = renderButtonCell(b, i !== 0); // Button 2 & 3 had target="_blank"
-    return `
-      <td align="center" style="padding:4px 8px; display: inline-block;">
-        ${inner}
-      </td>`.trim();
-  }).join("\n");
-
-  return `
-<table align="center" border="0" cellpadding="0" cellspacing="0" style="max-width: 100%">
-  <tbody align="center">
+<!-- === YOUR EXACT 3-BUTTON CODE SNIPPET === -->
+<template id="raw">
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <style type="text/css">
+    @media only screen and (max-width: 600px) {
+      .button-td {
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
+      }
+      .button-td a {
+        width: 100% !important;
+        box-sizing: border-box;
+      }
+    }
+  </style>
+</head>
+<body>
+<center>
+<table border="0" cellpadding="0" cellspacing="0" style="max-width:100%; width:100%;">
+  <tbody>
     <tr>
-${tds}
+      <td align="center" style="text-align:center;" width="100%">
+        <center>
+        <table border="0" cellpadding="0" cellspacing="0" style="display:inline-block; text-align:center;">
+          <tbody>
+            <tr>
+              <td align="center" colspan="3" style="text-align:center;">
+                <span style="color:#666; font-size:13px; font-style:italic; text-align:center; width:100%; display:block;">
+                  If you’ve saved your payment info with ActBlue, your contribution will be processed immediately. 
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td class="button-td" style="display:inline-block; padding:8px;">
+                <!--[if mso]>
+                <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml"
+                             xmlns:w="urn:schemas-microsoft-com:office:word"
+                             href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100&amount=5&express_lane=true"
+                             style="height:50px; width:180px; v-text-anchor:middle;" arcsize="18%" fillcolor="#2196F3" stroke="f">
+                  <w:anchorlock/>
+                  <center style="color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; text-decoration:underline;">
+                    Donate $5 now
+                  </center>
+                </v:roundrect>
+                <![endif]-->
+                <!--[if !mso]><!-- -->
+                <a href="https://secure.actblue.com/donate/example?refcode=emailonacid&amp;amounts=5,10,25,50,100&amp;amount=5&amp;express_lane=true" 
+                   style="display:inline-block; background-color:#2196F3; color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-weight:bold; font-size:18px; line-height:50px; width:180px; text-align:center; text-decoration:underline; border-radius:7px; -webkit-text-size-adjust:none;">
+                  Donate $5 now 
+                </a>
+                <!--<![endif]-->
+              </td>
+
+              <td class="button-td" style="display:inline-block; padding:8px;">
+                <!--[if mso]>
+                <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml"
+                             xmlns:w="urn:schemas-microsoft-com:office:word"
+                             href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100&amount=25&express_lane=true"
+                             style="height:50px; width:180px; v-text-anchor:middle;" arcsize="18%" fillcolor="#2196F3" stroke="f">
+                  <w:anchorlock/>
+                  <center style="color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; text-decoration:underline;">
+                    Donate $25 now
+                  </center>
+                </v:roundrect>
+                <![endif]-->
+                <!--[if !mso]><!-- -->
+                <a href="https://secure.actblue.com/donate/example?refcode=emailonacid&amp;amounts=5,10,25,50,100&amp;amount=25&amp;express_lane=true" 
+                   style="display:inline-block; background-color:#2196F3; color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-weight:bold; font-size:18px; line-height:50px; width:180px; text-align:center; text-decoration:underline; border-radius:7px; -webkit-text-size-adjust:none;">
+                  Donate $25 now 
+                </a>
+                <!--<![endif]-->
+              </td>
+
+              <td class="button-td" style="display:inline-block; padding:8px;">
+                <!--[if mso]>
+                <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml"
+                             xmlns:w="urn:schemas-microsoft-com:office:word"
+                             href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100"
+                             style="height:50px; width:180px; v-text-anchor:middle;" arcsize="18%" fillcolor="#2196F3" stroke="f">
+                  <w:anchorlock/>
+                  <center style="color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; text-decoration:underline;">
+                    Donate $50 now
+                  </center>
+                </v:roundrect>
+                <![endif]-->
+                <!--[if !mso]><!-- -->
+                <a href="https://secure.actblue.com/donate/example?refcode=emailonacid&amp;amounts=5,10,25,50,100" 
+                   style="display:inline-block; background-color:#2196F3; color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-weight:bold; font-size:18px; line-height:50px; width:180px; text-align:center; text-decoration:underline; border-radius:7px; -webkit-text-size-adjust:none;">
+                  Donate $50 now 
+                </a>
+                <!--<![endif]-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        </center>
+      </td>
     </tr>
   </tbody>
-</table>`.trim();
+</table>
+</center>
+</body>
+<grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
+</html>
+</template>
+
+<script>
+/* ---------- Utilities ---------- */
+const $ = (id) => document.getElementById(id);
+
+function setUrlAmount(url, amountVal) {
+  if (amountVal === '' || amountVal == null) return url;
+  try {
+    const u = new URL(url, location.origin);
+    u.searchParams.set('amount', String(Number(amountVal)));
+    return u.href.replace(u.origin, ''); // keep relative feel
+  } catch {
+    const has = /([?&])amount=\\d+/.test(url);
+    if (has) return url.replace(/([?&])amount=\\d+/, '$1amount=' + Number(amountVal));
+    return url + (url.includes('?') ? '&' : '?') + 'amount=' + Number(amountVal);
+  }
 }
 
-function refreshPreview(){ $("preview").innerHTML = renderBlock(); }
-function refreshExport(){ $("exportHtml").value = renderBlock(); }
+function getAnchors() {
+  return [...$('preview').querySelectorAll('a[href]')];
+}
 
-$("apply").addEventListener("click", () => {
-  const idx = parseInt(whichBtn.value,10);
-  const b = buttons[idx];
-  b.bgcolor    = $("bgcolor").value || b.bgcolor;
-  b.fontColor  = $("fontColor").value || b.fontColor;
-  b.radius     = Number($("radius").value) || b.radius;
-  b.widthPx    = Number($("widthPx").value) || b.widthPx;
-  b.padding    = Number($("padding").value) || b.padding;
-  b.fontSize   = Number($("fontSize").value) || b.fontSize;
-  b.lineHeight = Number($("lineHeight").value) || b.lineHeight;
-  b.fontFamily = $("fontFamily").value || b.fontFamily;
-  b.fontWeight = $("fontWeight").value || b.fontWeight;
-  b.fontStyle  = $("fontStyle").value || b.fontStyle;
-  b.href       = $("href").value || b.href;
-  b.text       = $("btnText").value || b.text;
-
-  refreshPreview();
+/* ---------- Load snippet ---------- */
+function loadSnippet() {
+  const raw = $('raw').innerHTML;
+  $('preview').innerHTML = raw; // exact code
+  buildChecklist();
   refreshExport();
-});
+}
 
-$("resetOne").addEventListener("click", () => {
-  const idx = parseInt(whichBtn.value,10);
-  buttons[idx] = JSON.parse(JSON.stringify(defaultButtons[idx]));
-  loadControls(idx);
-  refreshPreview();
+/* ---------- Checklist with per-button URL editing ---------- */
+function buildChecklist() {
+  const list = $('buttonList');
+  list.innerHTML = '';
+  const anchors = getAnchors();
+
+  anchors.forEach((a, i) => {
+    const id = 'btn_' + i;
+    const urlId = 'url_' + i;
+
+    const div = document.createElement('div');
+    div.className = 'btn-item';
+    div.innerHTML = `
+      <input type="checkbox" id="${id}" class="sel" data-idx="${i}" />
+      <div class="btn-meta">
+        <div class="btn-top">
+          <label for="${id}"><strong>${(a.textContent||'').trim() || 'Button ' + (i+1)}</strong></label>
+          <span class="muted">—</span>
+          <code id="code_${i}">${a.getAttribute('href')}</code>
+        </div>
+        <div class="btn-url">
+          <input type="url" id="${urlId}" value="${a.getAttribute('href')}" />
+          <button type="button" data-idx="${i}" class="setUrl">Set URL</button>
+        </div>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+
+  // Handle individual URL set (click) and live update on blur/Enter
+  list.querySelectorAll('.setUrl').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const idx = Number(e.currentTarget.dataset.idx);
+      const input = $('url_' + idx);
+      updateHref(idx, input.value);
+    });
+  });
+  list.querySelectorAll('input[type="url"]').forEach(inp => {
+    inp.addEventListener('blur', (e) => {
+      const idx = Number(e.target.id.split('_')[1]);
+      updateHref(idx, e.target.value);
+    });
+    inp.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const idx = Number(e.target.id.split('_')[1]);
+        updateHref(idx, e.target.value);
+      }
+    });
+  });
+
+  // Sync Select-all with individuals
+  list.querySelectorAll('.sel').forEach(cb => cb.addEventListener('change', syncToggleAll));
+  syncToggleAll();
+}
+
+function updateHref(idx, newUrl) {
+  const a = getAnchors()[idx];
+  if (!a) return;
+  try { a.setAttribute('href', newUrl); } catch {}
+  const codeEl = $('code_' + idx);
+  const urlInput = $('url_' + idx);
+  if (codeEl) codeEl.textContent = newUrl;
+  if (urlInput && urlInput.value !== newUrl) urlInput.value = newUrl;
   refreshExport();
-});
+}
 
-$("resetAll").addEventListener("click", () => {
-  buttons = JSON.parse(JSON.stringify(defaultButtons));
-  loadControls(parseInt(whichBtn.value,10));
-  refreshPreview();
+/* ---------- Selection helpers ---------- */
+function getSelectedAnchors() {
+  const picks = [...document.querySelectorAll('.sel:checked')].map(cb => Number(cb.dataset.idx));
+  const anchors = getAnchors();
+  return picks.map(i => anchors[i]).filter(Boolean);
+}
+function syncToggleAll() {
+  const boxes = [...document.querySelectorAll('.sel')];
+  const all = $('toggleAll');
+  if (!boxes.length) { all.checked = false; all.indeterminate = false; return; }
+  const checked = boxes.filter(b => b.checked).length;
+  all.checked = checked === boxes.length;
+  all.indeterminate = checked > 0 && checked < boxes.length;
+}
+
+/* ---------- Apply bulk edits ---------- */
+function applyEdits() {
+  const targets = getSelectedAnchors();
+  if (!targets.length) { alert('Select one or more buttons first.'); return; }
+
+  const bg = $('bg').value, fg = $('fg').value, fs = $('fs').value, w = $('w').value,
+        lh = $('lh').value, br = $('br').value, h = $('heightPx').value,
+        deco = $('underline').value, txt = $('btnText').value.trim(), amt = $('amount').value.trim(),
+        ff = $('fontFamily').value; // NEW: font family
+
+  targets.forEach(a => {
+    if (bg) a.style.backgroundColor = bg;
+    if (fg) a.style.color = fg;
+    if (fs) a.style.fontSize = Number(fs) + 'px';
+    if (w)  a.style.width = Number(w) + 'px';
+    if (lh) a.style.lineHeight = Number(lh) + 'px';
+    if (br) a.style.borderRadius = Number(br) + 'px';
+    if (deco) a.style.textDecoration = deco;
+    if (ff) a.style.fontFamily = ff;  // apply font family
+
+    // Adjust TD height wrapper
+    if (h) {
+      const td = a.closest('td');
+      if (td) td.setAttribute('height', String(Number(h)));
+    }
+
+    if (txt) a.textContent = txt;
+    if (amt) a.setAttribute('href', setUrlAmount(a.getAttribute('href')||'', amt));
+  });
+
+  // Keep checklist intact; just refresh visible URLs.
+  getAnchors().forEach((a, i) => {
+    const codeEl = $('code_' + i);
+    if (codeEl) codeEl.textContent = a.getAttribute('href');
+    const urlInput = $('url_' + i);
+    if (urlInput && urlInput.value !== a.getAttribute('href')) {
+      urlInput.value = a.getAttribute('href');
+    }
+  });
+
   refreshExport();
+}
+
+/* ---------- Export / reset ---------- */
+function refreshExport(){ $('exportHtml').value = $('preview').innerHTML.trim(); }
+function copyExport(){
+  const t = $('exportHtml').value;
+  navigator.clipboard.writeText(t).then(()=>alert('HTML copied!'))
+    .catch(()=>{ $('exportHtml').select(); document.execCommand('copy'); alert('HTML copied (fallback).'); });
+}
+function resetAll(){
+  loadSnippet();
+  $('toggleAll').checked = false;
+  $('toggleAll').indeterminate = false;
+}
+
+/* ---------- Wire up ---------- */
+$('apply').addEventListener('click', applyEdits);
+$('resetAll').addEventListener('click', resetAll);
+$('refreshHtml').addEventListener('click', refreshExport);
+$('copyHtml').addEventListener('click', copyExport);
+$('toggleAll').addEventListener('change', (e) => {
+  document.querySelectorAll('.sel').forEach(cb => { cb.checked = e.target.checked; });
+  syncToggleAll();
 });
 
-$("copyHtml").addEventListener("click", async () => {
-  const txt = $("exportHtml").value;
-  try { await navigator.clipboard.writeText(txt); alert("HTML copied!"); }
-  catch (e) {
-    $("exportHtml").select(); document.execCommand("copy"); alert("HTML copied (fallback).");
-  }
-});
-$("refreshHtml").addEventListener("click", refreshExport);
-
-$("quickPreset").addEventListener("change", (e) => {
-  const v = e.target.value; if (!v) return;
-  const idx = parseInt(whichBtn.value,10);
-  const b = buttons[idx];
-  if (v === "OTHER") {
-    b.text = "DONATE OTHER";
-    // keep href unchanged or set generic: b.href = "https://www.newblueinteractive.com?amount=";
-  } else {
-    b.text = `DONATE $${v}`;
-    b.href = `https://www.newblueinteractive.com?amount=${v}`;
-  }
-  loadControls(idx); refreshPreview(); refreshExport();
-});
-
-(function init(){
-  loadControls(0);
-  refreshPreview();
-  refreshExport();
-  whichBtn.addEventListener("change", () => loadControls(parseInt(whichBtn.value,10)));
-})();
+/* ---------- Init ---------- */
+loadSnippet();
 </script>
 </body>
 </html>

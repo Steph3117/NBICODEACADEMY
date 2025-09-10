@@ -58,15 +58,17 @@
   <nav>
     <ul class="nav-tabs">
       <li><a href="../index.html">Home</a></li>
+
       <li class="dropdown">
         <a href="../tools.html">NBI Email Tools ▾</a>
         <ul class="dropdown-menu">
           <li><a href="../EmailChecklist.html">Email Checklist</a></li>
           <li><a href="../snippetlibrary.html">Snippet Library</a></li>
-          <li><a href="choosethetool.html">Email Link Library</a></li>
-          <li><a href="SocialIconsite/socialiconcolor.html">Social Icon Tool</a></li>
+          <li><a href="../codebuildertools/choosethetool.html">Email Link Library</a></li>
+          <li><a href="../codebuildertools/SocialIconsite/socialiconcolor.html">Social Icon Tool</a></li>
         </ul>
       </li>
+
       <li class="dropdown">
         <a href="../trainings.html">Trainings ▾</a>
         <ul class="dropdown-menu">
@@ -74,6 +76,7 @@
           <li><a href="trainings.html#videos">Video Library</a></li>
         </ul>
       </li>
+
       <li><a href="../docs.html">Documentation</a></li>
     </ul>
   </nav>
@@ -139,6 +142,20 @@
         </div>
       </div>
 
+      <!-- ✨ NEW: Font family -->
+      <div class="row full">
+        <div>
+          <label>Font family</label>
+          <select id="fontFamily">
+            <option value="Arial, Helvetica, sans-serif" selected>Arial, Helvetica, sans-serif</option>
+            <option value="Helvetica, Arial, sans-serif">Helvetica, Arial, sans-serif</option>
+            <option value="'Segoe UI', Arial, sans-serif">'Segoe UI', Arial, sans-serif</option>
+            <option value="Georgia, serif">Georgia, serif</option>
+            <option value="Tahoma, Geneva, sans-serif">Tahoma, Geneva, sans-serif</option>
+          </select>
+        </div>
+      </div>
+
       <div class="row full">
         <div>
           <label>Replace button text (optional)</label>
@@ -186,6 +203,7 @@
 
 <!-- === YOUR EXACT CODE SNIPPET (no "Input N:" labels present) === -->
 <template id="raw">
+
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
   <tr>
     <td align="center" style="text-align:center;" width="100%">
@@ -203,7 +221,14 @@
             <!-- Row 1: $5 and $10 -->
             <tr>
               <td style="display:inline-block; padding:8px;">
-                <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100&amount=5&express_lane=true" style="height:50px; width:273px; v-text-anchor:middle;" arcsize="18%" fillcolor="#2196F3" stroke="f"><w:anchorlock/><center style="color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; text-decoration:underline;">Donate $5 right now</center></v:roundrect><![endif]-->
+                <!--[if mso]>
+                <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100&amount=5&express_lane=true" style="height:50px; width:273px; v-text-anchor:middle;" arcsize="18%" fillcolor="#2196F3" stroke="f">
+                  <w:anchorlock/>
+                  <center style="color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; text-decoration:underline;">
+                    Donate $5 right now
+                  </center>
+                </v:roundrect>
+                <![endif]-->
                 <!--[if !mso]><!-- -->
                 <a href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100&amount=5&express_lane=true" 
                    style="display:inline-block; background-color:#2196F3; color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-weight:bold; font-size:18px; line-height:50px; width:273px; text-align:center; text-decoration:underline; border-radius:7px; -webkit-text-size-adjust:none;">
@@ -213,7 +238,14 @@
               </td>
 
               <td style="display:inline-block; padding:8px;">
-                <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100&amount=10&express_lane=true" style="height:50px; width:273px; v-text-anchor:middle;" arcsize="18%" fillcolor="#2196F3" stroke="f"><w:anchorlock/><center style="color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; text-decoration:underline;">Donate $10 right now</center></v:roundrect><![endif]-->
+                <!--[if mso]>
+                <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100&amount=10&express_lane=true" style="height:50px; width:273px; v-text-anchor:middle;" arcsize="18%" fillcolor="#2196F3" stroke="f">
+                  <w:anchorlock/>
+                  <center style="color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; text-decoration:underline;">
+                    Donate $10 right now
+                  </center>
+                </v:roundrect>
+                <![endif]-->
                 <!--[if !mso]><!-- -->
                 <a href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100&amount=10&express_lane=true" 
                    style="display:inline-block; background-color:#2196F3; color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-weight:bold; font-size:18px; line-height:50px; width:273px; text-align:center; text-decoration:underline; border-radius:7px; -webkit-text-size-adjust:none;">
@@ -226,7 +258,14 @@
             <!-- Row 2: $25 and $50 -->
             <tr>
               <td style="display:inline-block; padding:8px;">
-                <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100&amount=25&express_lane=true" style="height:50px; width:273px; v-text-anchor:middle;" arcsize="18%" fillcolor="#2196F3" stroke="f"><w:anchorlock/><center style="color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; text-decoration:underline;">Donate $25 right now</center></v:roundrect><![endif]-->
+                <!--[if mso]>
+                <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100&amount=25&express_lane=true" style="height:50px; width:273px; v-text-anchor:middle;" arcsize="18%" fillcolor="#2196F3" stroke="f">
+                  <w:anchorlock/>
+                  <center style="color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; text-decoration:underline;">
+                    Donate $25 right now
+                  </center>
+                </v:roundrect>
+                <![endif]-->
                 <!--[if !mso]><!-- -->
                 <a href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100&amount=25&express_lane=true" 
                    style="display:inline-block; background-color:#2196F3; color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-weight:bold; font-size:18px; line-height:50px; width:273px; text-align:center; text-decoration:underline; border-radius:7px; -webkit-text-size-adjust:none;">
@@ -236,7 +275,14 @@
               </td>
 
               <td style="display:inline-block; padding:8px;">
-                <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100&amount=50&express_lane=true" style="height:50px; width:273px; v-text-anchor:middle;" arcsize="18%" fillcolor="#2196F3" stroke="f"><w:anchorlock/><center style="color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; text-decoration:underline;">Donate $50 right now</center></v:roundrect><![endif]-->
+                <!--[if mso]>
+                <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100&amount=50&express_lane=true" style="height:50px; width:273px; v-text-anchor:middle;" arcsize="18%" fillcolor="#2196F3" stroke="f">
+                  <w:anchorlock/>
+                  <center style="color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; text-decoration:underline;">
+                    Donate $50 right now
+                  </center>
+                </v:roundrect>
+                <![endif]-->
                 <!--[if !mso]><!-- -->
                 <a href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100&amount=50&express_lane=true" 
                    style="display:inline-block; background-color:#2196F3; color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-weight:bold; font-size:18px; line-height:50px; width:273px; text-align:center; text-decoration:underline; border-radius:7px; -webkit-text-size-adjust:none;">
@@ -249,7 +295,14 @@
             <!-- Row 3: $100 and other -->
             <tr>
               <td style="display:inline-block; padding:8px;">
-                <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100&amount=100&express_lane=true" style="height:50px; width:273px; v-text-anchor:middle;" arcsize="18%" fillcolor="#2196F3" stroke="f"><w:anchorlock/><center style="color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; text-decoration:underline;">Donate $100 right now</center></v:roundrect><![endif]-->
+                <!--[if mso]>
+                <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100&amount=100&express_lane=true" style="height:50px; width:273px; v-text-anchor:middle;" arcsize="18%" fillcolor="#2196F3" stroke="f">
+                  <w:anchorlock/>
+                  <center style="color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; text-decoration:underline;">
+                    Donate $100 right now
+                  </center>
+                </v:roundrect>
+                <![endif]-->
                 <!--[if !mso]><!-- -->
                 <a href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100&amount=100&express_lane=true" 
                    style="display:inline-block; background-color:#2196F3; color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-weight:bold; font-size:18px; line-height:50px; width:273px; text-align:center; text-decoration:underline; border-radius:7px; -webkit-text-size-adjust:none;">
@@ -259,7 +312,14 @@
               </td>
 
               <td style="display:inline-block; padding:8px;">
-                <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100" style="height:50px; width:273px; v-text-anchor:middle;" arcsize="18%" fillcolor="#2196F3" stroke="f"><w:anchorlock/><center style="color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; text-decoration:underline;">Donate another amount</center></v:roundrect><![endif]-->
+                <!--[if mso]>
+                <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100" style="height:50px; width:273px; v-text-anchor:middle;" arcsize="18%" fillcolor="#2196F3" stroke="f">
+                  <w:anchorlock/>
+                  <center style="color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; text-decoration:underline;">
+                    Donate another amount
+                  </center>
+                </v:roundrect>
+                <![endif]-->
                 <!--[if !mso]><!-- -->
                 <a href="https://secure.actblue.com/donate/example?refcode=emailonacid&amounts=5,10,25,50,100" 
                    style="display:inline-block; background-color:#2196F3; color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-weight:bold; font-size:18px; line-height:50px; width:273px; text-align:center; text-decoration:underline; border-radius:7px; -webkit-text-size-adjust:none;">
@@ -285,7 +345,7 @@ function setUrlAmount(url, amountVal) {
   try {
     const u = new URL(url, location.origin);
     u.searchParams.set('amount', String(Number(amountVal)));
-    return u.href.replace(u.origin, ''); // keep relative feel
+    return u.href.replace(u.origin, '');
   } catch {
     const has = /([?&])amount=\d+/.test(url);
     if (has) return url.replace(/([?&])amount=\d+/, '$1amount=' + Number(amountVal));
@@ -357,16 +417,14 @@ function buildChecklist() {
   });
 
   // Sync "Select all" with individuals
-  list.querySelectorAll('.sel').forEach(cb => {
-    cb.addEventListener('change', syncToggleAll);
-  });
-  syncToggleAll(); // initialize
+  list.querySelectorAll('.sel').forEach(cb => cb.addEventListener('change', syncToggleAll));
+  syncToggleAll();
 }
 
 function updateHref(idx, newUrl) {
   const a = getAnchors()[idx];
   if (!a) return;
-  try { a.setAttribute('href', newUrl); } catch {} // minimal guarding
+  try { a.setAttribute('href', newUrl); } catch {}
   const codeEl = $('code_' + idx);
   const urlInput = $('url_' + idx);
   if (codeEl) codeEl.textContent = newUrl;
@@ -396,7 +454,8 @@ function applyEdits() {
 
   const bg = $('bg').value, fg = $('fg').value, fs = $('fs').value, w = $('w').value,
         lh = $('lh').value, br = $('br').value, h = $('heightPx').value,
-        deco = $('underline').value, txt = $('btnText').value.trim(), amt = $('amount').value.trim();
+        deco = $('underline').value, txt = $('btnText').value.trim(), amt = $('amount').value.trim(),
+        ff = $('fontFamily').value;                 // <-- NEW font family
 
   targets.forEach(a => {
     if (bg) a.style.backgroundColor = bg;
@@ -406,6 +465,7 @@ function applyEdits() {
     if (lh) a.style.lineHeight = Number(lh) + 'px';
     if (br) a.style.borderRadius = Number(br) + 'px';
     if (deco) a.style.textDecoration = deco;
+    if (ff) a.style.fontFamily = ff;               // <-- apply font family
 
     if (h) {
       const td = a.closest('td');
@@ -416,7 +476,7 @@ function applyEdits() {
     if (amt) a.setAttribute('href', setUrlAmount(a.getAttribute('href')||'', amt));
   });
 
-  // Don’t rebuild the checklist (keeps selections). Just update visible labels/URLs in place.
+  // Keep checklist intact; update visible URLs.
   getAnchors().forEach((a, i) => {
     const codeEl = $('code_' + i);
     if (codeEl) codeEl.textContent = a.getAttribute('href');

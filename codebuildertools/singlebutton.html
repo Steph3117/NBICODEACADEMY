@@ -3,29 +3,37 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>NBI – Single Button Builder</title>
+<title>NBI – Single Button Editor</title>
 <style>
   :root { --ink:#0f172a; --muted:#6b7280; --bg:#f6f7fb; --card:#ffffff; --brand:#25408F; }
   * { box-sizing: border-box; }
   body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:var(--bg); color:var(--ink); }
-  header { padding:16px 20px; background:var(--brand); color:#fff; font-weight:700; }
-  .wrap { display:grid; grid-template-columns: 380px 1fr; gap:18px; padding:18px; max-width:980px; margin:0 auto; }
+  header { padding:16px 20px; background:var(--brand); color:#fff; }
+  header h1 { margin:0; font-size:28px; line-height:1.1; }
+  header p { margin:2px 0 8px; opacity:.9 }
+  nav .nav-tabs { list-style:none; padding:0; margin:0; display:flex; gap:18px; }
+  nav .nav-tabs a { color:#fff; text-decoration:none; font-weight:600 }
+
+  .wrap { display:grid; grid-template-columns: 420px 1fr; gap:18px; padding:18px; max-width:980px; margin:0 auto; }
   .card { background:var(--card); border-radius:12px; box-shadow:0 8px 24px rgba(2,6,23,.06); }
   .card h2 { margin:0; padding:14px 16px; font-size:16px; border-bottom:1px solid #e5e7eb; }
   .card .body { padding:14px 16px; }
+
   .row { display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:10px; }
   .row.full { grid-template-columns: 1fr; }
   label { font-size:12px; color:var(--muted); display:block; margin-bottom:6px; }
-  input[type="text"], input[type="number"], select { width:100%; padding:8px 10px; border:1px solid #d1d5db; border-radius:8px; font-size:14px; }
+  input[type="text"], input[type="number"], input[type="url"], select {
+    width:100%; padding:8px 10px; border:1px solid #d1d5db; border-radius:8px; font-size:14px;
+  }
   input[type="color"] { width:100%; height:36px; padding:0; border:1px solid #d1d5db; border-radius:8px; }
   .actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
   button { appearance:none; border:0; background:#111827; color:#fff; padding:9px 12px; border-radius:10px; cursor:pointer; font-weight:600; }
   button.secondary { background:#334155; }
-  button.ghost { background:#e5e7eb; color:#111827; }
   textarea { width:100%; min-height:160px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:12.5px; padding:12px; border:1px solid #d1d5db; border-radius:8px; }
+
   .preview-pane { padding:20px; }
   .preview-note { font-size:12px; color:var(--muted); margin-bottom:8px; }
-  .email-frame { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:16px; }
+  .email-frame { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:16px; overflow:auto; }
 </style>
 <link rel="stylesheet" href="../style.css" />
 </head>
@@ -42,8 +50,8 @@
         <ul class="dropdown-menu">
           <li><a href="../EmailChecklist.html">Email Checklist</a></li>
           <li><a href="../snippetlibrary.html">Snippet Library</a></li>
-          <li><a href="choosethetool.html">Email Link Library</a></li>
-          <li><a href="SocialIconsite/socialiconcolor.html">Social Icon Tool</a></li>
+          <li><a href="../codebuildertools/choosethetool.html">Email Link Library</a></li>
+          <li><a href="../codebuildertools/SocialIconsite/socialiconcolor.html">Social Icon Tool</a></li>
         </ul>
       </li>
 
@@ -60,119 +68,100 @@
   </nav>
 </header>
 
-
 <div class="wrap">
-  <!-- Controls -->
+  <!-- LEFT: Editor -->
   <section class="card">
     <h2>Editor</h2>
     <div class="body">
-      <div class="row">
-        <div>
-          <label>Container table width (px)</label>
-          <input type="number" id="containerWidth" min="80" step="1" />
-        </div>
-        <div>
-          <label>Button (TD) width (px)</label>
-          <input type="number" id="tdWidth" min="80" step="1" />
-        </div>
-      </div>
 
-      <div class="row">
+      <div class="row full">
         <div>
-          <label>Background color (bgcolor)</label>
-          <input type="color" id="bgcolor" />
-        </div>
-        <div>
-          <label>Text color</label>
-          <input type="color" id="fontColor" />
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label>Border radius (px)</label>
-          <input type="number" id="radius" min="0" step="1" />
-        </div>
-        <div>
-          <label>Height (px)</label>
-          <input type="number" id="heightPx" min="20" step="1" />
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label>Padding (all sides, px)</label>
-          <input type="number" id="padding" min="0" step="1" />
-        </div>
-        <div>
-          <label>Line height (px)</label>
-          <input type="number" id="lineHeight" min="10" step="1" />
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label>Font size (px)</label>
-          <input type="number" id="fontSize" min="10" step="1" />
-        </div>
-        <div>
-          <label>Font family</label>
-          <select id="fontFamily">
-            <option value="Helvetica, Arial, sans-serif">Helvetica, Arial, sans-serif</option>
-            <option value="Arial, sans-serif">Arial, sans-serif</option>
-            <option value="'Segoe UI', Arial, sans-serif">'Segoe UI', Arial, sans-serif</option>
-            <option value="Georgia, serif">Georgia, serif</option>
-            <option value="Tahoma, Geneva, sans-serif">Tahoma, Geneva, sans-serif</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label>Font weight</label>
-          <select id="fontWeight">
-            <option value="normal">Normal</option>
-            <option value="bold" selected>Bold</option>
-            <option value="600">600</option>
-            <option value="700">700</option>
-            <option value="800">800</option>
-          </select>
-        </div>
-        <div>
-          <label>Font style</label>
-          <select id="fontStyle">
-            <option value="normal" selected>Normal</option>
-            <option value="italic">Italic</option>
-          </select>
+          <label>Button text</label>
+          <input type="text" id="btnText" value="Donate Now" />
         </div>
       </div>
 
       <div class="row full">
         <div>
           <label>Link URL (href)</label>
-          <input type="text" id="href" placeholder="https://www.newblueinteractive.com" />
+          <input type="url" id="href" value="https://secure.actblue.com/donate/example?refcode=emailonacid" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Background color</label>
+          <input type="color" id="bg" value="#2196F3" />
+        </div>
+        <div>
+          <label>Text color</label>
+          <input type="color" id="fg" value="#ffffff" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Font family</label>
+          <select id="fontFamily">
+            <option value="Arial, Helvetica, sans-serif" selected>Arial, Helvetica, sans-serif</option>
+            <option value="Helvetica, Arial, sans-serif">Helvetica, Arial, sans-serif</option>
+            <option value="'Segoe UI', Arial, sans-serif">'Segoe UI', Arial, sans-serif</option>
+            <option value="Georgia, serif">Georgia, serif</option>
+            <option value="Tahoma, Geneva, sans-serif">Tahoma, Geneva, sans-serif</option>
+          </select>
+        </div>
+        <div>
+          <label>Font size (px)</label>
+          <input type="number" id="fs" min="10" step="1" value="18" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Line height (px)</label>
+          <input type="number" id="lh" min="10" step="1" value="50" />
+        </div>
+        <div>
+          <label>Width (px)</label>
+          <input type="number" id="w" min="120" step="1" value="300" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Border radius (px)</label>
+          <input type="number" id="br" min="0" step="1" value="7" />
+        </div>
+        <div>
+          <label>Height (px) — TD wrapper</label>
+          <input type="number" id="heightPx" min="20" step="1" value="50" />
         </div>
       </div>
 
       <div class="row full">
         <div>
-          <label>Button text</label>
-          <input type="text" id="btnText" placeholder="DONATE" />
+          <label>Underline</label>
+          <select id="underline">
+            <option value="underline" selected>Underline</option>
+            <option value="none">No underline</option>
+          </select>
         </div>
       </div>
 
       <div class="actions">
         <button id="apply">Apply</button>
-        <button class="secondary" id="resetOne">Reset</button>
+        <button class="secondary" id="reset">Reset</button>
       </div>
     </div>
   </section>
 
-  <!-- Preview -->
+  <!-- RIGHT: Preview -->
   <section class="card">
     <h2>Live Preview</h2>
     <div class="body preview-pane">
-      <div class="preview-note">Exact one-button table, email-safe, inline styles, includes <code>-webkit-border-radius</code> and <code>border-radius</code>.</div>
+      <div class="preview-note">
+        Uses your single-button snippet below. Outlook VML/MSO is preserved; edits apply to the web <code>&lt;a&gt;</code> and TD height.
+      </div>
       <div id="preview" class="email-frame"></div>
     </div>
   </section>
@@ -190,120 +179,121 @@
   </section>
 </div>
 
+<!-- === YOUR EXACT BUTTON SNIPPET === -->
+<template id="raw">
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+  <tr>
+    <td align="center" style="text-align:center;" width="100%">
+      <center>
+        <table border="0" cellspacing="0" cellpadding="0" style="display:inline-block; text-align:center;">
+          <tr>
+            <td align="center" style="padding: 8px;">
+              <!--[if mso]>
+              <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml"
+                          xmlns:w="urn:schemas-microsoft-com:office:word"
+                          href="https://secure.actblue.com/donate/example?refcode=emailonacid"
+                          style="height:50px; v-text-anchor:middle; width:300px;" arcsize="18%" fillcolor="#2196F3" stroke="f">
+                <w:anchorlock/>
+                <center style="color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; text-decoration:underline;">
+                  Donate Now
+                </center>
+              </v:roundrect>
+              <![endif]-->
+              <!--[if !mso]><!-- -->
+              <a href="https://secure.actblue.com/donate/example?refcode=emailonacid"
+                 style="display:inline-block; background-color:#2196F3; color:#ffffff; font-family:Arial, Helvetica, sans-serif;
+                        font-weight:bold; font-size:18px; line-height:50px; width:300px; text-align:center; text-decoration:underline;
+                        border-radius:7px; -webkit-text-size-adjust:none;">
+                Donate Now
+              </a>
+              <!--<![endif]-->
+            </td>
+          </tr>
+        </table>
+      </center>
+    </td>
+  </tr>
+</table>
+</template>
+
 <script>
-/** Defaults from your snippet */
-const defaults = {
-  containerWidth: 250,
-  tdWidth: 160,
-  bgcolor: "#008CFF",
-  radius: 4,
-  heightPx: 50,
-  padding: 9,
-  fontSize: 17,
-  fontFamily: "Helvetica, Arial, sans-serif",
-  fontWeight: "bold",
-  fontStyle: "normal",
-  fontColor: "#ffffff",
-  lineHeight: 25,
-  href: "https://www.newblueinteractive.com",
-  text: "DONATE"
-};
-
-let cfg = JSON.parse(JSON.stringify(defaults));
-
 const $ = (id) => document.getElementById(id);
 
-function toHex(c) {
-  if (/^#/.test(c)) return c;
-  const m = c.match(/rgb\\((\\d+),\\s*(\\d+),\\s*(\\d+)\\)/i);
-  if (!m) return "#000000";
-  const h = [m[1], m[2], m[3]].map(n => {
-    const v = Math.max(0, Math.min(255, parseInt(n,10)));
-    return v.toString(16).padStart(2,"0");
-  }).join("");
-  return "#"+h;
-}
-
-function escapeHtml(txt) {
-  return txt.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-}
-
-function loadControls() {
-  $("containerWidth").value = cfg.containerWidth;
-  $("tdWidth").value        = cfg.tdWidth;
-  $("bgcolor").value        = toHex(cfg.bgcolor);
-  $("fontColor").value      = toHex(cfg.fontColor);
-  $("radius").value         = cfg.radius;
-  $("heightPx").value       = cfg.heightPx;
-  $("padding").value        = cfg.padding;
-  $("fontSize").value       = cfg.fontSize;
-  $("lineHeight").value     = cfg.lineHeight;
-  $("fontFamily").value     = cfg.fontFamily;
-  $("fontWeight").value     = String(cfg.fontWeight);
-  $("fontStyle").value      = cfg.fontStyle;
-  $("href").value           = cfg.href;
-  $("btnText").value        = cfg.text;
-}
-
-function renderBlock() {
-  const tdStyle = ` -webkit-border-radius:${cfg.radius}px; border-radius:${cfg.radius}px; width:${cfg.tdWidth}px;`;
-  const aStyle  = `padding:${cfg.padding}px ${cfg.padding}px ${cfg.padding}px ${cfg.padding}px; display:block; font-size:${cfg.fontSize}px; font-family:${cfg.fontFamily}; font-weight:${cfg.fontWeight}; font-style:${cfg.fontStyle}; color:${cfg.fontColor}; letter-spacing:0em; text-decoration:none; line-height:${cfg.lineHeight}px;`;
-  const safeText = escapeHtml(cfg.text);
-
-  return `
-<table border="0" cellpadding="0" cellspacing="0" height="50" style="width: ${cfg.containerWidth}px">
-  <tbody>
-    <tr>
-      <td align="center" bgcolor="${cfg.bgcolor}" height="${cfg.heightPx}" style="${tdStyle}">
-        <a href="${cfg.href}" style="${aStyle}">${safeText}</a>
-      </td>
-    </tr>
-  </tbody>
-</table>`.trim();
-}
-
-function refreshPreview(){ $("preview").innerHTML = renderBlock(); }
-function refreshExport(){ $("exportHtml").value = renderBlock(); }
-
-$("apply").addEventListener("click", () => {
-  cfg.containerWidth = Number($("containerWidth").value) || cfg.containerWidth;
-  cfg.tdWidth        = Number($("tdWidth").value)        || cfg.tdWidth;
-  cfg.bgcolor        = $("bgcolor").value || cfg.bgcolor;
-  cfg.fontColor      = $("fontColor").value || cfg.fontColor;
-  cfg.radius         = Number($("radius").value)   || cfg.radius;
-  cfg.heightPx       = Number($("heightPx").value) || cfg.heightPx;
-  cfg.padding        = Number($("padding").value)  || cfg.padding;
-  cfg.fontSize       = Number($("fontSize").value) || cfg.fontSize;
-  cfg.lineHeight     = Number($("lineHeight").value) || cfg.lineHeight;
-  cfg.fontFamily     = $("fontFamily").value || cfg.fontFamily;
-  cfg.fontWeight     = $("fontWeight").value || cfg.fontWeight;
-  cfg.fontStyle      = $("fontStyle").value  || cfg.fontStyle;
-  cfg.href           = $("href").value       || cfg.href;
-  cfg.text           = $("btnText").value    || cfg.text;
-
-  refreshPreview();
+function loadSnippet() {
+  $('preview').innerHTML = $('raw').innerHTML;
   refreshExport();
-});
+}
 
-$("resetOne").addEventListener("click", () => {
-  cfg = JSON.parse(JSON.stringify(defaults));
-  loadControls();
-  refreshPreview();
+/* Apply edits to the <a> and the TD wrapper height */
+function applyEdits() {
+  const a = document.querySelector('#preview a[href]');
+  if (!a) return;
+
+  // Read controls
+  const text = $('btnText').value;
+  const href = $('href').value;
+  const bg = $('bg').value;
+  const fg = $('fg').value;
+  const fontFamily = $('fontFamily').value;
+  const fs = Number($('fs').value);
+  const lh = Number($('lh').value);
+  const w  = Number($('w').value);
+  const br = Number($('br').value);
+  const h  = Number($('heightPx').value);
+  const deco = $('underline').value;
+
+  // Apply to <a>
+  a.textContent = text || a.textContent;
+  if (href) a.setAttribute('href', href);
+  if (bg) a.style.backgroundColor = bg;
+  if (fg) a.style.color = fg;
+  if (fontFamily) a.style.fontFamily = fontFamily;
+  if (fs) a.style.fontSize = fs + 'px';
+  if (lh) a.style.lineHeight = lh + 'px';
+  if (w)  a.style.width = w + 'px';
+  if (br >= 0) a.style.borderRadius = br + 'px';
+  if (deco) a.style.textDecoration = deco;
+
+  // TD height wrapper (if present)
+  const td = a.closest('td');
+  if (td && h) td.setAttribute('height', String(h));
+
   refreshExport();
-});
+}
 
-$("copyHtml").addEventListener("click", async () => {
-  const txt = $("exportHtml").value;
-  try { await navigator.clipboard.writeText(txt); alert("HTML copied!"); }
-  catch (e) { $("exportHtml").select(); document.execCommand("copy"); alert("HTML copied (fallback)."); }
-});
-$("refreshHtml").addEventListener("click", refreshExport);
+/* Export helpers */
+function refreshExport(){ $('exportHtml').value = $('preview').innerHTML.trim(); }
+async function copyExport(){
+  const txt = $('exportHtml').value;
+  try { await navigator.clipboard.writeText(txt); alert('HTML copied!'); }
+  catch { $('exportHtml').select(); document.execCommand('copy'); alert('HTML copied (fallback).'); }
+}
 
-(function init(){
-  loadControls();
-  refreshPreview();
-  refreshExport();
-})();
+/* Reset */
+function resetAll(){
+  loadSnippet();
+  // Reset controls to the defaults that match the snippet
+  $('btnText').value = 'Donate Now';
+  $('href').value = 'https://secure.actblue.com/donate/example?refcode=emailonacid';
+  $('bg').value = '#2196F3';
+  $('fg').value = '#ffffff';
+  $('fontFamily').value = 'Arial, Helvetica, sans-serif';
+  $('fs').value = 18;
+  $('lh').value = 50;
+  $('w').value  = 300;
+  $('br').value = 7;
+  $('heightPx').value = 50;
+  $('underline').value = 'underline';
+}
+
+/* Wire up */
+document.getElementById('apply').addEventListener('click', applyEdits);
+document.getElementById('reset').addEventListener('click', resetAll);
+document.getElementById('refreshHtml').addEventListener('click', refreshExport);
+document.getElementById('copyHtml').addEventListener('click', copyExport);
+
+/* Init */
+loadSnippet();
 </script>
 </body>
 </html>
