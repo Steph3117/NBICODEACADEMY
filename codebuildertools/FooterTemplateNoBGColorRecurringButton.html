@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Email Template Customizer</title>
+<style>
+  :root{
+    --ink:#0f172a;--muted:#6b7280;--bg:#f6f7fb;--card:#ffffff;--brand:#25408F;
+    --br:16px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  header{padding:16px 20px;background:var(--brand);color:#fff}
+  header h1{margin:0;font-size:20px}
+  header p{margin:6px 0 0;opacity:.9;font-size:13px}
+  .wrap{display:grid;grid-template-columns:420px 1fr;gap:16px;padding:16px}
+  .panel{background:var(--card);border-radius:var(--br);box-shadow:0 8px 24px rgba(0,0,0,.08);padding:14px}
+  .panel h2{margin:0 0 8px;font-size:16px}
+  .panel h3{margin:16px 0 8px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .row-1{grid-template-columns:1fr}
+  label{display:block;font-size:12px;color:#444;margin:6px 0 2px}
+  input[type="text"], input[type="url"], input[type="number"], select, textarea{
+    width:100%;padding:8px;border:1px solid #e5e7eb;border-radius:10px;background:#fff;font:inherit
+  }
+  input[type="color"]{width:100%;height:36px;border:1px solid #e5e7eb;border-radius:10px;background:#fff}
+  textarea{min-height:70px;resize:vertical}
+  .checkline{display:flex;gap:10px;flex-wrap:wrap}
+  .checkline label{display:flex;align-items:center;gap:6px;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:999px;padding:6px 10px;margin:4px 0}
+  .preview{background:#fff;border-radius:var(--br);box-shadow:0 8px 24px rgba(0,0,0,.08);padding:0;overflow:hidden}
+  .toolbar{display:flex;gap:8px;padding:12px;border-bottom:1px solid #e5e7eb;background:#fafafa;align-items:center;flex-wrap:wrap}
+  .btn{border:1px solid #e5e7eb;background:#fff;border-radius:10px;padding:8px 10px;cursor:pointer;font:inherit}
+  .btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+  iframe{width:100%;height:80vh;border:0;background:#fff}
+  .small{font-size:12px;color:var(--muted)}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  .social-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:12px}
+</style>
+<link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+<header>
+  <h1>NBICodeAcademy</h1>
+  <p>by New Blue Interactive</p>
+  <nav>
+    <ul class="nav-tabs">
+      <li><a href="../index.html">Home</a></li>
+
+      <li class="dropdown">
+        <a href="../tools.html">NBI Email Tools ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="../EmailChecklist.html">Email Checklist</a></li>
+          <li><a href="../snippetlibrary.html">Snippet Library</a></li>
+          <li><a href="../codebuildertools/choosethetool.html">Email Link Library</a></li>
+          <li><a href="../codebuildertools/SocialIconsite/socialiconcolor.html">Social Icon Tool</a></li>
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a href="../trainings.html">Trainings ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="trainings.html#workshops">Workshops</a></li>
+          <li><a href="trainings.html#videos">Video Library</a></li>
+        </ul>
+      </li>
+
+      <li><a href="../docs.html">Documentation</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="panel" id="controls">
+    <h2>Controls</h2>
+
+    <h3>Sections</h3>
+    <div class="checkline">
+      <label><input type="checkbox" id="showSocials" checked> Social icons</label>
+      <label><input type="checkbox" id="showButtons" checked> Buttons</label>
+      <label><input type="checkbox" id="showRecurring" checked> Recurring button</label>
+      <label><input type="checkbox" id="showFooterBorder" checked> Footer “box” border</label>
+      <label><input type="checkbox" id="showHeadshot"> Headshot</label>
+      <label><input type="checkbox" id="showBio"> Bio</label>
+    </div>
+
+    <h3>Socials (choose + set links)</h3>
+    <div class="social-grid">
+      <div>
+        <label><input type="checkbox" class="socialToggle" data-social="bluesky" checked> Bluesky</label>
+        <label>Link <input type="url" class="socialHref" data-social="bluesky" placeholder="https://..."></label>
+        <label>Icon URL <input type="url" class="socialSrc" data-social="bluesky" placeholder="(optional, keep default)"></label>
+      </div>
+      <div>
+        <label><input type="checkbox" class="socialToggle" data-social="facebook" checked> Facebook</label>
+        <label>Link <input type="url" class="socialHref" data-social="facebook"></label>
+        <label>Icon URL <input type="url" class="socialSrc" data-social="facebook"></label>
+      </div>
+      <div>
+        <label><input type="checkbox" class="socialToggle" data-social="instagram" checked> Instagram</label>
+        <label>Link <input type="url" class="socialHref" data-social="instagram"></label>
+        <label>Icon URL <input type="url" class="socialSrc" data-social="instagram"></label>
+      </div>
+      <div>
+        <label><input type="checkbox" class="socialToggle" data-social="tiktok" checked> TikTok</label>
+        <label>Link <input type="url" class="socialHref" data-social="tiktok"></label>
+        <label>Icon URL <input type="url" class="socialSrc" data-social="tiktok"></label>
+      </div>
+      <div>
+        <label><input type="checkbox" class="socialToggle" data-social="x" checked> X</label>
+        <label>Link <input type="url" class="socialHref" data-social="x"></label>
+        <label>Icon URL <input type="url" class="socialSrc" data-social="x"></label>
+      </div>
+      <div>
+        <label><input type="checkbox" class="socialToggle" data-social="youtube" checked> YouTube</label>
+        <label>Link <input type="url" class="socialHref" data-social="youtube"></label>
+        <label>Icon URL <input type="url" class="socialSrc" data-social="youtube"></label>
+      </div>
+    </div>
+    <p class="small">Icons are auto-wrapped in links using the URLs you provide.</p>
+
+    <h3>Buttons (global style)</h3>
+    <div class="row">
+      <div><label>Fill <input type="color" id="btnBg" value="#25408F"></label></div>
+      <div><label>Text color <input type="color" id="btnColor" value="#ffffff"></label></div>
+      <div><label>Border color <input type="color" id="btnBorder" value="#ffffff"></label></div>
+      <div><label>Font family <input type="text" id="btnFont" placeholder="Helvetica, Arial, sans-serif"></label></div>
+      <div><label>Font size (px) <input type="number" id="btnSize" min="10" max="32" value="18"></label></div>
+      <div><label>Underline
+        <select id="btnUnderline">
+          <option value="underline" selected>Underline</option>
+          <option value="none">None</option>
+        </select></label>
+      </div>
+    </div>
+
+    <div class="grid-3" style="margin-top:6px">
+      <div>
+        <label>Button 1 Text <input type="text" id="b1Text" value="DONATE NOW"></label>
+        <label>Button 1 Link <input type="url" id="b1Href" value="https://www.newblueinteractive.com"></label>
+      </div>
+      <div>
+        <label>Button 2 Text <input type="text" id="b2Text" value="VOLUNTEER"></label>
+        <label>Button 2 Link <input type="url" id="b2Href" value="https://www.newblueinteractive.com"></label>
+      </div>
+      <div>
+        <label>Recurring Text <input type="text" id="b3Text" value="CONTRIBUTE MONTHLY"></label>
+        <label>Recurring Link <input type="url" id="b3Href" value="https://www.newblueinteractive.com"></label>
+      </div>
+    </div>
+
+    <h3>Headshot & Bio (optional)</h3>
+    <div class="row">
+      <div><label>Headshot URL <input type="url" id="headshotSrc" placeholder="https://…/headshot.jpg"></label></div>
+      <div><label>Headshot Link <input type="url" id="headshotHref" placeholder="https://…"></label></div>
+      <div><label>Headshot Width (px) <input type="number" id="headshotW" value="120"></label></div>
+      <div><label>Bio Font Size (px) <input type="number" id="bioSize" value="14"></label></div>
+    </div>
+    <label>Bio HTML/Text
+      <textarea id="bioHtml" placeholder="Short biography or sign-off…"></textarea>
+    </label>
+
+    <h3>Footer</h3>
+    <div class="row">
+      <div><label>Footer text color <input type="color" id="footerColor" value="#000000"></label></div>
+      <div><label>Footer background <input type="color" id="footerBg" value="#ffffff"></label></div>
+      <div><label>Box border color <input type="color" id="footerBorderColor" value="#000000"></label></div>
+      <div><label>Box border width (px) <input type="number" id="footerBorderWidth" value="1" min="0"></label></div>
+      <div><label>Footer font family <input type="text" id="footerFont" placeholder="Helvetica, Arial, sans-serif"></label></div>
+      <div><label>Footer font size (px) <input type="number" id="footerSize" value="12"></label></div>
+    </div>
+    <label>“Paid for by …” line
+      <input type="text" id="paidForText" value="PAID FOR BY YOUR CAMPAIGN">
+    </label>
+    <label>Address line
+      <input type="text" id="addressText" value="New Blue Interactive | PO Box 669 | Glen Cove, NY 11542">
+    </label>
+    <div class="grid-3">
+      <div>
+        <label>Fewer Emails (text) <input type="text" id="fewerText" value="Fewer Emails"></label>
+        <label>Fewer Emails (link) <input type="url" id="fewerHref" value="https://www.newblueinteractive.com"></label>
+      </div>
+      <div>
+        <label>Donate (text) <input type="text" id="donateText" value="Donate"></label>
+        <label>Donate (link) <input type="url" id="donateHref" value="https://www.newblueinteractive.com"></label>
+      </div>
+      <div>
+        <label>Unsubscribe (text) <input type="text" id="unsubText" value="Unsubscribe"></label>
+        <label>Unsubscribe (link) <input type="url" id="unsubHref" value="https://www.newblueinteractive.com"></label>
+      </div>
+    </div>
+  </div>
+
+  <div class="preview">
+    <div class="toolbar">
+      <button class="btn primary" id="apply">Apply settings</button>
+      <button class="btn" id="copyHtml">Copy HTML</button>
+      <span class="small">The preview is a live clone of your <code class="mono">&lt;template&gt;</code>. Exported code reflects your toggles & changes.</span>
+    </div>
+    <iframe id="preview"></iframe>
+  </div>
+</div>
+
+<!-- ====== YOUR ORIGINAL EMAIL CODE LIVES HERE, UNCHANGED ====== -->
+<template id="email-template">
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Email Template</title>
+</head>
+<body data-gr-ext-installed="" data-new-gr-c-s-check-loaded="14.1253.0" data-new-gr-c-s-loaded="14.1253.0" style="margin:0; padding:0; background-color:#ffffff;">
+<hr style="max-width: 750px;" />&nbsp;
+<center><!-- SOCIAL ICONS -->
+<table border="0" cellpadding="0" cellspacing="0" data-part="socials">
+  <tbody>
+    <tr>
+      <td data-social="bluesky"><img alt="bluesky" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/Bluesky%20Circle_2.png" style="display: block;" width="50" /></td>
+      <td data-social="facebook"><img alt="facebook" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/Facebook%20Circle_2.png" style="display: block;" width="50" /></td>
+      <td data-social="instagram"><img alt="instagram" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/Instagram%20Circle_2.png" style="display: block;" width="50" /></td>
+      <td data-social="tiktok"><img alt="tiktok" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/TikTok%20Circle_2.png" style="display: block;" width="50" /></td>
+      <td data-social="x"><img alt="x" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/X%20Circle_3.png" style="display: block;" width="50" /></td>
+      <td data-social="youtube"><img alt="youtube" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/YouTube%20Circle_2.png" style="display: block;" width="50" /></td>
+    </tr>
+  </tbody>
+</table>
+</center>
+&nbsp;
+
+<center>
+<table align="center" border="0" cellpadding="0" cellspacing="0" data-part="buttons">
+  <tbody>
+    <tr>
+      <td align="center" bgcolor="#ffffff" style="padding: 15px;">
+      <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+        <tbody>
+          <tr>
+            <td align="center" style="padding-bottom: 15px;">
+            <div><!--[if mso]>
+                    <v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.newblueinteractive.com" style="height:60px;v-text-anchor:middle;width:280px;" stroke="f" fillcolor="#25408F">
+                      <w:anchorlock/>
+                      <center style="color:#ffffff; font-family:Helvetica, Arial, sans-serif; font-size:18px; font-weight:bold;">
+                        DONATE NOW
+                      </center>
+                    </v:rect>
+                  <![endif]--><!--[if !mso]><!-- --><a data-btn="1" href="https://www.newblueinteractive.com" style="background-color:#25408F;color:#ffffff;display:block;border:2px solid white; font-size:18px;line-height:50px;text-align:center;font-weight:bold;text-decoration:underline;width:280px;-webkit-text-size-adjust:none; letter-spacing: 0.05em;" target="_blank">DONATE NOW </a> <!--<![endif]--></div>
+            </td>
+          </tr>
+          <tr>
+            <td align="center" style="padding-bottom: 15px;">
+            <div><!--[if mso]>
+                    <v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.newblueinteractive.com" style="height:60px;v-text-anchor:middle;width:280px;" stroke="f" fillcolor="#25408F">
+                      <w:anchorlock/>
+                      <center style="color:#ffffff; font-family:Helvetica, Arial, sans-serif; font-size:18px; font-weight:bold;">
+                        VOLUNTEER
+                      </center>
+                    </v:rect>
+                  <![endif]--><!--[if !mso]><!-- --><a data-btn="2" href="https://www.newblueinteractive.com" style="background-color:#25408F;color:#ffffff;display:block;border:2px solid white; font-size:18px;line-height:50px;text-align:center;font-weight:bold;text-decoration:underline;width:280px;-webkit-text-size-adjust:none; letter-spacing: 0.05em;" target="_blank">VOLUNTEER </a> <!--<![endif]--></div>
+            </td>
+          </tr>
+          <tr data-recurring-row>
+            <td align="center">
+            <div><!--[if mso]>
+                    <v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.newblueinteractive.com" style="height:60px;v-text-anchor:middle;width:280px;" stroke="f" fillcolor="#25408F">
+                      <w:anchorlock/>
+                      <center style="color:#ffffff; font-family:Helvetica, Arial, sans-serif; font-size:18px; font-weight:bold;">
+                        CONTRIBUTE MONTHLY
+                      </center>
+                    </v:rect>
+                  <![endif]--><!--[if !mso]><!-- --><a data-btn="3" href="https://www.newblueinteractive.com" style="background-color:#25408F;color:#ffffff;display:block;border:2px solid white; font-size:18px;line-height:50px;text-align:center;font-weight:bold;text-decoration:underline;width:280px;-webkit-text-size-adjust:none; letter-spacing: 0.05em;" target="_blank">CONTRIBUTE MONTHLY </a> <!--<![endif]--></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</center>
+&nbsp;
+
+<center><!-- FOOTER COPY -->
+<table align="center" cellpadding="8" cellspacing="0" style="border: 1px solid black; text-align: center; max-width: 360px; font-family: Helvetica, Arial, sans-serif; font-size: 12px; line-height: 1.2em;" width="100%" data-part="footerBox">
+  <tbody>
+    <tr>
+      <td data-paidfor>PAID FOR BY YOUR CAMPAIGN</td>
+    </tr>
+  </tbody>
+</table>
+
+<table align="center" border="0" cellpadding="0" cellspacing="0" class="responsive-table" style="max-width: 750px; font-family: Helvetica, Arial, sans-serif; font-size:12px; color: black;" width="100%" data-part="footer">
+  <tbody>
+    <tr>
+      <td align="center" style="padding-top:10px;" data-address>New Blue Interactive | PO Box 669 | Glen Cove, NY 11542</td>
+    </tr>
+    <tr>
+      <td align="center" style="padding-top:10px; padding-bottom:20px;">
+        <a data-footer-link="fewer" href="https://www.newblueinteractive.com" style="color: black; text-decoration: underline; font-weight: normal;" target="_blank">Fewer Emails</a> |
+        <a data-footer-link="donate" href="https://www.newblueinteractive.com" style="color: black; text-decoration: underline; font-weight: normal;" target="_blank">Donate</a>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" style="padding-top:10px; padding-bottom:20px;">
+        <a data-footer-link="unsub" href="https://www.newblueinteractive.com" style="color: black; text-decoration: underline; font-weight: normal;" target="_blank">Unsubscribe</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</center>
+<grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></body>
+</html>
+</template>
+
+<script>
+(function(){
+  const iframe = document.getElementById('preview');
+  const tpl = document.getElementById('email-template');
+
+  // Seed the preview with a fresh clone of your template
+  function resetPreview(){
+    const doc = iframe.contentDocument;
+    doc.open();
+    doc.write(tpl.innerHTML); // keep original exactly as-is
+    doc.close();
+  }
+
+  // Utility: set style if value present
+  const setStyle = (el, prop, val) => { if(el && val!=='' && val!=null){ el.style[prop] = val } };
+
+  // Apply current control values to the preview DOM
+  function apply(){
+    const doc = iframe.contentDocument;
+
+    // --- Sections toggles
+    const socialsTable = doc.querySelector('[data-part="socials"]')?.closest('center') || doc.querySelector('[data-part="socials"]');
+    const buttonsTable = doc.querySelector('[data-part="buttons"]')?.closest('center') || doc.querySelector('[data-part="buttons"]');
+    const footerBoxTable = doc.querySelector('[data-part="footerBox"]');
+    const footerTable = doc.querySelector('[data-part="footer"]');
+
+    const showSocials = document.getElementById('showSocials').checked;
+    const showButtons = document.getElementById('showButtons').checked;
+    const showRecurring = document.getElementById('showRecurring').checked;
+    const showFooterBorder = document.getElementById('showFooterBorder').checked;
+    const showHeadshot = document.getElementById('showHeadshot').checked;
+    const showBio = document.getElementById('showBio').checked;
+
+    if (socialsTable) socialsTable.style.display = showSocials ? '' : 'none';
+    if (buttonsTable) buttonsTable.style.display = showButtons ? '' : 'none';
+    const recurringRow = doc.querySelector('[data-recurring-row]');
+    if (recurringRow) recurringRow.style.display = (showButtons && showRecurring) ? '' : 'none';
+
+    // --- Socials which/links/icons
+    if (showSocials) {
+      const toggles = [...document.querySelectorAll('.socialToggle')];
+      const hrefs = Object.fromEntries([...document.querySelectorAll('.socialHref')].map(i=>[i.dataset.social, i.value.trim()]));
+      const srcs  = Object.fromEntries([...document.querySelectorAll('.socialSrc')].map(i=>[i.dataset.social, i.value.trim()]));
+      toggles.forEach(t=>{
+        const key = t.dataset.social;
+        const td = doc.querySelector(`[data-social="${key}"]`);
+        if (!td) return;
+        td.style.display = t.checked ? '' : 'none';
+
+        const img = td.querySelector('img');
+        if (img && srcs[key]) img.setAttribute('src', srcs[key]);
+
+        // Wrap in anchor if link provided
+        const link = hrefs[key];
+        if (img && link) {
+          if (td.querySelector('a')) {
+            td.querySelector('a').setAttribute('href', link);
+          } else {
+            const a = doc.createElement('a');
+            a.href = link; a.target = '_blank'; a.style.display='inline-block';
+            td.replaceChildren(a);
+            a.appendChild(img);
+          }
+        }
+      });
+    }
+
+    // --- Button global style + per-button text/links (non-MSO)
+    const btnBg = document.getElementById('btnBg').value;
+    const btnColor = document.getElementById('btnColor').value;
+    const btnBorder = document.getElementById('btnBorder').value;
+    const btnFont = document.getElementById('btnFont').value.trim();
+    const btnSize = document.getElementById('btnSize').value;
+    const btnUnderline = document.getElementById('btnUnderline').value;
+
+    const btns = [...doc.querySelectorAll('a[data-btn]')];
+    btns.forEach(a=>{
+      setStyle(a,'backgroundColor',btnBg);
+      setStyle(a,'color',btnColor);
+      a.style.borderColor = btnBorder || a.style.borderColor;
+      if (btnFont) a.style.fontFamily = btnFont;
+      if (btnSize) a.style.fontSize = `${btnSize}px`;
+      a.style.textDecoration = btnUnderline;
+    });
+
+    // Button text/links
+    const map = {
+      1: { text: document.getElementById('b1Text').value, href: document.getElementById('b1Href').value },
+      2: { text: document.getElementById('b2Text').value, href: document.getElementById('b2Href').value },
+      3: { text: document.getElementById('b3Text').value, href: document.getElementById('b3Href').value },
+    };
+    btns.forEach(a=>{
+      const i = a.getAttribute('data-btn');
+      if (map[i]) {
+        a.textContent = map[i].text + ' ';
+        if (map[i].href) a.setAttribute('href', map[i].href);
+      }
+    });
+
+    // --- Headshot + Bio injection (keeps original code intact)
+    const anchorBeforeButtons = buttonsTable?.previousElementSibling || doc.body.firstElementChild;
+    let headshotBlock = doc.querySelector('[data-injected="headshot"]');
+    if (showHeadshot || showBio) {
+      if (!headshotBlock) {
+        headshotBlock = doc.createElement('center');
+        headshotBlock.setAttribute('data-injected','headshot');
+        headshotBlock.innerHTML = `
+          <table border="0" cellpadding="0" cellspacing="0" style="margin:0 auto; max-width:750px;">
+            <tbody>
+              <tr>
+                <td align="center" style="padding:10px;">
+                  <div data-hs-wrap style="text-align:center;"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        `;
+        // Insert just before buttons area
+        (buttonsTable?.parentElement || doc.body).insertBefore(headshotBlock, buttonsTable);
+      }
+      const wrap = headshotBlock.querySelector('[data-hs-wrap]');
+      wrap.innerHTML = '';
+      // Headshot
+      if (showHeadshot) {
+        const src = document.getElementById('headshotSrc').value.trim();
+        const href = document.getElementById('headshotHref').value.trim();
+        const w = parseInt(document.getElementById('headshotW').value,10)||120;
+        if (src) {
+          const img = doc.createElement('img');
+          img.setAttribute('src', src);
+          img.setAttribute('width', String(w));
+          img.setAttribute('style','display:block;border:0;');
+          if (href) {
+            const a = doc.createElement('a');
+            a.href = href; a.target = '_blank'; a.style.display='inline-block';
+            a.appendChild(img);
+            wrap.appendChild(a);
+          } else {
+            wrap.appendChild(img);
+          }
+        }
+      }
+      // Bio
+      if (showBio) {
+        const bio = document.getElementById('bioHtml').value;
+        const bioSize = parseInt(document.getElementById('bioSize').value,10)||14;
+        const bioDiv = doc.createElement('div');
+        bioDiv.setAttribute('style', `font-family: Helvetica, Arial, sans-serif; font-size:${bioSize}px; line-height:1.4; margin-top:10px; max-width:650px; text-align:left;`);
+        bioDiv.innerHTML = bio || '';
+        wrap.appendChild(bioDiv);
+      }
+      headshotBlock.style.display = '';
+    } else if (headshotBlock) {
+      headshotBlock.style.display = 'none';
+    }
+
+    // --- Footer styles + text + links
+    const footerFont = document.getElementById('footerFont').value.trim();
+    const footerSize = document.getElementById('footerSize').value;
+    const footerColor = document.getElementById('footerColor').value;
+    const footerBg = document.getElementById('footerBg').value;
+    const footerBorderColor = document.getElementById('footerBorderColor').value;
+    const footerBorderWidth = Number(document.getElementById('footerBorderWidth').value || 0);
+
+    const paidForTd = doc.querySelector('[data-paidfor]');
+    const addressTd = doc.querySelector('[data-address]');
+    const fewerA = doc.querySelector('a[data-footer-link="fewer"]');
+    const donateA = doc.querySelector('a[data-footer-link="donate"]');
+    const unsubA = doc.querySelector('a[data-footer-link="unsub"]');
+
+    // Footer box (border + colors)
+    if (footerBoxTable) {
+      footerBoxTable.style.backgroundColor = footerBg || footerBoxTable.style.backgroundColor;
+      const borderVal = showFooterBorder ? `${footerBorderWidth||1}px solid ${footerBorderColor||'#000'}` : 'none';
+      footerBoxTable.style.border = borderVal;
+      // Font family/size/color for the box
+      if (footerFont) footerBoxTable.style.fontFamily = footerFont;
+      if (footerSize) footerBoxTable.style.fontSize = `${footerSize}px`;
+      footerBoxTable.style.color = footerColor || footerBoxTable.style.color;
+    }
+
+    // Footer text block (address + links)
+    if (footerTable) {
+      if (footerFont) footerTable.style.fontFamily = footerFont;
+      if (footerSize) footerTable.style.fontSize = `${footerSize}px`;
+      footerTable.style.color = footerColor || footerTable.style.color;
+      // Also tint the <a> to match chosen color unless user overrides with inline later
+      footerTable.querySelectorAll('a').forEach(a=>{
+        a.style.color = footerColor || a.style.color;
+      });
+    }
+
+    // Footer copy
+    const paidForText = document.getElementById('paidForText').value;
+    const addressText = document.getElementById('addressText').value;
+    if (paidForTd) paidForTd.textContent = paidForText;
+    if (addressTd) addressTd.textContent = addressText;
+
+    // Footer links (text + href)
+    const fewerText = document.getElementById('fewerText').value;
+    const fewerHref = document.getElementById('fewerHref').value;
+    const donateText = document.getElementById('donateText').value;
+    const donateHref = document.getElementById('donateHref').value;
+    const unsubText = document.getElementById('unsubText').value;
+    const unsubHref = document.getElementById('unsubHref').value;
+
+    if (fewerA){ fewerA.textContent = fewerText; if (fewerHref) fewerA.href = fewerHref; }
+    if (donateA){ donateA.textContent = donateText; if (donateHref) donateA.href = donateHref; }
+    if (unsubA){ unsubA.textContent = unsubText; if (unsubHref) unsubA.href = unsubHref; }
+  }
+
+  // Export: return the preview document’s full HTML
+  function getCompiledHtml(){
+    const doc = iframe.contentDocument;
+    // Serialize entire document (preserves your VML/MSO and inlined styles)
+    const doctype = '<!DOCTYPE html>\n';
+    return doctype + doc.documentElement.outerHTML;
+  }
+
+  // Wire up UI
+  document.getElementById('apply').addEventListener('click', apply);
+  document.getElementById('copyHtml').addEventListener('click', async ()=>{
+    const html = getCompiledHtml();
+    try {
+      await navigator.clipboard.writeText(html);
+      alert('Compiled HTML copied to clipboard!');
+    } catch {
+      // Fallback: download
+      const blob = new Blob([html], {type:'text/html'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'compiled-email.html';
+      a.click();
+    }
+  });
+
+  // Live-ish: auto-apply on change for most controls (can be toggled off if you prefer)
+  document.getElementById('controls').addEventListener('input', e=>{
+    if (e.target.closest('.panel')) apply();
+  });
+
+  // Init
+  resetPreview();
+  apply();
+})();
+</script>
+</body>
+</html>
