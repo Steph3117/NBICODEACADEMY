@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Email Template Arranger — <template> version</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root{ --ink:#0f172a; --muted:#6b7280; --bg:#f7f7fb; --card:#ffffff; --brand:#25408F; --ring:#cbd5e1; }
+  *{ box-sizing:border-box }
+  body{ margin:0; background:var(--bg); color:var(--ink); font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; }
+  header{ padding:14px 18px; background:var(--brand); color:#fff; }
+  header h1{ margin:0; font-size:18px; }
+  header p{ margin:4px 0 0; opacity:.9; font-size:13px; }
+  .wrap{ display:grid; grid-template-columns: 420px 1fr; gap:16px; padding:16px; }
+  .panel{ background:var(--card); border:1px solid var(--ring); border-radius:12px; padding:14px; }
+  .panel h2{ margin:0 0 10px; font-size:16px; }
+  .panel h3{ margin:14px 0 8px; font-size:14px; color:#111827; }
+  .row{ display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:8px; }
+  .row-1{ margin-bottom:10px; }
+  label{ font-size:12px; color:#334155; display:block; margin-bottom:4px; }
+  input[type="text"], input[type="number"], input[type="color"], select, textarea{
+    width:100%; padding:8px; border:1px solid var(--ring); border-radius:8px; background:#fff; font:inherit;
+  }
+  input[type="checkbox"]{ transform: translateY(1px); }
+  .controls{ display:flex; gap:8px; flex-wrap:wrap; }
+  button{ border:1px solid var(--ring); background:#fff; border-radius:10px; padding:8px 10px; cursor:pointer; font:inherit; }
+  button.primary{ background:#111827; color:#fff; border-color:#111827; }
+  .reorder-list{ display:flex; flex-direction:column; gap:6px; }
+  .chip{ display:flex; align-items:center; justify-content:space-between; gap:8px; border:1px dashed var(--ring); border-radius:10px; padding:8px 10px; background:#fafafa; font-size:13px; }
+  .chip .actions{ display:flex; gap:6px; }
+  .hint{ font-size:12px; color:var(--muted); }
+  .previewBox{ background:#fff; border:1px solid var(--ring); border-radius:12px; padding:12px; height:calc(100vh - 160px); overflow:auto; }
+  .codeBox{ height:calc(100vh - 160px); }
+  .codeBox textarea{ width:100%; height:100%; resize:none; border:1px solid var(--ring); border-radius:12px; background:#0b1020; color:#e5e7eb; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; padding:12px; }
+</style>
+<link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+<header>
+  <h1>NBICodeAcademy</h1>
+  <p>by New Blue Interactive</p>
+  <nav>
+    <ul class="nav-tabs">
+      <li><a href="../index.html">Home</a></li>
+
+      <li class="dropdown">
+        <a href="../tools.html">NBI Email Tools ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="../EmailChecklist.html">Email Checklist</a></li>
+          <li><a href="../snippetlibrary.html">Snippet Library</a></li>
+          <li><a href="../codebuildertools/choosethetool.html">Email Link Library</a></li>
+          <li><a href="../codebuildertools/SocialIconsite/socialiconcolor.html">Social Icon Tool</a></li>
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a href="../trainings.html">Trainings ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="trainings.html#workshops">Workshops</a></li>
+          <li><a href="trainings.html#videos">Video Library</a></li>
+        </ul>
+      </li>
+
+      <li><a href="../docs.html">Documentation</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+<!-- Your email HTML lives here (exact snippet) -->
+<template id="emailTpl">
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Email</title>
+	<meta charset="UTF-8">
+	<style type="text/css">table, td {
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+    }
+    img {
+      border: 0;
+      outline: none;
+      text-decoration: none;
+      -ms-interpolation-mode: bicubic;
+    }
+	</style>
+</head>
+<body data-gr-ext-installed="" data-new-gr-c-s-check-loaded="14.1253.0" data-new-gr-c-s-loaded="14.1253.0" style="margin:0; padding:0; background-color:#ffffff;">
+<hr style="max-width: 750px;" />&nbsp;
+<center><!-- SOCIAL ICONS -->
+<table border="0" cellpadding="0" cellspacing="0">
+	<tbody>
+		<tr>
+			<td><img alt="bluesky" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/Bluesky%20Circle_2.png" style="display: block;" width="50" /></td>
+			<td><img alt="facebook" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/Facebook%20Circle_2.png" style="display: block;" width="50" /></td>
+			<td><img alt="instagram" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/Instagram%20Circle_2.png" style="display: block;" width="50" /></td>
+			<td><img alt="tiktok" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/TikTok%20Circle_2.png" style="display: block;" width="50" /></td>
+			<td><img alt="x" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/X%20Circle_3.png" style="display: block;" width="50" /></td>
+			<td><img alt="youtube" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/YouTube%20Circle_2.png" style="display: block;" width="50" /></td>
+		</tr>
+	</tbody>
+</table>
+<br />
+<!-- NBI LOGO AND BLUE BOX -->
+<table align="center" border="0" cellpadding="0" cellspacing="0" style="border: 5px solid yellow; background-color: #25408F;" width="550">
+	<tbody>
+		<tr>
+			<td align="center" style="padding: 10px;"><!-- NBI LOGO -->
+			<table border="0" cellpadding="0" cellspacing="0" width="100%">
+				<tbody>
+					<tr>
+						<td align="center" style="padding-bottom: 10px;"><img alt="nbi icon" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/NBI%20Social%20Avi.png" style="display:block; width:100px; height:auto;" width="100" /></td>
+					</tr>
+				</tbody>
+			</table>
+			<!-- TEXT -->
+
+			<table border="0" cellpadding="0" cellspacing="0" width="500">
+				<tbody>
+					<tr>
+						<td align="center" style="font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #ffffff; line-height: 1.4;">We believe that progress doesn’t happen on its own. Success takes hard work and it takes good people to make it happen. You are one of those people and we are here to collaborate with you.</td>
+					</tr>
+				</tbody>
+			</table>
+			<!-- BUTTONS -->
+
+			<table align="center" border="0" cellpadding="0" cellspacing="0" style="margin-top: 15px;">
+				<tbody>
+					<tr>
+						<td align="center" style="padding: 10px 0;"><!--[if mso]>
+            <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml"
+              xmlns:w="urn:schemas-microsoft-com:office:word"
+              href="https://www.newblueinteractive.com"
+              style="height:50px;v-text-anchor:middle;width:200px;" arcsize="10%"
+              strokecolor="#ffffff" fillcolor="#ffffff">
+              <w:anchorlock/>
+              <center style="color:#25408F; font-family: Arial, sans-serif; font-size:18px; font-weight:bold;">
+                DONATE NOW
+              </center>
+            </v:roundrect>
+            <![endif]--><!--[if !mso]><!-- --><a href="https://www.newblueinteractive.com" style="background-color:#ffffff; color:#25408F;
+                     font-family: Arial, sans-serif; font-size:18px;
+                     font-weight:bold; line-height:50px; text-align:center;
+                     text-decoration:none; display:inline-block; width:200px;
+                     border-radius:5px; -webkit-text-size-adjust:none; letter-spacing: 0.05em;" target="_blank">DONATE NOW </a> <!--<![endif]--></td>
+					</tr>
+					<tr>
+						<td align="center" style="padding: 10px 0;"><!--[if mso]>
+            <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml"
+              xmlns:w="urn:schemas-microsoft-com:office:word"
+              href="https://www.newblueinteractive.com"
+              style="height:50px;v-text-anchor:middle;width:200px;" arcsize="10%"
+              strokecolor="#ffffff" fillcolor="#ffffff">
+              <w:anchorlock/>
+              <center style="color:#25408F; font-family: Arial, sans-serif; font-size:18px; font-weight:bold;">
+                VOLUNTEER
+              </center>
+            </v:roundrect>
+            <![endif]--><!--[if !mso]><!-- --><a href="https://www.newblueinteractive.com" style="background-color:#ffffff; color:#25408F;
+                     font-family: Arial, sans-serif; font-size:18px;
+                     font-weight:bold; line-height:50px; text-align:center;
+                     text-decoration:none; display:inline-block; width:200px;
+                     border-radius:5px; -webkit-text-size-adjust:none; letter-spacing: 0.05em;" target="_blank">VOLUNTEER </a> <!--<![endif]--></td>
+					</tr>
+				</tbody>
+			</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</center>
+&nbsp;
+
+<table align="center" cellpadding="8" cellspacing="0" style="border: 1px solid black; text-align: center; max-width: 360px; font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: black; line-height: 1.2em;" width="100%">
+	<tbody>
+		<tr>
+			<td>PAID FOR BY YOUR CAMPAIGN</td>
+		</tr>
+	</tbody>
+</table>
+
+<table align="center" border="0" cellpadding="0" cellspacing="0" class="responsive-table" style="max-width: 750px; font-family: Helvetica, Arial, sans-serif; font-size:12px; color: black;" width="100%">
+	<tbody>
+		<tr>
+			<td align="center" style="padding-top:10px;">New Blue Interactive | PO Box 669 | Glen Cove, NY 11542</td>
+		</tr>
+		<tr>
+			<td align="center" style="padding-top:10px; padding-bottom:20px;"><a href="https://www.newblueinteractive.com" style="color: black; text-decoration: underline; font-weight: normal;" target="_blank">Fewer Emails</a> | <a href="https://www.newblueinteractive.com" style="color: black; text-decoration: underline; font-weight: normal;" target="_blank">Donate</a></td>
+		</tr>
+		<tr>
+			<td align="center" style="padding-top:10px; padding-bottom:20px;"><a href="https://www.newblueinteractive.com" style="color: black; text-decoration: underline; font-weight: normal;" target="_blank">Unsubscribe</a></td>
+		</tr>
+	</tbody>
+</table>
+</body>
+</html>
+</template>
+
+<div class="wrap">
+  <!-- LEFT: Controls -->
+  <div class="panel">
+    <h2>1) Load HTML from &lt;template&gt;</h2>
+    <div class="controls">
+      <button class="primary" id="loadBtn">Load → Preview</button>
+      <button id="resetBtn" title="Reload original template">Reset</button>
+    </div>
+
+    <h2>2) Reorder blocks</h2>
+    <p class="hint">Only moves existing blocks in your HTML.</p>
+
+    <h3>Main order</h3>
+    <div class="reorder-list" id="mainOrder"></div>
+
+    <h3>Inside the blue box</h3>
+    <div class="reorder-list" id="boxOrder"></div>
+
+    <h3>Buttons order</h3>
+    <div class="reorder-list" id="btnOrder"></div>
+
+    <h2>3) Style edits</h2>
+    <h3>Colors</h3>
+    <div class="row">
+      <div><label>Body background</label><input type="color" id="bodyBg" value="#ffffff" /></div>
+      <div><label>Footer text/link</label><input type="color" id="footerText" value="#000000" /></div>
+    </div>
+    <div class="row">
+      <div><label>Blue box background</label><input type="color" id="boxBg" value="#25408F" /></div>
+      <div><label>Blue box border</label><input type="color" id="boxBorder" value="#ffff00" /></div>
+    </div>
+    <div class="row">
+      <div><label>Button background</label><input type="color" id="btnBg" value="#ffffff" /></div>
+      <div><label>Button text color</label><input type="color" id="btnText" value="#25408F" /></div>
+    </div>
+    <div class="row">
+      <div><label>Links color</label><input type="color" id="linkColor" value="#000000" /></div>
+      <div style="display:flex; align-items:center; gap:8px; margin-top:22px;">
+        <input type="checkbox" id="applyAllLinks" checked /><label for="applyAllLinks" style="margin:0;">Apply to all links</label>
+      </div>
+    </div>
+
+    <h3>Sizes & fonts</h3>
+    <div class="row">
+      <div><label>Blue box width (px)</label><input type="number" id="boxWidth" min="300" max="800" step="10" value="550" /></div>
+      <div><label>Button width (px)</label><input type="number" id="btnWidth" min="120" max="400" step="10" value="200" /></div>
+    </div>
+    <div class="row">
+      <div><label>Button height (px)</label><input type="number" id="btnHeight" min="30" max="80" step="2" value="50" /></div>
+      <div><label>Button radius (px)</label><input type="number" id="btnRadius" min="0" max="30" step="1" value="5" /></div>
+    </div>
+    <div class="row">
+      <div><label>Base font family</label><input type="text" id="fontFamily" value="Helvetica, Arial, sans-serif" /></div>
+      <div><label>Base font size (px)</label><input type="number" id="fontSize" min="10" max="20" step="1" value="14" /></div>
+    </div>
+
+    <h3>Visibility toggles</h3>
+    <div class="row">
+      <div style="display:flex; align-items:center; gap:8px;"><input type="checkbox" id="showSocial" checked /><label for="showSocial" style="margin:0;">Show social icons</label></div>
+      <div style="display:flex; align-items:center; gap:8px;"><input type="checkbox" id="showHeadshot" checked /><label for="showHeadshot" style="margin:0;">Show headshot/logo</label></div>
+    </div>
+    <div class="row">
+      <div style="display:flex; align-items:center; gap:8px;"><input type="checkbox" id="showBio" checked /><label for="showBio" style="margin:0;">Show bio text</label></div>
+      <div style="display:flex; align-items:center; gap:8px;"><input type="checkbox" id="showButtons" checked /><label for="showButtons" style="margin:0;">Show buttons block</label></div>
+    </div>
+    <div class="row">
+      <div style="display:flex; align-items:center; gap:8px;"><input type="checkbox" id="showRecurring" checked /><label for="showRecurring" style="margin:0;">Show “recurring” button (if present)</label></div>
+    </div>
+
+    <div class="controls" style="margin-top:10px">
+      <button class="primary" id="applyBtn">Apply Changes</button>
+      <button id="copyBtn">Copy HTML</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: Preview + Code -->
+  <div class="panel">
+    <h2>Preview</h2>
+    <div id="previewHost" class="previewBox"></div>
+  </div>
+
+  <div class="panel codeBox">
+    <h2>Code</h2>
+    <textarea id="out" spellcheck="false"></textarea>
+  </div>
+</div>
+
+<script>
+/* ========== State & Elements ========== */
+const tpl = document.getElementById('emailTpl');
+const previewHost = document.getElementById('previewHost');
+const outTA = document.getElementById('out');
+
+const loadBtn = document.getElementById('loadBtn');
+const resetBtn = document.getElementById('resetBtn');
+const applyBtn = document.getElementById('applyBtn');
+const copyBtn = document.getElementById('copyBtn');
+
+const mainOrder = document.getElementById('mainOrder');
+const boxOrder  = document.getElementById('boxOrder');
+const btnOrder  = document.getElementById('btnOrder');
+
+const bodyBg = document.getElementById('bodyBg');
+const footerText = document.getElementById('footerText');
+const boxBg = document.getElementById('boxBg');
+const boxBorder = document.getElementById('boxBorder');
+const btnBg = document.getElementById('btnBg');
+const btnText = document.getElementById('btnText');
+const linkColor = document.getElementById('linkColor');
+const applyAllLinks = document.getElementById('applyAllLinks');
+
+const boxWidth = document.getElementById('boxWidth');
+const btnWidth = document.getElementById('btnWidth');
+const btnHeight = document.getElementById('btnHeight');
+const btnRadius = document.getElementById('btnRadius');
+const fontFamily = document.getElementById('fontFamily');
+const fontSize = document.getElementById('fontSize');
+
+const showSocial = document.getElementById('showSocial');
+const showHeadshot = document.getElementById('showHeadshot');
+const showBio = document.getElementById('showBio');
+const showButtons = document.getElementById('showButtons');
+const showRecurring = document.getElementById('showRecurring');
+
+let workDoc = null; // detached HTMLDocument we manipulate
+
+/* ========== Helpers ========== */
+function parseFromTemplate(){
+  const html = tpl.innerHTML;
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  return doc;
+}
+function serializeDoc(doc){
+  return '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
+}
+function refreshPreviewAndCode(){
+  previewHost.innerHTML = ''; // wipe
+  // Render only the email's <body> content for preview
+  const container = document.createElement('div');
+  container.innerHTML = workDoc.body.outerHTML;
+  previewHost.appendChild(container);
+  outTA.value = serializeDoc(workDoc);
+}
+
+/* Robust-ish block location using your structure */
+function locateBlocks(doc){
+  const body = doc.body;
+  // Social table: has >=4 imgs width>=40
+  let socialTable = null;
+  body.querySelectorAll('table').forEach(t=>{
+    const bigImgs = [...t.querySelectorAll('img')].filter(i => (+i.getAttribute('width')||0) >= 40).length;
+    if(bigImgs >= 4 && !socialTable) socialTable = t;
+  });
+
+  // Blue box: bg #25408F or border 5px yellow or width=550
+  const boxTable = [...body.querySelectorAll('table')].find(t=>{
+    const st = (t.getAttribute('style')||'').toLowerCase();
+    return st.includes('background-color: #25408f') || st.includes('border: 5px solid yellow') || t.getAttribute('width')==='550';
+  }) || null;
+
+  const headshot = boxTable ? boxTable.querySelector('img[alt*="nbi" i]') : null;
+  const bioTable = boxTable ? boxTable.querySelector('table[width="500"]') : null;
+  const buttonsTable = boxTable ? [...boxTable.querySelectorAll('table')].find(t => t.querySelector('a')) || null : null;
+  const buttons = buttonsTable ? [...buttonsTable.querySelectorAll('a')] : [];
+  const recurring = buttons.find(a => /recurr|monthly/i.test(a.textContent||'')) || null;
+
+  const paidFor = [...body.querySelectorAll('table')].find(t => /paid for by/i.test(t.textContent||'')) || null;
+  const footer = body.querySelector('table.responsive-table');
+
+  return { socialTable, boxTable, headshot, bioTable, buttonsTable, buttons, recurring, paidFor, footer };
+}
+
+/* Build reorder chips */
+function rebuildReorderUI(){
+  const { socialTable, boxTable, paidFor, footer, headshot, bioTable, buttonsTable, buttons } = locateBlocks(workDoc);
+
+  // Main
+  mainOrder.innerHTML = '';
+  const mainItems = [];
+  if(socialTable) mainItems.push({ id:'social', label:'Social Icons', node: socialTable });
+  if(boxTable) mainItems.push({ id:'box', label:'Blue Box Container', node: boxTable });
+  if(paidFor) mainItems.push({ id:'paid', label:'“PAID FOR BY” Box', node: paidFor });
+  if(footer) mainItems.push({ id:'footer', label:'Footer (Address/Links)', node: footer });
+
+  mainItems.forEach(it=>{
+    const chip = document.createElement('div');
+    chip.className = 'chip';
+    chip.dataset.role = 'main';
+    chip.dataset.id = it.id;
+    chip.innerHTML = `<span>${it.label}</span><span class="actions">
+      <button data-move="up">↑</button><button data-move="down">↓</button>
+    </span>`;
+    mainOrder.appendChild(chip);
+  });
+
+  // Inside box
+  boxOrder.innerHTML = '';
+  if(boxTable){
+    const boxItems = [];
+    if(headshot) boxItems.push({ id:'headshot', label:'Headshot/Logo', node: headshot.closest('table') || headshot.closest('td') || headshot });
+    if(bioTable) boxItems.push({ id:'bio', label:'Bio Text', node: bioTable });
+    if(buttonsTable) boxItems.push({ id:'btns', label:'Buttons Block', node: buttonsTable });
+    boxItems.forEach(it=>{
+      const chip = document.createElement('div');
+      chip.className = 'chip';
+      chip.dataset.role = 'box';
+      chip.dataset.id = it.id;
+      chip.innerHTML = `<span>${it.label}</span><span class="actions">
+        <button data-move="up">↑</button><button data-move="down">↓</button>
+      </span>`;
+      boxOrder.appendChild(chip);
+    });
+  }
+
+  // Buttons
+  btnOrder.innerHTML = '';
+  if(buttonsTable){
+    buttons.forEach((a, idx)=>{
+      const txt = (a.textContent || '').trim() || `Button ${idx+1}`;
+      const chip = document.createElement('div');
+      chip.className = 'chip';
+      chip.dataset.role = 'buttons';
+      chip.dataset.index = idx;
+      chip.innerHTML = `<span>${txt}</span><span class="actions">
+        <button data-move="up">↑</button><button data-move="down">↓</button>
+      </span>`;
+      btnOrder.appendChild(chip);
+    });
+  }
+}
+
+/* Move helpers */
+function moveSibling(parent, node, dir){
+  const kids = [...parent.children];
+  const i = kids.indexOf(node);
+  if(i < 0) return;
+  const j = dir === 'up' ? i-1 : i+1;
+  if(j < 0 || j >= kids.length) return;
+  if(dir==='up') parent.insertBefore(node, kids[j]);
+  else parent.insertBefore(kids[j], node);
+}
+
+function handleReorderClick(e){
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  const dir = btn.dataset.move;
+  const chip = e.target.closest('.chip');
+  if(!dir || !chip) return;
+
+  const b = locateBlocks(workDoc);
+
+  if(chip.dataset.role === 'main'){
+    const map = {
+      social: b.socialTable,
+      box: b.boxTable,
+      paid: b.paidFor,
+      footer: b.footer
+    };
+    const node = map[chip.dataset.id];
+    if(!node) return;
+    moveSibling(node.parentElement, node, dir);
+
+  } else if(chip.dataset.role === 'box'){
+    const td = b.boxTable ? b.boxTable.querySelector('td') : null;
+    if(!td) return;
+    let node = null;
+    if(chip.dataset.id === 'headshot') node = b.headshot && (b.headshot.closest('table') || b.headshot.closest('td') || b.headshot);
+    if(chip.dataset.id === 'bio') node = b.bioTable;
+    if(chip.dataset.id === 'btns') node = b.buttonsTable;
+    if(!node) return;
+    moveSibling(td, node, dir);
+
+  } else if(chip.dataset.role === 'buttons'){
+    if(!b.buttonsTable) return;
+    const tbody = b.buttonsTable.querySelector('tbody') || b.buttonsTable;
+    const rows = [...tbody.querySelectorAll('tr')];
+    const idx = +chip.dataset.index;
+    const row = rows[idx];
+    if(!row) return;
+    moveSibling(tbody, row, dir);
+  }
+
+  rebuildReorderUI();
+  refreshPreviewAndCode();
+}
+
+mainOrder.addEventListener('click', handleReorderClick);
+boxOrder.addEventListener('click', handleReorderClick);
+btnOrder.addEventListener('click', handleReorderClick);
+
+/* Apply style changes (inline only) */
+function applyStyles(){
+  const b = locateBlocks(workDoc);
+
+  // Visibility
+  if(b.socialTable) b.socialTable.style.display = showSocial.checked ? '' : 'none';
+  if(b.headshot){
+    const headWrap = b.headshot.closest('table') || b.headshot.closest('td') || b.headshot;
+    headWrap.style.display = showHeadshot.checked ? '' : 'none';
+  }
+  if(b.bioTable) b.bioTable.style.display = showBio.checked ? '' : 'none';
+  if(b.buttonsTable) b.buttonsTable.style.display = showButtons.checked ? '' : 'none';
+  if(b.recurring){
+    const tr = b.recurring.closest('tr') || b.recurring.parentElement;
+    if(tr) tr.style.display = showRecurring.checked ? '' : 'none';
+  }
+
+  // Colors
+  const body = workDoc.body;
+  if(bodyBg.value){
+    // Remove any prior bg-color in style attr, then set
+    const s = body.getAttribute('style') || '';
+    const cleaned = s.replace(/background-color:\s*#[0-9a-f]{3,6}/i,'').replace(/;;+/g,';');
+    body.setAttribute('style', (cleaned + `; background-color:${bodyBg.value}`).replace(/^;\s*/,''));
+  }
+  if(b.boxTable){
+    if(boxBg.value){
+      b.boxTable.style.backgroundColor = boxBg.value;
+      const td = b.boxTable.querySelector('td');
+      if(td) td.style.backgroundColor = boxBg.value;
+    }
+    if(boxBorder.value){
+      const width = (b.boxTable.style.border || '').match(/\b\d+px\b/)?.[0] || '5px';
+      b.boxTable.style.border = `${width} solid ${boxBorder.value}`;
+    }
+    if(boxWidth.value) b.boxTable.setAttribute('width', String(+boxWidth.value));
+  }
+
+  // Buttons
+  if(b.buttons.length){
+    b.buttons.forEach(a=>{
+      if(btnBg.value) a.style.backgroundColor = btnBg.value;
+      if(btnText.value) a.style.color = btnText.value;
+      if(btnWidth.value) a.style.width = `${+btnWidth.value}px`;
+      if(btnHeight.value){
+        a.style.lineHeight = `${+btnHeight.value}px`;
+        a.style.display = 'inline-block';
+      }
+      if(btnRadius.value !== '') a.style.borderRadius = `${+btnRadius.value}px`;
+      if(fontFamily.value) a.style.fontFamily = fontFamily.value;
+      if(fontSize.value) a.style.fontSize = `${+fontSize.value}px`;
+    });
+  }
+
+  // Links color
+  if(linkColor.value){
+    const links = applyAllLinks.checked ? [...workDoc.querySelectorAll('a')] :
+      (b.footer ? [...b.footer.querySelectorAll('a')] : []);
+    links.forEach(a => a.style.color = linkColor.value);
+  }
+
+  // Footer text color
+  if(footerText.value){
+    [b.paidFor, b.footer].filter(Boolean).forEach(t=>{
+      t.style.color = footerText.value;
+      t.querySelectorAll('td').forEach(td => td.style.color = footerText.value);
+    });
+  }
+
+  // Base font on body
+  if(fontFamily.value){
+    body.style.fontFamily = fontFamily.value;
+  }
+  if(fontSize.value){
+    body.style.fontSize = `${+fontSize.value}px`;
+  }
+
+  rebuildReorderUI();
+  refreshPreviewAndCode();
+}
+
+/* Load/reset */
+function loadFromTemplate(){
+  workDoc = parseFromTemplate();
+  rebuildReorderUI();
+  refreshPreviewAndCode();
+}
+
+/* Buttons */
+loadBtn.addEventListener('click', loadFromTemplate);
+resetBtn.addEventListener('click', loadFromTemplate);
+applyBtn.addEventListener('click', applyStyles);
+copyBtn.addEventListener('click', async ()=>{
+  try{
+    await navigator.clipboard.writeText(outTA.value);
+    copyBtn.textContent = 'Copied!';
+    setTimeout(()=> copyBtn.textContent = 'Copy HTML', 800);
+  }catch{ alert('Copy failed. Select and copy manually.'); }
+});
+
+/* Init */
+loadFromTemplate(); // auto-load on open so everything works immediately
+</script>
+</body>
+</html>

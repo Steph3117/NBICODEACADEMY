@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Email Template</title>
+
+
+</head><body><center data-injected="container"><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width: 100%; max-width: 750px; background-color: rgb(182, 37, 37); border: 1px solid rgb(174, 0, 255); border-radius: 12px;"><tbody><tr><td data-container-pad="" style="padding: 16px;"><hr style="max-width: 750px;"><center style=""><!-- SOCIAL ICONS -->
+<table border="0" cellpadding="0" cellspacing="0" data-part="socials">
+  <tbody>
+    <tr>
+      <td data-social="bluesky"><img alt="bluesky" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/Bluesky%20Circle_2.png" style="display: block;" width="50"></td>
+      <td data-social="facebook"><img alt="facebook" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/Facebook%20Circle_2.png" style="display: block;" width="50"></td>
+      <td data-social="instagram"><img alt="instagram" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/Instagram%20Circle_2.png" style="display: block;" width="50"></td>
+      <td data-social="tiktok"><img alt="tiktok" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/TikTok%20Circle_2.png" style="display: block;" width="50"></td>
+      <td data-social="x"><img alt="x" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/X%20Circle_3.png" style="display: block;" width="50"></td>
+      <td data-social="youtube"><img alt="youtube" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/YouTube%20Circle_2.png" style="display: block;" width="50"></td>
+    </tr>
+  </tbody>
+</table>
+</center><center data-injected="headshot" style="">
+          <table border="0" cellpadding="0" cellspacing="0" style="margin:0 auto; max-width:750px;">
+            <tbody>
+              <tr>
+                <td align="center" style="padding:10px;">
+                  <div data-hs-wrap="" style="text-align:center;"><div style="font-family: Helvetica, Arial, sans-serif; font-size:14px; line-height:1.4; margin-top:10px; max-width:650px; text-align:left;"></div></div>
+                </td>
+              </tr>
+            </tbody>
+          </table></center><center style="">
+<table align="center" border="0" cellpadding="0" cellspacing="0" data-part="buttons">
+  <tbody>
+    <tr>
+      <td align="center" bgcolor="#ffffff" style="padding: 15px;">
+      <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+        <tbody>
+          <tr>
+            <td align="center" style="padding-bottom: 15px;">
+            <div><!--[if mso]>
+                    <v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.newblueinteractive.com" style="height:60px;v-text-anchor:middle;width:280px;" stroke="f" fillcolor="#25408F">
+                      <w:anchorlock/>
+                      <center style="color:#ffffff; font-family:Helvetica, Arial, sans-serif; font-size:18px; font-weight:bold;">
+                        DONATE NOW
+                      </center>
+                    </v:rect>
+                  <![endif]--><!--[if !mso]><!-- --><a data-btn="1" href="https://www.newblueinteractive.com" style="background-color: rgb(37, 64, 143); color: rgb(255, 255, 255); display: block; border: 2px solid rgb(255, 255, 255); font-size: 18px; line-height: 50px; text-align: center; font-weight: bold; text-decoration: underline; width: 280px; text-size-adjust: none; letter-spacing: 0.05em;" target="_blank">DONATE NOW </a> <!--<![endif]--></div>
+            </td>
+          </tr>
+          <tr>
+            <td align="center" style="padding-bottom: 15px;">
+            <div><!--[if mso]>
+                    <v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.newblueinteractive.com" style="height:60px;v-text-anchor:middle;width:280px;" stroke="f" fillcolor="#25408F">
+                      <w:anchorlock/>
+                      <center style="color:#ffffff; font-family:Helvetica, Arial, sans-serif; font-size:18px; font-weight:bold;">
+                        VOLUNTEER
+                      </center>
+                    </v:rect>
+                  <![endif]--><!--[if !mso]><!-- --><a data-btn="2" href="https://www.newblueinteractive.com" style="background-color: rgb(37, 64, 143); color: rgb(255, 255, 255); display: block; border: 2px solid rgb(255, 255, 255); font-size: 18px; line-height: 50px; text-align: center; font-weight: bold; text-decoration: underline; width: 280px; text-size-adjust: none; letter-spacing: 0.05em;" target="_blank">VOLUNTEER </a> <!--<![endif]--></div>
+            </td>
+          </tr>
+          <tr data-recurring-row="" style="">
+            <td align="center">
+            <div><!--[if mso]>
+                    <v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.newblueinteractive.com" style="height:60px;v-text-anchor:middle;width:280px;" stroke="f" fillcolor="#25408F">
+                      <w:anchorlock/>
+                      <center style="color:#ffffff; font-family:Helvetica, Arial, sans-serif; font-size:18px; font-weight:bold;">
+                        CONTRIBUTE MONTHLY
+                      </center>
+                    </v:rect>
+                  <![endif]--><!--[if !mso]><!-- --><a data-btn="3" href="https://www.newblueinteractive.com" style="background-color: rgb(37, 64, 143); color: rgb(255, 255, 255); display: block; border: 2px solid rgb(255, 255, 255); font-size: 18px; line-height: 50px; text-align: center; font-weight: bold; text-decoration: underline; width: 280px; text-size-adjust: none; letter-spacing: 0.05em;" target="_blank">CONTRIBUTE MONTHLY </a> <!--<![endif]--></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</center><center><!-- FOOTER COPY -->
+<table align="center" cellpadding="8" cellspacing="0" style="border: 1px solid rgb(0, 0, 0); text-align: center; max-width: 360px; font-family: Helvetica, Arial, sans-serif; font-size: 12px; line-height: 1.2em; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);" width="100%" data-part="footerBox">
+  <tbody>
+    <tr>
+      <td data-paidfor="">PAID FOR BY YOUR CAMPAIGN</td>
+    </tr>
+  </tbody>
+</table>
+
+<table align="center" border="0" cellpadding="0" cellspacing="0" class="responsive-table" style="max-width: 750px; font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: rgb(0, 0, 0);" width="100%" data-part="footer">
+  <tbody>
+    <tr>
+      <td align="center" style="padding-top:10px;" data-address="">New Blue Interactive | PO Box 669 | Glen Cove, NY 11542</td>
+    </tr>
+    <tr>
+      <td align="center" style="padding-top:10px; padding-bottom:20px;">
+        <a data-footer-link="fewer" href="https://www.newblueinteractive.com" style="color: rgb(0, 0, 0); text-decoration: underline; font-weight: normal;" target="_blank">Fewer Emails</a> |
+        <a data-footer-link="donate" href="https://www.newblueinteractive.com" style="color: rgb(0, 0, 0); text-decoration: underline; font-weight: normal;" target="_blank">Donate</a>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" style="padding-top:10px; padding-bottom:20px;">
+        <a data-footer-link="unsub" href="https://www.newblueinteractive.com" style="color: rgb(0, 0, 0); text-decoration: underline; font-weight: normal;" target="_blank">Unsubscribe</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</center><script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script></td></tr></tbody></table></center>&nbsp;
+
+&nbsp;
+
+
+&nbsp;
+
+
+<grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration><!-- Code injected by live-server -->
+
+
+
+</body></html>

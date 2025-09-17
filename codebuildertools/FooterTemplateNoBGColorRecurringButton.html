@@ -84,6 +84,8 @@
       <label><input type="checkbox" id="showFooterBorder" checked> Footer “box” border</label>
       <label><input type="checkbox" id="showHeadshot"> Headshot</label>
       <label><input type="checkbox" id="showBio"> Bio</label>
+      <label><input type="checkbox" id="showContainerBox" checked> Entire email “box” container</label>
+
     </div>
 
     <h3>Socials (choose + set links)</h3>
@@ -120,6 +122,17 @@
       </div>
     </div>
     <p class="small">Icons are auto-wrapped in links using the URLs you provide.</p>
+<h3>Entire email box (container)</h3>
+    <div class="row">
+    <div><label>Container background <input type="color" id="containerBg" value="#ffffff"></label></div>
+    <div><label>Border color <input type="color" id="containerBorderColor" value="#e5e7eb"></label></div>
+    <div><label>Border width (px) <input type="number" id="containerBorderWidth" value="1" min="0"></label></div>
+    <div><label>Corner radius (px) <input type="number" id="containerRadius" value="12" min="0"></label></div>
+    <div><label>Padding (px) <input type="number" id="containerPad" value="16" min="0"></label></div>
+    <div><label>Max width (px) <input type="number" id="containerMaxW" value="750" min="320"></label></div>
+</div>
+<p class="small">This box wraps the entire email content. The disclaimer keeps its own box.</p>
+
 
     <h3>Buttons (global style)</h3>
     <div class="row">
@@ -316,7 +329,6 @@
   const iframe = document.getElementById('preview');
   const tpl = document.getElementById('email-template');
 
-  // Seed the preview with a fresh clone of your template
   function resetPreview(){
     const doc = iframe.contentDocument;
     doc.open();
@@ -324,14 +336,76 @@
     doc.close();
   }
 
-  // Utility: set style if value present
+  // Utility
   const setStyle = (el, prop, val) => { if(el && val!=='' && val!=null){ el.style[prop] = val } };
 
-  // Apply current control values to the preview DOM
+  // Build the outer container (email-wide box) if missing
+  function ensureContainer(doc){
+    let container = doc.querySelector('[data-injected="container"]');
+    if (container) return container;
+
+    // Create the structure:
+    // <center data-injected="container">
+    //   <table ... max-width + border/bg/radius>
+    //     <tr><td data-container-pad>  (we'll move all body children here) </td></tr>
+    //   </table>
+    // </center>
+    container = doc.createElement('center');
+    container.setAttribute('data-injected','container');
+
+    const table = doc.createElement('table');
+    table.setAttribute('align','center');
+    table.setAttribute('border','0');
+    table.setAttribute('cellpadding','0');
+    table.setAttribute('cellspacing','0');
+    table.setAttribute('role','presentation');
+    table.style.width = '100%';
+    table.style.maxWidth = '750px';
+
+    const tbody = doc.createElement('tbody');
+    const tr = doc.createElement('tr');
+    const td = doc.createElement('td');
+    td.setAttribute('data-container-pad','');
+
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+    table.appendChild(tbody);
+    container.appendChild(table);
+
+    // Move existing body children into the new td (except Grammarly shadow/el)
+    const body = doc.body;
+    const toMove = [];
+    for (let i=0; i<body.children.length; i++){
+      const el = body.children[i];
+      if (el === container) continue;
+      // Skip Grammarly integration elements if present
+      if (el.tagName && el.tagName.toLowerCase().indexOf('grammarly') !== -1) continue;
+      toMove.push(el);
+    }
+    toMove.forEach(el => td.appendChild(el));
+
+    // Append container as the only main child (before any skipped elements)
+    body.insertBefore(container, body.firstChild);
+    return container;
+  }
+
+  // Remove the outer container and put content back in body
+  function removeContainer(doc){
+    const container = doc.querySelector('[data-injected="container"]');
+    if (!container) return;
+    const td = container.querySelector('[data-container-pad]');
+    if (td){
+      const body = doc.body;
+      const moving = Array.from(td.children);
+      moving.forEach(el => body.insertBefore(el, container));
+    }
+    container.remove();
+  }
+
   function apply(){
     const doc = iframe.contentDocument;
 
-    // --- Sections toggles
+    // Section toggles
     const socialsTable = doc.querySelector('[data-part="socials"]')?.closest('center') || doc.querySelector('[data-part="socials"]');
     const buttonsTable = doc.querySelector('[data-part="buttons"]')?.closest('center') || doc.querySelector('[data-part="buttons"]');
     const footerBoxTable = doc.querySelector('[data-part="footerBox"]');
@@ -343,13 +417,38 @@
     const showFooterBorder = document.getElementById('showFooterBorder').checked;
     const showHeadshot = document.getElementById('showHeadshot').checked;
     const showBio = document.getElementById('showBio').checked;
+    const showContainerBox = document.getElementById('showContainerBox').checked;
 
     if (socialsTable) socialsTable.style.display = showSocials ? '' : 'none';
     if (buttonsTable) buttonsTable.style.display = showButtons ? '' : 'none';
     const recurringRow = doc.querySelector('[data-recurring-row]');
     if (recurringRow) recurringRow.style.display = (showButtons && showRecurring) ? '' : 'none';
 
-    // --- Socials which/links/icons
+    // ENTIRE EMAIL BOX (container)
+    if (showContainerBox){
+      const container = ensureContainer(doc);
+      const table = container.querySelector('table');
+      const tdPad = container.querySelector('[data-container-pad]');
+
+      const containerBg = document.getElementById('containerBg').value;
+      const containerBorderColor = document.getElementById('containerBorderColor').value;
+      const containerBorderWidth = Number(document.getElementById('containerBorderWidth').value || 0);
+      const containerRadius = Number(document.getElementById('containerRadius').value || 0);
+      const containerPad = Number(document.getElementById('containerPad').value || 0);
+      const containerMaxW = Number(document.getElementById('containerMaxW').value || 750);
+
+      table.style.maxWidth = containerMaxW + 'px';
+      table.style.backgroundColor = containerBg || '#ffffff';
+      table.style.border = (containerBorderWidth > 0) ? (containerBorderWidth + 'px solid ' + (containerBorderColor || '#e5e7eb')) : 'none';
+      // Rounded corners in email tables are best on the table element; some clients may not fully support.
+      table.style.borderRadius = containerRadius + 'px';
+      // padding goes on the td
+      tdPad.style.padding = containerPad + 'px';
+    } else {
+      removeContainer(doc);
+    }
+
+    // Socials toggles/links/icons (only if shown)
     if (showSocials) {
       const toggles = [...document.querySelectorAll('.socialToggle')];
       const hrefs = Object.fromEntries([...document.querySelectorAll('.socialHref')].map(i=>[i.dataset.social, i.value.trim()]));
@@ -363,14 +462,15 @@
         const img = td.querySelector('img');
         if (img && srcs[key]) img.setAttribute('src', srcs[key]);
 
-        // Wrap in anchor if link provided
         const link = hrefs[key];
         if (img && link) {
-          if (td.querySelector('a')) {
-            td.querySelector('a').setAttribute('href', link);
+          const aExisting = td.querySelector('a');
+          if (aExisting) {
+            aExisting.setAttribute('href', link);
           } else {
             const a = doc.createElement('a');
             a.href = link; a.target = '_blank'; a.style.display='inline-block';
+            // move the img into the anchor
             td.replaceChildren(a);
             a.appendChild(img);
           }
@@ -378,7 +478,7 @@
       });
     }
 
-    // --- Button global style + per-button text/links (non-MSO)
+    // Button global style + per-button text/links
     const btnBg = document.getElementById('btnBg').value;
     const btnColor = document.getElementById('btnColor').value;
     const btnBorder = document.getElementById('btnBorder').value;
@@ -396,7 +496,6 @@
       a.style.textDecoration = btnUnderline;
     });
 
-    // Button text/links
     const map = {
       1: { text: document.getElementById('b1Text').value, href: document.getElementById('b1Href').value },
       2: { text: document.getElementById('b2Text').value, href: document.getElementById('b2Href').value },
@@ -410,8 +509,8 @@
       }
     });
 
-    // --- Headshot + Bio injection (keeps original code intact)
-    const anchorBeforeButtons = buttonsTable?.previousElementSibling || doc.body.firstElementChild;
+    // Headshot & Bio (injected block before buttons)
+    const buttonsBlock = doc.querySelector('[data-part="buttons"]')?.closest('center') || doc.querySelector('[data-part="buttons"]');
     let headshotBlock = doc.querySelector('[data-injected="headshot"]');
     if (showHeadshot || showBio) {
       if (!headshotBlock) {
@@ -426,14 +525,11 @@
                 </td>
               </tr>
             </tbody>
-          </table>
-        `;
-        // Insert just before buttons area
-        (buttonsTable?.parentElement || doc.body).insertBefore(headshotBlock, buttonsTable);
+          </table>`;
+        (buttonsBlock?.parentElement || doc.body).insertBefore(headshotBlock, buttonsBlock || null);
       }
       const wrap = headshotBlock.querySelector('[data-hs-wrap]');
       wrap.innerHTML = '';
-      // Headshot
       if (showHeadshot) {
         const src = document.getElementById('headshotSrc').value.trim();
         const href = document.getElementById('headshotHref').value.trim();
@@ -453,7 +549,6 @@
           }
         }
       }
-      // Bio
       if (showBio) {
         const bio = document.getElementById('bioHtml').value;
         const bioSize = parseInt(document.getElementById('bioSize').value,10)||14;
@@ -467,7 +562,7 @@
       headshotBlock.style.display = 'none';
     }
 
-    // --- Footer styles + text + links
+    // Footer styles + disclaimer box (stays boxed by default)
     const footerFont = document.getElementById('footerFont').value.trim();
     const footerSize = document.getElementById('footerSize').value;
     const footerColor = document.getElementById('footerColor').value;
@@ -481,35 +576,27 @@
     const donateA = doc.querySelector('a[data-footer-link="donate"]');
     const unsubA = doc.querySelector('a[data-footer-link="unsub"]');
 
-    // Footer box (border + colors)
     if (footerBoxTable) {
       footerBoxTable.style.backgroundColor = footerBg || footerBoxTable.style.backgroundColor;
       const borderVal = showFooterBorder ? `${footerBorderWidth||1}px solid ${footerBorderColor||'#000'}` : 'none';
-      footerBoxTable.style.border = borderVal;
-      // Font family/size/color for the box
+      footerBoxTable.style.border = borderVal; // disclaimer box control
       if (footerFont) footerBoxTable.style.fontFamily = footerFont;
       if (footerSize) footerBoxTable.style.fontSize = `${footerSize}px`;
       footerBoxTable.style.color = footerColor || footerBoxTable.style.color;
     }
 
-    // Footer text block (address + links)
     if (footerTable) {
       if (footerFont) footerTable.style.fontFamily = footerFont;
       if (footerSize) footerTable.style.fontSize = `${footerSize}px`;
       footerTable.style.color = footerColor || footerTable.style.color;
-      // Also tint the <a> to match chosen color unless user overrides with inline later
-      footerTable.querySelectorAll('a').forEach(a=>{
-        a.style.color = footerColor || a.style.color;
-      });
+      footerTable.querySelectorAll('a').forEach(a=>{ a.style.color = footerColor || a.style.color; });
     }
 
-    // Footer copy
     const paidForText = document.getElementById('paidForText').value;
     const addressText = document.getElementById('addressText').value;
     if (paidForTd) paidForTd.textContent = paidForText;
     if (addressTd) addressTd.textContent = addressText;
 
-    // Footer links (text + href)
     const fewerText = document.getElementById('fewerText').value;
     const fewerHref = document.getElementById('fewerHref').value;
     const donateText = document.getElementById('donateText').value;
@@ -522,15 +609,12 @@
     if (unsubA){ unsubA.textContent = unsubText; if (unsubHref) unsubA.href = unsubHref; }
   }
 
-  // Export: return the preview document’s full HTML
   function getCompiledHtml(){
     const doc = iframe.contentDocument;
-    // Serialize entire document (preserves your VML/MSO and inlined styles)
     const doctype = '<!DOCTYPE html>\n';
     return doctype + doc.documentElement.outerHTML;
   }
 
-  // Wire up UI
   document.getElementById('apply').addEventListener('click', apply);
   document.getElementById('copyHtml').addEventListener('click', async ()=>{
     const html = getCompiledHtml();
@@ -538,7 +622,6 @@
       await navigator.clipboard.writeText(html);
       alert('Compiled HTML copied to clipboard!');
     } catch {
-      // Fallback: download
       const blob = new Blob([html], {type:'text/html'});
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
@@ -547,15 +630,14 @@
     }
   });
 
-  // Live-ish: auto-apply on change for most controls (can be toggled off if you prefer)
   document.getElementById('controls').addEventListener('input', e=>{
     if (e.target.closest('.panel')) apply();
   });
 
-  // Init
   resetPreview();
   apply();
 })();
 </script>
+
 </body>
 </html>
