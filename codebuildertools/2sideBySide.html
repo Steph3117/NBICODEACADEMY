@@ -1,402 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>NBI – YES/NO Button Builder</title>
-<style>
-  :root { --ink:#0f172a; --muted:#6b7280; --bg:#f6f7fb; --card:#ffffff; --brand:#25408F; }
-  * { box-sizing: border-box; }
-  body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:var(--bg); color:var(--ink); }
-  header { padding:16px 20px; background:var(--brand); color:#fff; font-weight:700; }
-  .wrap { display:grid; grid-template-columns: 420px 1fr; gap:18px; padding:18px; max-width:1200px; margin:0 auto; }
-  .card { background:var(--card); border-radius:12px; box-shadow:0 8px 24px rgba(2,6,23,.06); }
-  .card h2 { margin:0; padding:14px 16px; font-size:16px; border-bottom:1px solid #e5e7eb; }
-  .card .body { padding:14px 16px; }
-  .row { display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:10px; }
-  .row.full { grid-template-columns:1fr; }
-  label { font-size:12px; color:var(--muted); display:block; margin-bottom:6px; }
-  input[type="text"], input[type="number"], select { width:100%; padding:8px 10px; border:1px solid #d1d5db; border-radius:8px; font-size:14px; }
-  input[type="color"] { width:100%; height:36px; padding:0; border:1px solid #d1d5db; border-radius:8px; }
-  .actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
-  button { appearance:none; border:0; background:#111827; color:#fff; padding:9px 12px; border-radius:10px; cursor:pointer; font-weight:600; }
-  button.secondary { background:#334155; }
-  button.ghost { background:#e5e7eb; color:#111827; }
-  textarea { width:100%; min-height:180px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:12.5px; padding:12px; border:1px solid #d1d5db; border-radius:8px; }
-  .preview-pane { padding:20px; }
-  .preview-note { font-size:12px; color:var(--muted); margin-bottom:8px; }
-  .email-frame { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:16px; }
-</style>
-<link rel="stylesheet" href="../style.css" />
+  <meta charset="UTF-8">
+  <title>Code + Preview Area</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column; /* header at top */
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    /* Toolbar for actions */
+    .toolbar {
+      display: flex;
+      justify-content: flex-end;
+      background: #f4f4f4;
+      padding: 8px 12px;
+      border-bottom: 1px solid #ddd;
+    }
+    .toolbar button {
+      background: #25408F;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      margin-left: 8px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .toolbar button:hover {
+      background: #1a2d63;
+    }
+
+    /* Main split container */
+    .editor-container {
+      flex: 1; /* take remaining space */
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* textarea | preview */
+      height: 100%;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100%;
+      font-family: monospace;
+      font-size: 14px;
+      border: none;
+      padding: 10px;
+      outline: none;
+      resize: none;
+      box-sizing: border-box;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #fff;
+    }
+  </style>
 </head>
 <body>
-<header>
-  <h1>NBICodeAcademy</h1>
-  <p>by New Blue Interactive</p>
-  <nav>
-    <ul class="nav-tabs">
-      <li><a href="../index.html">Home</a></li>
+  <header>
+    <h1>NBICodeAcademy</h1>
+    <p>by New Blue Interactive</p>
+    <nav>
+      <ul class="nav-tabs">
+        <li><a href="../index.html">Home</a></li>
+        <li class="dropdown">
+          <a href="../tools.html">NBI Email Tools ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="EmailChecklist.html">Email Checklist</a></li>
+            <li><a href="../snippetlibrary.html">Snippet Library</a></li>
+            <li><a href="choosethetool.html">Email Link Library</a></li>
+            <li><a href="SocialIconsite/socialiconcolor.html">Social Icon Tool</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="../trainings.html">Trainings ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="trainings.html#workshops">Workshops</a></li>
+            <li><a href="trainings.html#videos">Video Library</a></li>
+          </ul>
+        </li>
+        <li><a href="../docs.html">Documentation</a></li>
+      </ul>
+    </nav>
+  </header>
 
-      <li class="dropdown">
-        <a href="../tools.html">NBI Email Tools ▾</a>
-        <ul class="dropdown-menu">
-          <li><a href="../EmailChecklist.html">Email Checklist</a></li>
-          <li><a href="../snippetlibrary.html">Snippet Library</a></li>
-          <li><a href="choosethetool.html">Email Link Library</a></li>
-          <li><a href="SocialIconsite/socialiconcolor.html">Social Icon Tool</a></li>
-        </ul>
-      </li>
+  <!-- Toolbar with copy button -->
+  <div class="toolbar">
+    <button id="copyBtn">Copy Code</button>
+  </div>
 
-      <li class="dropdown">
-        <a href="../trainings.html">Trainings ▾</a>
-        <ul class="dropdown-menu">
-          <li><a href="trainings.html#workshops">Workshops</a></li>
-          <li><a href="trainings.html#videos">Video Library</a></li>
-        </ul>
-      </li>
+  <!-- Side-by-side editor + preview -->
+  <div class="editor-container">
+    <textarea id="codeArea">
+<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="width: 750px;" align="center"> 
+  <tr>
+    <td width="50%" valign="top" align="center" style="padding: 10px 0;">
+      <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+        <tr>
+          <td style="font-size: 18px; line-height: 140%; font-family: Helvetica, Arial, sans-serif; color: #222222; padding: 5px 10px 20px; text-align: center;">
+            COLUMN 1 TEXT HERE
+          </td>
+        </tr>
+      </table>
+    </td>
+    <td width="50%" valign="top" align="left" style="padding: 10px 0;">
+      <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+        <tr>
+          <td style="font-size: 18px; line-height: 140%; font-family: Helvetica, Arial, sans-serif; color: #222222; padding: 5px 10px 20px; text-align: left;">
+            COLUMN 2 TEXT HERE
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <!-- add more rows here using <tr> tags -->
+</table>
+    </textarea>
+    <iframe id="preview"></iframe>
+  </div>
 
-      <li><a href="../docs.html">Documentation</a></li>
-    </ul>
-  </nav>
-</header>
+  <script>
+    const codeArea = document.getElementById('codeArea');
+    const preview = document.getElementById('preview');
+    const copyBtn = document.getElementById('copyBtn');
 
-<div class="wrap">
-  <!-- Controls -->
-  <section class="card">
-    <h2>Editor</h2>
-    <div class="body">
-      <div class="row">
-        <div>
-          <label>Pick button to edit</label>
-          <select id="whichBtn">
-            <option value="0">Button 1 – YES</option>
-            <option value="1">Button 2 – NO</option>
-          </select>
-        </div>
-        <div>
-          <label>Open in new tab (target)</label>
-          <select id="targetBlank">
-            <option value="false">No</option>
-            <option value="true">Yes</option>
-          </select>
-        </div>
-      </div>
+    function updatePreview() {
+      preview.srcdoc = codeArea.value;
+    }
 
-      <div class="row">
-        <div>
-          <label>Button background (bgcolor)</label>
-          <input type="color" id="bgcolor" />
-        </div>
-        <div>
-          <label>Border color</label>
-          <input type="color" id="borderColor" />
-        </div>
-      </div>
+    codeArea.addEventListener('input', updatePreview);
+    window.onload = updatePreview;
 
-      <div class="row">
-        <div>
-          <label>Text color</label>
-          <input type="color" id="fontColor" />
-        </div>
-        <div>
-          <label>Border radius (px)</label>
-          <input type="number" id="radius" min="0" step="1" />
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label>Border width (px)</label>
-          <input type="number" id="borderWidth" min="0" step="1" />
-        </div>
-        <div>
-          <label>Height (px)</label>
-          <input type="number" id="heightPx" min="20" step="1" />
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label>Inner table width (style) (px)</label>
-          <input type="number" id="innerTableWidth" min="10" step="1" />
-        </div>
-        <div>
-          <label>TD min/max width (px)</label>
-          <input type="number" id="lockWidth" min="20" step="1" />
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label>Padding (all sides, px)</label>
-          <input type="number" id="padding" min="0" step="1" />
-        </div>
-        <div>
-          <label>Line height (px)</label>
-          <input type="number" id="lineHeight" min="10" step="1" />
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label>Font size (px)</label>
-          <input type="number" id="fontSize" min="10" step="1" />
-        </div>
-        <div>
-          <label>Font family</label>
-          <select id="fontFamily">
-            <option value="Helvetica, Arial, sans-serif">Helvetica, Arial, sans-serif</option>
-            <option value="Arial, sans-serif">Arial, sans-serif</option>
-            <option value="'Segoe UI', Arial, sans-serif">'Segoe UI', Arial, sans-serif</option>
-            <option value="Georgia, serif">Georgia, serif</option>
-            <option value="Tahoma, Geneva, sans-serif">Tahoma, Geneva, sans-serif</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label>Font weight</label>
-          <select id="fontWeight">
-            <option value="normal">Normal</option>
-            <option value="bold">Bold</option>
-            <option value="600">600</option>
-            <option value="700">700</option>
-            <option value="800">800</option>
-            <option value="900" selected>900</option>
-          </select>
-        </div>
-        <div>
-          <label>Font style</label>
-          <select id="fontStyle">
-            <option value="normal" selected>Normal</option>
-            <option value="italic">Italic</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row full">
-        <div>
-          <label>Link URL (href)</label>
-          <input type="text" id="href" placeholder="https://www.newblueinteractive.com/" />
-        </div>
-      </div>
-
-      <div class="row full">
-        <div>
-          <label>Button text</label>
-          <input type="text" id="btnText" placeholder="YES / NO" />
-        </div>
-      </div>
-
-      <div class="actions">
-        <button id="apply">Apply to selected</button>
-        <button class="secondary" id="resetOne">Reset selected</button>
-        <button class="ghost" id="resetAll">Reset both</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Preview -->
-  <section class="card">
-    <h2>Live Preview</h2>
-    <div class="body preview-pane">
-      <div class="preview-note">Exact center-wrapped 2-button table. Inline styles with <code>-webkit-border-radius</code>, border, and fixed min/max widths.</div>
-      <div id="preview" class="email-frame"></div>
-    </div>
-  </section>
-
-  <!-- Export -->
-  <section class="card" style="grid-column: 1 / span 2;">
-    <h2>Export HTML</h2>
-    <div class="body">
-      <textarea id="exportHtml" readonly></textarea>
-      <div class="actions">
-        <button id="copyHtml">Copy HTML</button>
-        <button class="secondary" id="refreshHtml">Refresh Export</button>
-      </div>
-    </div>
-  </section>
-</div>
-
-<script>
-/** Defaults taken from your snippet */
-const defaultButtons = [
-  {
-    bgcolor: "#12a010",
-    borderColor: "#12a010",
-    radius: 15,
-    borderWidth: 2,
-    heightPx: 50,
-    innerTableWidth: 50, // style="width: 50px" on inner table
-    lockWidth: 100,      // min/max width on the TD
-    padding: 9,
-    fontSize: 17,
-    fontFamily: "Helvetica, Arial, sans-serif",
-    fontWeight: "900",
-    fontStyle: "normal",
-    fontColor: "#ffffff",
-    lineHeight: 25,
-    href: "https://www.newblueinteractive.com/",
-    text: "YES",
-    targetBlank: false
-  },
-  {
-    bgcolor: "#a51a1a",
-    borderColor: "#a51a1a",
-    radius: 15,
-    borderWidth: 2,
-    heightPx: 50,
-    innerTableWidth: 50,
-    lockWidth: 100,
-    padding: 9,
-    fontSize: 17,
-    fontFamily: "Helvetica, Arial, sans-serif",
-    fontWeight: "900",
-    fontStyle: "normal",
-    fontColor: "#ffffff",
-    lineHeight: 25,
-    href: "https://www.newblueinteractive.com/",
-    text: "NO",
-    targetBlank: true // NO had target="_blank"
-  }
-];
-
-let buttons = JSON.parse(JSON.stringify(defaultButtons));
-
-const $ = (id) => document.getElementById(id);
-const whichBtn = $("whichBtn");
-
-function toHex(c) {
-  if (/^#/.test(c)) return c;
-  const m = c.match(/rgb\\((\\d+),\\s*(\\d+),\\s*(\\d+)\\)/i);
-  if (!m) return "#000000";
-  const h = [m[1], m[2], m[3]].map(n => {
-    const v = Math.max(0, Math.min(255, parseInt(n,10)));
-    return v.toString(16).padStart(2,"0");
-  }).join("");
-  return "#"+h;
-}
-function escapeHtml(txt) {
-  return txt.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-}
-
-function loadControls(idx) {
-  const b = buttons[idx];
-  $("bgcolor").value      = toHex(b.bgcolor);
-  $("borderColor").value  = toHex(b.borderColor);
-  $("fontColor").value    = toHex(b.fontColor);
-  $("radius").value       = b.radius;
-  $("borderWidth").value  = b.borderWidth;
-  $("heightPx").value     = b.heightPx;
-  $("innerTableWidth").value = b.innerTableWidth;
-  $("lockWidth").value    = b.lockWidth;
-  $("padding").value      = b.padding;
-  $("fontSize").value     = b.fontSize;
-  $("lineHeight").value   = b.lineHeight;
-  $("fontFamily").value   = b.fontFamily;
-  $("fontWeight").value   = String(b.fontWeight);
-  $("fontStyle").value    = b.fontStyle;
-  $("href").value         = b.href;
-  $("btnText").value      = b.text;
-  $("targetBlank").value  = b.targetBlank ? "true" : "false";
-}
-
-function renderInnerButton(b) {
-  const tdStyle = ` -webkit-border-radius:${b.radius}px; border-radius:${b.radius}px; border:${b.borderWidth}px solid ${b.borderColor}; min-width:${b.lockWidth}px; max-width:${b.lockWidth}px;`;
-  const aStyle  = `padding:${b.padding}px ${b.padding}px ${b.padding}px ${b.padding}px; display:block; font-size:${b.fontSize}px; font-family:${b.fontFamily}; font-weight:${b.fontWeight}; font-style:${b.fontStyle}; color:${b.fontColor}; letter-spacing:0em; text-decoration:none; line-height:${b.lineHeight}px;`;
-  const target  = b.targetBlank ? ' target="_blank"' : '';
-  const safeText = escapeHtml(b.text);
-
-  return `
-  <table border="0" cellpadding="0" cellspacing="0" height="50" style="width: ${b.innerTableWidth}px">
-    <tbody>
-      <tr>
-        <td align="center" bgcolor="${b.bgcolor}" height="${b.heightPx}" style="${tdStyle}">
-          <a href="${b.href}" style="${aStyle}"${target}>${safeText}</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>`.trim();
-}
-
-function renderBlock() {
-  const cells = buttons.map(b => {
-    const inner = renderInnerButton(b);
-    return `
-      <td align="center" style="padding:4px 8px; display: inline-block">
-        ${inner}
-      </td>`.trim();
-  }).join("\n");
-
-  return `
-<center>
-  <table align="center" border="0" cellpadding="0" cellspacing="0" style="max-width: 100%">
-    <tbody align="center">
-      <tr>
-${cells}
-      </tr>
-    </tbody>
-  </table>
-</center>`.trim();
-}
-
-function refreshPreview(){ $("preview").innerHTML = renderBlock(); }
-function refreshExport(){ $("exportHtml").value = renderBlock(); }
-
-$("apply").addEventListener("click", () => {
-  const idx = parseInt(whichBtn.value,10);
-  const b = buttons[idx];
-  b.bgcolor        = $("bgcolor").value || b.bgcolor;
-  b.borderColor    = $("borderColor").value || b.borderColor;
-  b.fontColor      = $("fontColor").value || b.fontColor;
-  b.radius         = Number($("radius").value) || b.radius;
-  b.borderWidth    = Number($("borderWidth").value) || b.borderWidth;
-  b.heightPx       = Number($("heightPx").value) || b.heightPx;
-  b.innerTableWidth= Number($("innerTableWidth").value) || b.innerTableWidth;
-  b.lockWidth      = Number($("lockWidth").value) || b.lockWidth;
-  b.padding        = Number($("padding").value) || b.padding;
-  b.fontSize       = Number($("fontSize").value) || b.fontSize;
-  b.lineHeight     = Number($("lineHeight").value) || b.lineHeight;
-  b.fontFamily     = $("fontFamily").value || b.fontFamily;
-  b.fontWeight     = $("fontWeight").value || b.fontWeight;
-  b.fontStyle      = $("fontStyle").value || b.fontStyle;
-  b.href           = $("href").value || b.href;
-  b.text           = $("btnText").value || b.text;
-  b.targetBlank    = $("targetBlank").value === "true";
-
-  refreshPreview();
-  refreshExport();
-});
-
-$("resetOne").addEventListener("click", () => {
-  const idx = parseInt(whichBtn.value,10);
-  buttons[idx] = JSON.parse(JSON.stringify(defaultButtons[idx]));
-  loadControls(idx);
-  refreshPreview();
-  refreshExport();
-});
-
-$("resetAll").addEventListener("click", () => {
-  buttons = JSON.parse(JSON.stringify(defaultButtons));
-  loadControls(parseInt(whichBtn.value,10));
-  refreshPreview();
-  refreshExport();
-});
-
-$("copyHtml").addEventListener("click", async () => {
-  const txt = $("exportHtml").value;
-  try { await navigator.clipboard.writeText(txt); alert("HTML copied!"); }
-  catch (e) { $("exportHtml").select(); document.execCommand("copy"); alert("HTML copied (fallback)."); }
-});
-$("refreshHtml").addEventListener("click", refreshExport);
-
-(function init(){
-  loadControls(0);
-  refreshPreview();
-  refreshExport();
-  whichBtn.addEventListener("change", () => loadControls(parseInt(whichBtn.value,10)));
-})();
-</script>
+    copyBtn.addEventListener('click', () => {
+      codeArea.select();
+      document.execCommand('copy');
+      copyBtn.textContent = "Copied!";
+      setTimeout(() => copyBtn.textContent = "Copy Code", 1500);
+    });
+  </script>
 </body>
 </html>

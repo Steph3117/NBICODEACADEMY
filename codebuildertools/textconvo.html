@@ -1,423 +1,432 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>NBI – Text Convo Builder (No Errors)</title>
-<style>
-  :root { --ink:#0f172a; --muted:#6b7280; --bg:#f6f7fb; --card:#ffffff; --brand:#25408F; }
-  * { box-sizing:border-box }
-  body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:var(--bg); color:var(--ink); }
-  header { padding:16px 20px; background:var(--brand); color:#fff; }
-  header h1 { margin:0; font-size:22px; line-height:1.2; }
-
-  .wrap { display:grid; grid-template-columns: 480px 1fr; gap:18px; padding:18px; max-width:1200px; margin:0 auto; }
-  .card { background:var(--card); border-radius:12px; box-shadow:0 8px 24px rgba(2,6,23,.06); }
-  .card h2 { margin:0; padding:14px 16px; font-size:16px; border-bottom:1px solid #e5e7eb; }
-  .card .body { padding:14px 16px; }
-
-  .row { display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:10px; }
-  .row.thirds { grid-template-columns: 1fr 1fr 1fr; }
-  .row.full { grid-template-columns:1fr; }
-  label { font-size:12px; color:var(--muted); display:block; margin-bottom:6px; }
-  input[type="text"], input[type="number"], input[type="url"], select, textarea {
-    width:100%; padding:8px 10px; border:1px solid #d1d5db; border-radius:8px; font-size:14px;
-  }
-  input[type="color"] { width:100%; height:36px; padding:0; border:1px solid #d1d5db; border-radius:8px; }
-  textarea { min-height:84px; resize:vertical; }
-
-  .actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
-  button { appearance:none; border:0; background:#111827; color:#fff; padding:9px 12px; border-radius:10px; cursor:pointer; font-weight:600; }
-  button.secondary { background:#334155; }
-  .email-frame { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:16px; overflow:auto; }
-  textarea#exportHtml { width:100%; min-height:200px; font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:12.5px; }
-</style>
+  <meta charset="UTF-8" />
+  <title>Text Convo Email Builder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --ink:#0f172a; --bg:#f7f7fb; --card:#ffffff; --brand:#1c4588;
+      --border:#e5e7eb; --muted:#6b7280;
+    }
+    *{ box-sizing:border-box }
+    body{
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg); color:var(--ink);
+    }
+    header{
+      background:var(--brand); color:#fff; padding:16px 20px;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    header h1{ margin:0; font-size:18px; }
+    header .actions{ display:flex; gap:8px; }
+    .btn{
+      border:1px solid #ffffff33; background:#fff; color:var(--brand);
+      padding:8px 12px; border-radius:10px; font-weight:600; cursor:pointer;
+    }
+    .btn.secondary{ background:transparent; color:#fff; border-color:#ffffff88; }
+    .btn:disabled{ opacity:.6; cursor:not-allowed; }
+    .wrap{
+      display:grid; grid-template-columns:380px 1fr; gap:16px; padding:16px;
+      max-width:1400px; margin:0 auto;
+    }
+    .panel{
+      background:var(--card); border:1px solid var(--border); border-radius:14px;
+      overflow:hidden;
+    }
+    .panel h2{
+      font-size:16px; margin:0; padding:12px 14px; background:#f9fafb; border-bottom:1px solid var(--border);
+    }
+    .panel .body{ padding:14px; }
+    .row{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .field{ margin-bottom:10px; }
+    .field label{ display:block; font-size:12px; color:var(--muted); margin-bottom:6px; }
+    .field input[type="text"],
+    .field input[type="url"],
+    .field input[type="number"],
+    .field textarea,
+    .field select{
+      width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:10px; font-size:14px; background:#fff;
+    }
+    .field input[type="color"]{
+      width:100%; height:38px; padding:2px; border:1px solid var(--border); border-radius:10px; background:#fff;
+    }
+    .bubble-card{
+      border:1px solid var(--border); border-radius:12px; padding:12px; margin-bottom:12px; background:#fff;
+    }
+    .bubble-title{ font-weight:700; font-size:13px; color:var(--brand); margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; }
+    .mini-row{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .code-area{
+      width:100%; height:280px; resize:vertical; border:1px solid var(--border);
+      border-radius:12px; padding:10px; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size:12px; background:#0b1020; color:#e6edf3;
+    }
+    .preview-wrap{ height:700px; border:0; width:100%; background:#fff; }
+    .toolbar{ display:flex; gap:8px; margin-bottom:10px; }
+    .hint{ font-size:12px; color:var(--muted); }
+    .grid-gap{ display:grid; gap:10px; }
+    .divider{ height:1px; background:var(--border); margin:12px 0; }
+  </style>
 </head>
 <body>
 <header>
-  <h1>NBICodeAcademy — Text Convo Builder</h1>
+  <h1>Text Convo Email Builder</h1>
+  <div class="actions">
+    <button class="btn secondary" id="btnAsk">Set # of Bubbles</button>
+    <button class="btn" id="btnAdd">+ Add Bubble</button>
+    <button class="btn" id="btnRender">Render & Update Code</button>
+  </div>
 </header>
 
 <div class="wrap">
-  <!-- 1) EDITOR -->
-  <section class="card">
-    <h2>Editor</h2>
-    <div class="body">
-      <!-- Global styles -->
+  <!-- LEFT: Controls -->
+  <section class="panel" id="controlsPanel">
+    <h2>Conversation Settings</h2>
+    <div class="body grid-gap">
       <div class="row">
-        <div>
-          <label>Font family</label>
-          <select id="fontFamily">
-            <option value="Arial, Helvetica, sans-serif" selected>Arial, Helvetica, sans-serif</option>
-            <option value="Helvetica, Arial, sans-serif">Helvetica, Arial, sans-serif</option>
-            <option value="'Segoe UI', Arial, sans-serif">'Segoe UI', Arial, sans-serif</option>
-            <option value="Georgia, serif">Georgia, serif</option>
-            <option value="Tahoma, Geneva, sans-serif">Tahoma, Geneva, sans-serif</option>
-          </select>
+        <div class="field">
+          <label for="canvasWidth">Email Canvas Width (px)</label>
+          <input type="number" id="canvasWidth" min="320" step="10" value="500">
         </div>
-        <div>
-          <label>Base font size (px)</label>
-          <input type="number" id="baseFont" min="10" step="1" value="14" />
+        <div class="field">
+          <label for="pageBg">Email Page Background</label>
+          <input type="color" id="pageBg" value="#f5f5f5">
         </div>
       </div>
 
       <div class="row">
-        <div>
-          <label>Card width (px)</label>
-          <input type="number" id="cardWidth" min="280" step="10" value="500" />
+        <div class="field">
+          <label for="leftNameColor">Left Name Color</label>
+          <input type="color" id="leftNameColor" value="#1c4588">
         </div>
-        <div>
-          <label>Card padding (px)</label>
-          <input type="number" id="cardPad" min="0" step="2" value="20" />
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label>Name color</label>
-          <input type="color" id="nameColor" value="#1c4588" />
-        </div>
-        <div>
-          <label>Name weight</label>
-          <select id="nameWeight">
-            <option value="bold" selected>Bold</option>
-            <option value="600">600</option>
-            <option value="700">700</option>
-            <option value="normal">Normal</option>
-          </select>
+        <div class="field">
+          <label for="rightNameColor">Right Name Color</label>
+          <input type="color" id="rightNameColor" value="#1c4588">
         </div>
       </div>
 
       <div class="row">
-        <div>
-          <label>Left bubble background</label>
-          <input type="color" id="leftBg" value="#eff3f7" />
+        <div class="field">
+          <label for="leftBubbleBg">Left Bubble BG</label>
+          <input type="color" id="leftBubbleBg" value="#eff3f7">
         </div>
-        <div>
-          <label>Left bubble text color</label>
-          <input type="color" id="leftFg" value="#000000" />
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label>Right bubble background</label>
-          <input type="color" id="rightBg" value="#218aff" />
-        </div>
-        <div>
-          <label>Right bubble text color</label>
-          <input type="color" id="rightFg" value="#ffffff" />
+        <div class="field">
+          <label for="leftTextColor">Left Text Color</label>
+          <input type="color" id="leftTextColor" value="#000000">
         </div>
       </div>
 
       <div class="row">
-        <div>
-          <label>Bubble radius (px)</label>
-          <input type="number" id="bubbleRadius" min="0" step="1" value="10" />
+        <div class="field">
+          <label for="rightBubbleBg">Right Bubble BG</label>
+          <input type="color" id="rightBubbleBg" value="#218aff">
         </div>
-        <div>
-          <label>Bubble padding (px)</label>
-          <input type="number" id="bubblePad" min="4" step="1" value="10" />
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label>Avatar size (px)</label>
-          <input type="number" id="avatarSize" min="20" step="1" value="50" />
-        </div>
-        <div>
-          <label>Avatar radius (%)</label>
-          <input type="number" id="avatarRadius" min="0" max="50" step="1" value="50" />
+        <div class="field">
+          <label for="rightTextColor">Right Text Color</label>
+          <input type="color" id="rightTextColor" value="#ffffff">
         </div>
       </div>
 
-      <hr style="border:none;border-top:1px solid #e5e7eb; margin:12px 0">
+      <div class="divider"></div>
 
-      <!-- Per-message inputs -->
-      <div class="row thirds">
-        <div><strong>Message</strong></div>
-        <div><strong>Contact name</strong></div>
-        <div><strong>Avatar URL</strong></div>
-      </div>
-
-      <div class="row thirds">
-        <div>#1 (Left)</div>
-        <div><input type="text" id="name_0" value="CONTACT NAME" /></div>
-        <div><input type="url" id="avatar_0" value="https://prod.cdn.everyaction.com/images/van/NGP/NGP30/1/90471/images/Jalen.png" /></div>
-      </div>
-      <div class="row full"><textarea id="text_0">Text 1 Goes Here and This Box Expands With Text</textarea></div>
-
-      <div class="row thirds">
-        <div>#2 (Right)</div>
-        <div><input type="text" id="name_1" value="CONTACT NAME" /></div>
-        <div><input type="url" id="avatar_1" value="https://prod.cdn.everyaction.com/images/van/NGP/NGP30/1/90471/images/Mitch.png" /></div>
-      </div>
-      <div class="row full"><textarea id="text_1">Text 2</textarea></div>
-
-      <div class="row thirds">
-        <div>#3 (Left)</div>
-        <div><input type="text" id="name_2" value="CONTACT NAME" /></div>
-        <div><input type="url" id="avatar_2" value="https://prod.cdn.everyaction.com/images/van/NGP/NGP30/1/90471/images/Jalen.png" /></div>
-      </div>
-      <div class="row full"><textarea id="text_2">Text 3</textarea></div>
-
-      <div class="row thirds">
-        <div>#4 (Right)</div>
-        <div><input type="text" id="name_3" value="CONTACT NAME" /></div>
-        <div><input type="url" id="avatar_3" value="https://prod.cdn.everyaction.com/images/van/NGP/NGP30/1/90471/images/Mitch.png" /></div>
-      </div>
-      <div class="row full"><textarea id="text_3">Text 4</textarea></div>
-
-      <div class="actions">
-        <button id="apply">Apply Changes</button>
-        <button class="secondary" id="resetAll">Reset to Original</button>
-      </div>
+      <div id="bubblesForm" class="grid-gap"></div>
+      <div class="hint">Tip: Change any field and click “Render & Update Code”.</div>
     </div>
   </section>
 
-  <!-- 2) LIVE PREVIEW -->
-  <section class="card">
-    <h2>Live Preview</h2>
-    <div class="body"><div id="preview" class="email-frame"></div></div>
-  </section>
-
-  <!-- 3) HTML EXPORT -->
-  <section class="card" style="grid-column: 1 / span 2;">
-    <h2>Export HTML</h2>
+  <!-- RIGHT: Preview + Code -->
+  <section class="panel">
+    <h2>Live Preview (Email-Safe Tables)</h2>
     <div class="body">
-      <textarea id="exportHtml" readonly></textarea>
-      <div class="actions">
-        <button id="copyHtml">Copy HTML</button>
-        <button class="secondary" id="refreshHtml">Refresh Export</button>
+      <iframe id="preview" class="preview-wrap" title="Preview"></iframe>
+      <div class="divider"></div>
+      <div class="toolbar">
+        <button class="btn" id="btnCopy">Copy Code</button>
+        <button class="btn" id="btnDownload">Download HTML</button>
       </div>
+      <textarea id="code" class="code-area" spellcheck="false"></textarea>
+      <div class="hint">This is the exact HTML your email tool can use.</div>
     </div>
   </section>
 </div>
 
-<!-- Your original snippet lives here -->
-<template id="raw">
-<!DOCTYPE html>
+<script>
+(function(){
+  // Default avatars from your example
+  const DEFAULT_LEFT_AVATAR  = "https://prod.cdn.everyaction.com/images/van/NGP/NGP30/1/90471/images/Jalen.png";
+  const DEFAULT_RIGHT_AVATAR = "https://prod.cdn.everyaction.com/images/van/NGP/NGP30/1/90471/images/Mitch.png";
+
+  const state = {
+    canvasWidth: 500,
+    pageBg: "#f5f5f5",
+    nameColorLeft: "#1c4588",
+    nameColorRight: "#1c4588",
+    bubbleLeftBg: "#eff3f7",
+    bubbleLeftText: "#000000",
+    bubbleRightBg: "#218aff",
+    bubbleRightText: "#ffffff",
+    bubbles: [] // { side:'left'|'right', name, avatar, text }
+  };
+
+  // UI elements
+  const elWidth = document.getElementById('canvasWidth');
+  const elPageBg = document.getElementById('pageBg');
+  const elLeftNameCol = document.getElementById('leftNameColor');
+  const elRightNameCol = document.getElementById('rightNameColor');
+  const elLeftBg = document.getElementById('leftBubbleBg');
+  const elLeftText = document.getElementById('leftTextColor');
+  const elRightBg = document.getElementById('rightBubbleBg');
+  const elRightText = document.getElementById('rightTextColor');
+
+  const elForm = document.getElementById('bubblesForm');
+  const elPreview = document.getElementById('preview');
+  const elCode = document.getElementById('code');
+
+  const btnRender = document.getElementById('btnRender');
+  const btnCopy = document.getElementById('btnCopy');
+  const btnDownload = document.getElementById('btnDownload');
+  const btnAdd = document.getElementById('btnAdd');
+  const btnAsk = document.getElementById('btnAsk');
+
+  // Helpers
+  function escapeHtml(str){
+    return String(str ?? "")
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;");
+  }
+
+  function bubbleCard(index, bubble){
+    const idx = index + 1;
+    return `
+      <div class="bubble-card" data-index="${index}">
+        <div class="bubble-title">
+          <span>Bubble #${idx}</span>
+          <button class="btn" type="button" data-action="remove" data-index="${index}">Remove</button>
+        </div>
+        <div class="mini-row">
+          <div class="field">
+            <label>Side</label>
+            <select data-field="side">
+              <option value="left" ${bubble.side==='left'?'selected':''}>Left</option>
+              <option value="right" ${bubble.side==='right'?'selected':''}>Right</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Display Name</label>
+            <input type="text" data-field="name" placeholder="CONTACT NAME" value="${escapeHtml(bubble.name)}" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Avatar Image URL</label>
+          <input type="url" data-field="avatar" placeholder="https://..." value="${escapeHtml(bubble.avatar)}" />
+        </div>
+        <div class="field">
+          <label>Message Text</label>
+          <textarea rows="3" data-field="text" placeholder="Type message...">${escapeHtml(bubble.text)}</textarea>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderForm(){
+    elForm.innerHTML = state.bubbles.map((b,i)=>bubbleCard(i,b)).join("");
+  }
+
+  function attachFormEvents(){
+    elForm.addEventListener('input', (e)=>{
+      const card = e.target.closest('.bubble-card');
+      if(!card) return;
+      const idx = Number(card.dataset.index);
+      const field = e.target.dataset.field;
+      if(!field) return;
+      state.bubbles[idx][field] = e.target.value;
+    });
+
+    elForm.addEventListener('click', (e)=>{
+      const action = e.target.dataset.action;
+      if(action === 'remove'){
+        const idx = Number(e.target.dataset.index);
+        state.bubbles.splice(idx,1);
+        renderForm(); // re-render to reindex
+      }
+    });
+  }
+
+  function buildMessageRow(b, globals){
+    const isLeft = b.side === 'left';
+    const alignCell = isLeft ? 'left' : 'right';
+    const nameColor = isLeft ? globals.nameColorLeft : globals.nameColorRight;
+    const bubbleBg = isLeft ? globals.bubbleLeftBg : globals.bubbleRightBg;
+    const textColor = isLeft ? globals.bubbleLeftText : globals.bubbleRightText;
+
+    // Left layout = [avatar][name+text]
+    // Right layout = [name+text][avatar]
+    const leftCells = isLeft ? `
+      <td valign="top" style="padding-right:10px;">
+        <img src="${escapeHtml(b.avatar)}" alt="Avatar" width="50" height="50" style="display:block; border-radius: 50%;">
+      </td>
+      <td valign="top">
+        <div style="color:${nameColor}; font-weight:bold; margin-bottom:4px;">${escapeHtml(b.name)}</div>
+        <div style="background-color:${bubbleBg}; padding:10px; color:${textColor}; font-size:14px; line-height:1.4; border-radius:10px;">
+          ${escapeHtml(b.text)}
+        </div>
+      </td>
+    ` : `
+      <td valign="top" align="right">
+        <div style="color:${nameColor}; font-weight:bold; text-align:right; margin-bottom:4px;">${escapeHtml(b.name)}</div>
+        <div style="background-color:${bubbleBg}; padding:10px; color:${textColor}; font-size:14px; line-height:1.4; border-radius:10px;">
+          ${escapeHtml(b.text)}
+        </div>
+      </td>
+      <td valign="top" style="padding-left:10px;">
+        <img src="${escapeHtml(b.avatar)}" alt="Avatar" width="50" height="50" style="display:block; border-radius: 50%;">
+      </td>
+    `;
+
+    return `
+      <tr>
+        <td align="${alignCell}" style="padding-bottom:20px;">
+          <table cellpadding="0" cellspacing="0" role="presentation">
+            <tr>
+              ${leftCells}
+            </tr>
+          </table>
+        </td>
+      </tr>
+    `;
+  }
+
+  function buildEmailHtml(){
+    const g = {
+      width: Number(state.canvasWidth) || 500,
+      pageBg: state.pageBg,
+      nameColorLeft: state.nameColorLeft,
+      nameColorRight: state.nameColorRight,
+      bubbleLeftBg: state.bubbleLeftBg,
+      bubbleLeftText: state.bubbleLeftText,
+      bubbleRightBg: state.bubbleRightBg,
+      bubbleRightText: state.bubbleRightText
+    };
+
+    const messages = state.bubbles.map(b => buildMessageRow(b, g)).join("\n");
+
+    return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <title>Text Convo</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
-<body style="margin:0; padding:0; background-color:#f5f5f5; font-family:Arial, sans-serif;">
-<table align="center" width="100%" cellpadding="0" cellspacing="0" bgcolor="#f5f5f5">
+<body style="margin:0; padding:0; background-color:${g.pageBg}; font-family:Arial, sans-serif;">
+
+<!-- Outer Centered Container -->
+<table align="center" width="100%" cellpadding="0" cellspacing="0" bgcolor="${g.pageBg}">
   <tr>
     <td align="center">
-      <table width="500" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="padding:20px;">
-        <tr>
-          <td align="left" style="padding-bottom:20px;">
-            <table cellpadding="0" cellspacing="0">
-              <tr>
-                <td valign="top" style="padding-right:10px;">
-                  <img src="https://prod.cdn.everyaction.com/images/van/NGP/NGP30/1/90471/images/Jalen.png" alt="Avatar 1" width="50" height="50" style="display:block; border-radius: 50%;">
-                </td>
-                <td valign="top">
-                  <div style="color:#1c4588; font-weight:bold; margin-bottom:4px;">CONTACT NAME</div>
-                  <div style="background-color:#eff3f7; padding:10px; color:#000000; font-size:14px; line-height:1.4; border-radius:10px;">
-                    Text 1 Goes Here and This Box Expands With Text
-                  </div>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td align="right" style="padding-bottom:20px;">
-            <table cellpadding="0" cellspacing="0">
-              <tr>
-                <td valign="top" align="right">
-                  <div style="color:#1c4588; font-weight:bold; text-align:right; margin-bottom:4px;">CONTACT NAME</div>
-                  <div style="background-color:#218aff; padding:10px; color:#ffffff; font-size:14px; line-height:1.4; border-radius:10px;">
-                    Text 2
-                  </div>
-                </td>
-                <td valign="top" style="padding-left:10px;">
-                  <img src="https://prod.cdn.everyaction.com/images/van/NGP/NGP30/1/90471/images/Mitch.png" alt="Avatar 2" width="50" height="50" style="display:block; border-radius: 50%;">
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td align="left" style="padding-bottom:20px;">
-            <table cellpadding="0" cellspacing="0">
-              <tr>
-                <td valign="top" style="padding-right:10px;">
-                  <img src="https://prod.cdn.everyaction.com/images/van/NGP/NGP30/1/90471/images/Jalen.png" alt="Avatar 3" width="50" height="50" style="display:block; border-radius: 50%;">
-                </td>
-                <td valign="top">
-                  <div style="color:#1c4588; font-weight:bold; margin-bottom:4px;">CONTACT NAME</div>
-                  <div style="background-color:#eff3f7; padding:10px; color:#000000; font-size:14px; line-height:1.4; border-radius:10px;">
-                    Text 3
-                  </div>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td align="right" style="padding-bottom:20px;">
-            <table cellpadding="0" cellspacing="0">
-              <tr>
-                <td valign="top" align="right">
-                  <div style="color:#1c4588; font-weight:bold; text-align:right; margin-bottom:4px;">CONTACT NAME</div>
-                  <div style="background-color:#218aff; padding:10px; color:#ffffff; font-size:14px; line-height:1.4; border-radius:10px;">
-                    Text 4
-                  </div>
-                </td>
-                <td valign="top" style="padding-left:10px;">
-                  <img src="https://prod.cdn.everyaction.com/images/van/NGP/NGP30/1/90471/images/Mitch.png" alt="Avatar 4" width="50" height="50" style="display:block; border-radius: 50%;">
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
+      <table width="${g.width}" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="padding:20px;">
+
+        ${messages}
+
       </table>
     </td>
   </tr>
 </table>
+
 </body>
-</html>
-</template>
+</html>`;
+  }
 
-<script>
-/* ---------- utils ---------- */
-const $ = (id) => document.getElementById(id);
-const qsa = (root, sel) => Array.from(root.querySelectorAll(sel));
-const escapeHtml = (t) => String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
-const setMultiline = (el, text) => { el.innerHTML = escapeHtml(text).replace(/\n/g, "<br>"); };
+  function updatePreviewAndCode(){
+    // Sync globals from inputs
+    state.canvasWidth = Number(elWidth.value) || 500;
+    state.pageBg = elPageBg.value || "#f5f5f5";
+    state.nameColorLeft = elLeftNameCol.value || "#1c4588";
+    state.nameColorRight = elRightNameCol.value || "#1c4588";
+    state.bubbleLeftBg = elLeftBg.value || "#eff3f7";
+    state.bubbleLeftText = elLeftText.value || "#000000";
+    state.bubbleRightBg = elRightBg.value || "#218aff";
+    state.bubbleRightText = elRightText.value || "#ffffff";
 
-/* Extract only the <body>…</body> content from a full HTML doc string */
-function extractBody(html) {
-  const m = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
-  return m ? m[1] : html;
-}
+    const html = buildEmailHtml();
+    elCode.value = html;
 
-let msgMap = []; // [{ side, row, img, nameDiv, bubbleDiv }]
+    const doc = elPreview.contentDocument || elPreview.contentWindow.document;
+    doc.open();
+    doc.write(html);
+    doc.close();
+  }
 
-function loadSnippet() {
-  const rawHtml = $('#raw').innerHTML;
-  $('#preview').innerHTML = extractBody(rawHtml);
+  function copyToClipboard(text){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+  }
 
-  const card = $('#preview').querySelector('table[width="500"]');
-  if (!card) { refreshExport(); return; }
+  function download(filename, text){
+    const blob = new Blob([text], {type:'text/html;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 0);
+  }
 
-  const rows = qsa(card, '> tbody > tr');
-  msgMap = [];
-  rows.forEach((tr) => {
-    const inner = tr.querySelector('table');
-    if (!inner) return;
-    const imgs = qsa(inner, 'img');
-    const divs = qsa(inner, 'div');
-    if (!imgs.length || divs.length < 2) return;
+  function addBubble(side = 'left', name='CONTACT NAME', avatar='', text=''){
+    const defaultAvatar = side === 'left' ? DEFAULT_LEFT_AVATAR : DEFAULT_RIGHT_AVATAR;
+    state.bubbles.push({
+      side,
+      name,
+      avatar: avatar || defaultAvatar,
+      text
+    });
+  }
 
-    const outerTd = tr.querySelector('td[align]');
-    const side = outerTd && /right/i.test(outerTd.getAttribute('align')) ? 'right' : 'left';
-    const img = side === 'left' ? imgs[0] : imgs[imgs.length - 1];
-    const nameDiv = divs[0];
-    const bubbleDiv = divs[1];
-    msgMap.push({ side, row: tr, img, nameDiv, bubbleDiv });
+  function askHowMany(){
+    const countStr = prompt('How many text bubbles would you like to start with?', '4');
+    if(countStr === null) return; // cancelled
+    const n = Math.max(0, Math.min(50, Number(countStr) || 0));
+    state.bubbles = [];
+    for(let i=0;i<n;i++){
+      const side = i % 2 === 0 ? 'left' : 'right';
+      addBubble(
+        side,
+        'CONTACT NAME',
+        '',
+        side === 'left'
+          ? (i===0 ? 'Text 1 Goes Here and This Box Expands With Text' : `Text ${i+1}`)
+          : `Text ${i+1}`
+      );
+    }
+    renderForm();
+    updatePreviewAndCode();
+  }
+
+  // Wire globals
+  [elWidth, elPageBg, elLeftNameCol, elRightNameCol, elLeftBg, elLeftText, elRightBg, elRightText]
+    .forEach(el => el.addEventListener('input', updatePreviewAndCode));
+
+  btnRender.addEventListener('click', updatePreviewAndCode);
+  btnCopy.addEventListener('click', ()=> copyToClipboard(elCode.value));
+  btnDownload.addEventListener('click', ()=> download('text-convo.html', elCode.value));
+  btnAdd.addEventListener('click', ()=>{
+    // Alternate sides when adding
+    const side = state.bubbles.length % 2 === 0 ? 'left' : 'right';
+    addBubble(side, 'CONTACT NAME', '', `Text ${state.bubbles.length+1}`);
+    renderForm();
+    updatePreviewAndCode();
   });
+  btnAsk.addEventListener('click', askHowMany);
 
-  refreshExport();
-}
+  // Init
+  attachFormEvents();
+  // First ask the user:
+  askHowMany();
 
-function applyAll() {
-  const card = $('#preview').querySelector('table[width="500"]');
-  if (!card) return;
-
-  // globals
-  const ff = $('#fontFamily').value;
-  const base = +$('#baseFont').value || 14;
-  const w = +$('#cardWidth').value || 500;
-  const pad = +$('#cardPad').value || 20;
-
-  const nameColor = $('#nameColor').value;
-  const nameWeight = $('#nameWeight').value;
-
-  const leftBg = $('#leftBg').value, leftFg = $('#leftFg').value;
-  const rightBg = $('#rightBg').value, rightFg = $('#rightFg').value;
-
-  const radius = +$('#bubbleRadius').value || 10;
-  const bubblePad = +$('#bubblePad').value || 10;
-
-  const avSize = Math.max(1, +$('#avatarSize').value || 50);
-  const avRad = Math.max(0, Math.min(50, +$('#avatarRadius').value || 50));
-
-  // card width + padding
-  card.setAttribute('width', String(w));
-  const existingStyle = card.getAttribute('style') || '';
-  card.setAttribute('style', `padding:${pad}px;${existingStyle.replace(/padding:[^;]+;?/i,'')}`);
-
-  // base font + family on wrapper
-  const wrapper = $('#preview');
-  const ws = wrapper.getAttribute('style') || '';
-  wrapper.setAttribute('style', `font-family:${ff}; font-size:${base}px; ${ws.replace(/font-(family|size):[^;]+;?/gi,'')}`);
-
-  // update message content/styles
-  const pairs = [
-    { name:'#name_0', text:'#text_0', av:'#avatar_0' },
-    { name:'#name_1', text:'#text_1', av:'#avatar_1' },
-    { name:'#name_2', text:'#text_2', av:'#avatar_2' },
-    { name:'#name_3', text:'#text_3', av:'#avatar_3' },
-  ];
-
-  msgMap.forEach((m, i) => {
-    const nm = document.querySelector(pairs[i].name);
-    const tx = document.querySelector(pairs[i].text);
-    const av = document.querySelector(pairs[i].av);
-    if (!nm || !tx || !av) return;
-
-    m.nameDiv.textContent = nm.value;
-    setMultiline(m.bubbleDiv, tx.value);
-
-    try { m.img.setAttribute('src', av.value); } catch {}
-
-    // name styles
-    const ns = m.nameDiv.getAttribute('style') || '';
-    m.nameDiv.setAttribute('style',
-      `color:${nameColor}; font-weight:${nameWeight}; margin-bottom:4px; ${m.side==='right'?'text-align:right;':''} ${ns.replace(/(color|font-weight|font-size|text-align):[^;]+;?/gi,'')}`
-    );
-
-    // bubble styles
-    const isRight = m.side === 'right';
-    const bg = isRight ? rightBg : leftBg;
-    const fg = isRight ? rightFg : leftFg;
-    const bs = m.bubbleDiv.getAttribute('style') || '';
-    m.bubbleDiv.setAttribute('style',
-      `background-color:${bg}; padding:${bubblePad}px; color:${fg}; font-size:${base}px; line-height:1.4; border-radius:${radius}px; ${bs.replace(/(background-color|color|font-size|line-height|padding|border-radius):[^;]+;?/gi,'')}`
-    );
-
-    // avatar sizing/roundness
-    m.img.setAttribute('width', String(avSize));
-    m.img.setAttribute('height', String(avSize));
-    const isty = m.img.getAttribute('style') || '';
-    m.img.setAttribute('style', `display:block; border-radius:${avRad}%; ${isty.replace(/(border-radius|display):[^;]+;?/gi,'')}`);
-  });
-
-  refreshExport();
-}
-
-function refreshExport(){ $('#exportHtml').value = $('#preview').innerHTML.trim(); }
-function copyExport(){
-  const t = $('#exportHtml').value;
-  navigator.clipboard.writeText(t).then(()=>alert('HTML copied!'))
-    .catch(()=>{ $('#exportHtml').select(); document.execCommand('copy'); alert('HTML copied (fallback).'); });
-}
-function resetAll(){ loadSnippet(); }
-
-/* wire up */
-$('#apply').addEventListener('click', applyAll);
-$('#resetAll').addEventListener('click', resetAll);
-$('#refreshHtml').addEventListener('click', refreshExport);
-$('#copyHtml').addEventListener('click', copyExport);
-
-/* init */
-loadSnippet();
+})();
 </script>
 </body>
 </html>

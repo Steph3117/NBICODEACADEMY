@@ -8,6 +8,41 @@
     /* Page heading spacing */
     .page-title { margin: 20px 16px 8px; font-size: 24px; }
 
+    /* Quick jump nav */
+    .section-nav {
+      margin: 8px 16px 0;
+      display: flex; flex-wrap: wrap; gap: 8px;
+      font-size: 13px;
+    }
+    .section-nav a {
+      text-decoration: none;
+      padding: 6px 10px;
+      border: 1px solid #e5e7eb;
+      border-radius: 999px;
+      background: #fff;
+      color: #111827;
+    }
+
+    /* Section */
+    .section { margin-top: 22px; }
+
+    /* Original section title style (kept for fallback) */
+    .section-title {
+      margin: 16px 16px 8px;
+      display: flex; align-items: center; gap: 12px;
+      font-size: 18px; font-weight: 700; color: #111827;
+    }
+    .section-title::before,
+    .section-title::after {
+      content: ""; height: 1px; background: #e5e7eb; flex: 1;
+    }
+    .section-title span {
+      white-space: nowrap;
+      padding: 4px 10px;
+      border: 1px solid #e5e7eb; border-radius: 999px;
+      background: #fff; font-size: 14px; font-weight: 600;
+    }
+
     /* Grid */
     .template-grid {
       display: grid;
@@ -26,6 +61,7 @@
       overflow: hidden;
       text-decoration: none;
       color: inherit;
+      transition: transform .18s ease, box-shadow .18s ease;
     }
     .card figure {
       margin: 0;
@@ -41,9 +77,7 @@
       object-fit: cover;
       display: block;
     }
-    .card .content {
-      padding: 12px;
-    }
+    .card .content { padding: 12px; }
     .card .title {
       font-size: 15px;
       font-weight: 600;
@@ -58,23 +92,54 @@
     }
     .badge {
       position: absolute;
-      top: 8px;
-      left: 8px;
+      top: 8px; left: 8px;
       font-size: 11px;
-      background: #111827;
-      color: #fff;
-      padding: 4px 8px;
-      border-radius: 999px;
+      background: #111827; color: #fff;
+      padding: 4px 8px; border-radius: 999px;
       opacity: 0.9;
     }
+
     /* Hover */
-    .card:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.08); transform: translateY(-1px); transition: .18s ease; }
-    /* Responsive: stack to 2 columns on small screens */
-    @media (max-width: 900px) {
-      .template-grid { grid-template-columns: repeat(2, 1fr); }
+    .card:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.08); transform: translateY(-1px); }
+
+    /* Responsive */
+    @media (max-width: 900px) { .template-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .template-grid { grid-template-columns: 1fr; } }
+
+    /* --- Enhanced, more noticeable section headers --- */
+    .section { margin-top: 28px; scroll-margin-top: 80px; }
+    .section-title{
+      position: relative;
+      margin: 22px 16px 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      color: #0f172a;
     }
-    @media (max-width: 520px) {
-      .template-grid { grid-template-columns: 1fr; }
+    .section-title::after{
+      content:"";
+      height: 2px;
+      width: clamp(120px, 25vw, 360px);
+      background: linear-gradient(90deg, rgba(37,64,143,.35) 0%, rgba(37,64,143,.08) 100%);
+      border-radius: 2px;
+    }
+    .section-title > span{
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      color: #fff;
+      background: linear-gradient(90deg, #25408F 0%, #1e3a8a 100%);
+      box-shadow: 0 8px 18px rgba(37,64,143,.28);
+      border: 1px solid rgba(255,255,255,.22);
+    }
+    :target .section-title > span{
+      outline: 3px solid rgba(37,64,143,.35);
+      outline-offset: 2px;
+      transition: outline-color .4s ease;
     }
   </style>
 </head>
@@ -85,7 +150,6 @@
   <nav>
     <ul class="nav-tabs">
       <li><a href="../index.html">Home</a></li>
-
       <li class="dropdown">
         <a href="../tools.html">NBI Email Tools ▾</a>
         <ul class="dropdown-menu">
@@ -95,7 +159,6 @@
           <li><a href="SocialIconsite/socialiconcolor.html">Social Icon Tool</a></li>
         </ul>
       </li>
-
       <li class="dropdown">
         <a href="../trainings.html">Trainings ▾</a>
         <ul class="dropdown-menu">
@@ -103,7 +166,6 @@
           <li><a href="trainings.html#videos">Video Library</a></li>
         </ul>
       </li>
-
       <li><a href="../docs.html">Documentation</a></li>
     </ul>
   </nav>
@@ -111,204 +173,194 @@
 
 <h1 class="page-title">📚 Link Library Dictionary</h1>
 
-<!-- 4×3 Grid -->
-<main class="template-grid" aria-label="Template choices (grid)">
-  <!-- 1 -->
-  <a class="card" href="sixbuttonarray.html" target="_blank">
-    <figure>
-      <img src="LibraryAssets/6_button_ArrayExpresslane.png" alt="Preview of 6 Button Array template" />
-    </figure>
-    <div class="content">
-      <h3 class="title">6 Button Array</h3>
-      <p class="desc">Bulletproof 6-button block; adaptable to most email templates. Requires user input. Manipulate multiple buttons at once.</p>
-    </div>
-  </a>
+<!-- Jump links -->
+<nav class="section-nav" aria-label="Quick section links">
+  <a href="#templates">Starter Templates</a>
+  <a href="#elements">Email Elements</a>
+  <a href="#headers">Headers</a>
+  <a href="#footers">Footers</a>
+</nav>
 
-  <!-- 2 -->
-  <a class="card" href="threeacross.html" target="_blank">
-    <figure>
-      <img src="LibraryAssets/3ButtonArray.png" alt="Preview of 3 Button Array template" />
-    </figure>
-    <div class="content">
-      <h3 class="title">3 Button Array</h3>
-      <p class="desc">Bulletproof 3-button layout; easy to slot into existing templates.</p>
-    </div>
-  </a>
+<!-- ===== Headers ===== -->
+<section id="headers" class="section" aria-labelledby="headers-title">
+  <h2 class="section-title" id="headers-title"><span>Headers</span></h2>
+  <div class="template-grid" aria-label="Email headers grid">
+    <a class="card" href="404.html" target="_blank">
+      <figure>
+        <img src="LibraryAssets/NGPHeaderTemplate.png" alt="Preview of a minimal header" />
+      </figure>
+      <div class="content">
+        <h3 class="title">NGPHeaderTemplate</h3>
+        <p class="desc">This is a customizable HTML email header with responsive layout, logo, dynamic content placeholder, and mobile-friendly resets.</p>
+      </div>
+    </a>
+  </div>
+</section>
 
-  <!-- 3 -->
-  <a class="card" href="singlebutton.html" target="_blank">
-    <figure>
-      <img src="LibraryAssets/singleButton.png" alt="Preview of Single Button template" />
-    </figure>
-    <div class="content">
-      <h3 class="title">Single Button</h3>
-      <p class="desc">Bulletproof single CTA button; simple and flexible.</p>
-    </div>
-  </a>
+<!-- ===== Starter Templates ===== -->
+<section id="templates" class="section" aria-labelledby="templates-title">
+  <h2 class="section-title" id="templates-title"><span>One Stop Shop</span></h2>
+  <div class="template-grid" aria-label="Starter templates grid">
+    <a class="card" href="404.html" target="_blank">
+      <figure>
+        <span class="badge">WIP</span>
+        <img src="thumbs/placeholder.png" alt="Preview of a starter email template" />
+      </figure>
+      <div class="content">
+        <h3 class="title">Basic Campaign Template</h3>
+        <p class="desc">Clean base with hero, body copy, and CTA.</p>
+      </div>
+    </a>
+  </div>
+</section>
 
-  <!-- 4 -->
-  <a class="card" href="FooterTemplateNoBGColorRecurringButton.html" target="_blank">
-    <figure>
-      <img src="LibraryAssets/FooterTemplate_NoBGColor, Recurring Button.png" alt="Preview of Footer template (No BG, Recurring Button)" />
-    </figure>
-    <div class="content">
-      <h3 class="title">Footer: No BG + Recurring</h3>
-      <p class="desc">ID 0001 · Footer with no background color and recurring contribution CTA.</p>
-    </div>
-  </a>
+<!-- ===== Email Elements ===== -->
+<section id="elements" class="section" aria-labelledby="elements-title">
+  <h2 class="section-title" id="elements-title"><span>Email Elements</span></h2>
 
-  <!-- 5 (WIP) -->
-  <a class="card" href="404.html" target="_blank">
-    <figure>
-      <span class="badge">WIP</span>
-      <img src="LibraryAssets/FooterTemplate_BGColor, Recurring Button.png" alt="Preview of Footer template (BG Color, Recurring Button)" />
-    </figure>
-    <div class="content">
-      <h3 class="title">Footer: BG + Recurring</h3>
-      <p class="desc">ID 0002 · Footer with background color and recurring contribution CTA.</p>
-    </div>
-  </a>
+  <!-- SINGLE grid wrapper for ALL element cards -->
+  <div class="template-grid" aria-label="Email elements grid">
 
-  <!-- 6 (WIP) -->
-  <a class="card" href="404.html" target="_blank">
-    <figure>
-      <span class="badge">WIP</span>
-      <img src="LibraryAssets/FooterTemplate_NoBGColor, Bio.png" alt="Preview of Footer template (No BG, Bio)" />
-    </figure>
-    <div class="content">
-      <h3 class="title">Footer: No BG + Bio</h3>
-      <p class="desc">ID 0003 · Footer with no background color and a bio section.</p>
-    </div>
-  </a>
+    <!-- 6 Button Array -->
+    <a class="card" href="sixbuttonarray.html" target="_blank">
+      <figure>
+        <img src="LibraryAssets/6_button_ArrayExpresslane.png" alt="Preview of 6 Button Array template" />
+      </figure>
+      <div class="content">
+        <h3 class="title">6 Button Array</h3>
+        <p class="desc">Bulletproof 6-button block; manipulate multiple buttons at once.</p>
+      </div>
+    </a>
 
-  <!-- 7 (WIP) -->
-  <a class="card" href="404.html" target="_blank">
-    <figure>
-      <span class="badge">WIP</span>
-      <img src="LibraryAssets/FooterTemplate_Bio, BGColor.png" alt="Preview of Footer template (Bio + BG Color)" />
-    </figure>
-    <div class="content">
-      <h3 class="title">Footer: Bio + BG</h3>
-      <p class="desc">ID 0004 · Footer with background color and bio section.</p>
-    </div>
-  </a>
+    <!-- 3 Button Array -->
+    <a class="card" href="threeacross.html" target="_blank">
+      <figure>
+        <img src="LibraryAssets/3ButtonArray.png" alt="Preview of 3 Button Array template" />
+      </figure>
+      <div class="content">
+        <h3 class="title">3 Button Array</h3>
+        <p class="desc">Bulletproof 3-button layout; easy to slot into existing templates.</p>
+      </div>
+    </a>
 
-  <!-- 8 (WIP) -->
-  <a class="card" href="404.html" target="_blank">
-    <figure>
-      <span class="badge">WIP</span>
-      <img src="LibraryAssets\FooterTemplate_BGColor.png" alt="Preview of Footer template (BG Color)" />
-    </figure>
-    <div class="content">
-      <h3 class="title">Footer: BG Color</h3>
-      <p class="desc">ID 0005 · Footer with background color (no bio, no recurring).</p>
-    </div>
-  </a>
+    <!-- Single Button -->
+    <a class="card" href="singlebutton.html" target="_blank">
+      <figure>
+        <img src="LibraryAssets/singleButton.png" alt="Preview of Single Button template" />
+      </figure>
+      <div class="content">
+        <h3 class="title">Single Button</h3>
+        <p class="desc">Bulletproof single CTA; simple and flexible.</p>
+      </div>
+    </a>
 
-  <!-- 9 (WIP) -->
-  <a class="card" href="404.html" target="_blank">
-    <figure>
-      <span class="badge">WIP</span>
-      <img src="LibraryAssets/FooterTemplate_NoBGColor.png" alt="Preview of Footer template (No BG Color)" />
-    </figure>
-    <div class="content">
-      <h3 class="title">Footer: No BG</h3>
-      <p class="desc">ID 0006 · Footer with no background color (minimal).</p>
-    </div>
-  </a>
+    <!-- Text Convo -->
+    <a class="card" href="textconvo.html" target="_blank">
+      <figure>
+        <img src="LibraryAssets/textconvo.png" alt="Preview of Text Convo template" />
+      </figure>
+      <div class="content">
+        <h3 class="title">Text Convo</h3>
+        <p class="desc">Chat-style layout with alternating bubbles and avatars, built with table-safe markup.</p>
+      </div>
+    </a>
 
-  <!-- 10 (WIP) -->
-  <a class="card" href="mostsimilartoKornst.html" target="_blank">
-    <figure>
-      <span class="badge">DONE</span>
-      <img src="LibraryAssets/FooterTemplate_MostSimilartoKornst.png" alt="Preview of Footer template similar to Kornst" />
-    </figure>
-    <div class="content">
-      <h3 class="title">Footer: Kornst-like</h3>
-      <p class="desc">ID 0007 · Footer styled most similar to Kornst variant.</p>
-    </div>
-  </a>
+    <!-- 2 Columns -->
+    <a class="card" href="2sideBySide.html" target="_blank">
+      <figure>
+        <img src="LibraryAssets/2Columns.png" alt="Preview of 2 Columns template" />
+      </figure>
+      <div class="content">
+        <h3 class="title">2 Columns</h3>
+        <p class="desc">Equal-width two-column block; duplicate rows as needed.</p>
+      </div>
+    </a>
 
-  <!-- 11 (slot for future) -->
-  <a class="card" href="404.html" target="_blank">
-    <figure>
-      <span class="badge">WIP</span>
-      <img src="LibraryAssets/FooterTemplate_Concise.png" alt="Placeholder preview for upcoming template" />
-    </figure>
-    <div class="content">
-      <h3 class="title">Upcoming Template A</h3>
-      <p class="desc">Reserved slot for a new starter template.</p>
-    </div>
-  </a>
+  </div>
+  <!-- END .template-grid -->
+</section>
 
-  <!-- 12 (slot for future) -->
-  <a class="card" href="404.html" target="_blank">
-    <figure>
-      <span class="badge">WIP</span>
-      <img src="thumbs/placeholder.png" alt="Placeholder preview for upcoming template" />
-    </figure>
-    <div class="content">
-      <h3 class="title">Upcoming Template B</h3>
-      <p class="desc">Reserved slot for a new starter template.</p>
-    </div>
-  </a>
+<!-- ===== Footers ===== -->
+<section id="footers" class="section" aria-labelledby="footers-title">
+  <h2 class="section-title" id="footers-title"><span>Footers</span></h2>
+  <div class="template-grid" aria-label="Email footers grid">
+    <a class="card" href="FooterTemplateNoBGColorRecurringButton.html" target="_blank">
+      <figure>
+        <img src="LibraryAssets/FooterTemplate_NoBGColor, Recurring Button.png" alt="Footer template (No BG, Recurring button)" />
+      </figure>
+      <div class="content">
+        <h3 class="title">No BG + Recurring</h3>
+        <p class="desc">ID 0001 · Footer without background plus recurring CTA.</p>
+      </div>
+    </a>
 
     <a class="card" href="404.html" target="_blank">
-    <figure>
-      <span class="badge">WIP</span>
-      <img src="thumbs/placeholder.png" alt="Placeholder preview for upcoming template" />
-    </figure>
-    <div class="content">
-      <h3 class="title">Upcoming Template B</h3>
-      <p class="desc">Reserved slot for a new starter template.</p>
-    </div>
-  </a>
+      <figure>
+        <span class="badge">WIP</span>
+        <img src="LibraryAssets/FooterTemplate_BGColor, Recurring Button.png" alt="Footer template (BG Color, Recurring button)" />
+      </figure>
+      <div class="content">
+        <h3 class="title">BG + Recurring</h3>
+        <p class="desc">ID 0002 · With background color & recurring CTA.</p>
+      </div>
+    </a>
 
     <a class="card" href="404.html" target="_blank">
-    <figure>
-      <span class="badge">WIP</span>
-      <img src="thumbs/placeholder.png" alt="Placeholder preview for upcoming template" />
-    </figure>
-    <div class="content">
-      <h3 class="title">Upcoming Template B</h3>
-      <p class="desc">Reserved slot for a new starter template.</p>
-    </div>
-  </a>
+      <figure>
+        <span class="badge">WIP</span>
+        <img src="LibraryAssets/FooterTemplate_NoBGColor, Bio.png" alt="Footer template (No BG, Bio)" />
+      </figure>
+      <div class="content">
+        <h3 class="title">No BG + Bio</h3>
+        <p class="desc">ID 0003 · No background; includes bio section.</p>
+      </div>
+    </a>
 
     <a class="card" href="404.html" target="_blank">
-    <figure>
-      <span class="badge">WIP</span>
-      <img src="thumbs/placeholder.png" alt="Placeholder preview for upcoming template" />
-    </figure>
-    <div class="content">
-      <h3 class="title">Upcoming Template B</h3>
-      <p class="desc">Reserved slot for a new starter template.</p>
-    </div>
-  </a>
+      <figure>
+        <span class="badge">WIP</span>
+        <img src="LibraryAssets/FooterTemplate_Bio, BGColor.png" alt="Footer template (Bio + BG)" />
+      </figure>
+      <div class="content">
+        <h3 class="title">Bio + BG</h3>
+        <p class="desc">ID 0004 · Background color plus bio section.</p>
+      </div>
+    </a>
 
     <a class="card" href="404.html" target="_blank">
-    <figure>
-      <span class="badge">WIP</span>
-      <img src="thumbs/placeholder.png" alt="Placeholder preview for upcoming template" />
-    </figure>
-    <div class="content">
-      <h3 class="title">Upcoming Template B</h3>
-      <p class="desc">Reserved slot for a new starter template.</p>
-    </div>
-  </a>
+      <figure>
+        <span class="badge">WIP</span>
+        <img src="LibraryAssets/FooterTemplate_BGColor.png" alt="Footer template (BG Color)" />
+      </figure>
+      <div class="content">
+        <h3 class="title">BG Color</h3>
+        <p class="desc">ID 0005 · Background color, no bio/recurring.</p>
+      </div>
+    </a>
 
     <a class="card" href="404.html" target="_blank">
-    <figure>
-      <span class="badge">WIP</span>
-      <img src="thumbs/placeholder.png" alt="Placeholder preview for upcoming template" />
-    </figure>
-    <div class="content">
-      <h3 class="title">Upcoming Template B</h3>
-      <p class="desc">Reserved slot for a new starter template.</p>
-    </div>
-  </a>
-</main>
+      <figure>
+        <span class="badge">WIP</span>
+        <img src="LibraryAssets/FooterTemplate_NoBGColor.png" alt="Footer template (No BG Color)" />
+      </figure>
+      <div class="content">
+        <h3 class="title">No BG</h3>
+        <p class="desc">ID 0006 · Minimal footer, text/link only.</p>
+      </div>
+    </a>
+
+    <a class="card" href="mostsimilartoKornst.html" target="_blank">
+      <figure>
+        <span class="badge">DONE</span>
+        <img src="LibraryAssets/FooterTemplate_MostSimilartoKornst.png" alt="Preview of footer template similar to Kornst" />
+      </figure>
+      <div class="content">
+        <h3 class="title">Footer: Kornst-like</h3>
+        <p class="desc">ID 0007 · Starter close to the Kornst variant.</p>
+      </div>
+    </a>
+  </div>
+</section>
 
 </body>
 </html>
-
