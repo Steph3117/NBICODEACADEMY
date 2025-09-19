@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><!-- CONFIGURE: title tag below, likely the name of the campaign -->
+	<title>YOUR CLIENT HERE</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" /><!--Taking this out did not do anything to the previews, so could remove-->
+	<style type="text/css">
+        body, table, td, a{-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;} /* Prevent WebKit and Windows mobile changing default text sizes 
+             Taking this out did not do anything to the previews, so could remove, but would also test in an actual email first */
+        table, td{mso-table-lspace: 0pt; mso-table-rspace: 0pt;} /* Remove spacing between tables in Outlook 2007 and up, seems to still be needed*/
+        img{-ms-interpolation-mode: bicubic;} /* Allow smoother rendering of resized image in Internet Explorer; does not seem to make a difference, based on research, IE is not in email on acid*/
+
+        /* RESET STYLES */
+        img{border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none;}
+        table{border-collapse: collapse !important;}
+        body{height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important;} /*can add background, text color, and fond-family here */
+        /* iOS BLUE LINKS added underline to text decoration*/
+        a[x-apple-data-detectors] {
+            color: inherit !important;
+            text-decoration: underline !important;
+            font-size: inherit !important;
+            font-family: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+        }
+
+        /* CONFIGURE: optional custom font; recommend Google Fonts: font.google.com */
+        /* Must use @import; example: */
+        /* @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap'); */
+
+        /* Then alter all "font-family" CSS below, including inline CSS, to include imported font; example: */
+        /* font-family: 'Roboto', Helvetica, Arial, sans-serif; */
+
+        /* Note: web fonts in email is not widely supported. More information here: https://www.litmus.com/blog/the-ultimate-guide-to-web-fonts/ */
+
+        body, #body_style {
+            background: #FFFFFF;
+            min-height: 1000px;
+            color: #222222;
+            font-family: Helvetica, Arial, sans-serif;
+        } /*if you put this above in reset styles, this whole section can be removed */
+        
+        /* CONFIGURE: custom link colors and styles */
+        /* Modify "color" CSS to hex color code of choice */
+        /* u + #body_style is for gmail blue links */
+        a, a:link, u + #body_style a {
+            color: #2642bd;
+            text-decoration: underline;
+         
+        }
+        /* u + #body_style here is for gmail blue links, do not change */
+        u + #body_style a {
+            font-size: inherit;
+            font-family: inherit;
+            line-height: inherit;
+        }    
+        a:visited, a:hover, a:focus {
+            color: #bd26b5; 
+        }
+        a:visited { 
+            text-decoration: none
+        }
+        a:hover, a:focus { 
+            text-decoration: underline
+        }    
+
+        /* Mobile style utility classes. Use in content as needed. */
+        @media screen and (max-width: 525px) {
+
+            /* Hides content on mobile */
+            .mobile-hide {
+                display: none !important;
+            }
+
+            /* Add to image tag to make image expand to all horizontal space on mobile */
+            .img-max {
+                max-width: 100% !important;
+                width: 100% !important;
+                height: auto !important;
+            }
+
+            /* Add to table tag to make table expand to all horizontal space on mobile */
+            .responsive-table {
+                width: 100% !important;
+            }
+            
+        }
+
+        /* ANDROID CENTER FIX */div[style*="margin: 16px 0;"] { margin: 0 !important; } /*doesn't seem to be needed */
+
+	</style>
+</head>
+<body id="body_style" style="margin: 0 !important; padding: 0 !important;">
+
+    <!-- CONFIGURE: optional preview text. -->
+<div style="display:none;font-size:0px;color:#ffffff;line-height:0px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;͏‌&nbsp;</div>
+
+<!-- ONE COLUMN SECTION --><!-- Fix for Outlook https://litmus.com/community/discussions/982-outlook-overrides-font-to-times-new-roman -->
+ <!--[if mso]>
+<style type="text/css">
+body, table, td { font-family:  Helvetica, Arial, sans-serif; !important; }
+</style>
+<![endif]-->
+
+<table align="center" cellpadding="10" style="max-width: 650px; width: 100%; padding: 3px;" role="presentation">
+    <tbody>
+        <tr>
+            <td style="color: #767676; font-family: Proxima-Nova, sans-serif; font-size: 10px; color: #767676; text-align: center; line-height: 130%;">We believe that progress doesn’t happen on its own. Success takes hard work and it takes good people to make it happen. You are one of those people and we are here to collaborate with you. If you’d like to unsubscribe, <a href="{{UnsubscribeUrl}}" style=" color: #767676; font-weight: bold; text-decoration: underline;">click here.</a></td>
+        </tr>
+    </tbody>
+</table>
+​
+
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" role="presentation">
+	<tbody>
+		<tr>
+			<td align="center" bgcolor="#ffffff" style="padding: 15px;"><!-- CONFIGURE: email width. Currently "600" pixels. To change, find the three instances of "600" in the following six lines and modify. --><!--[if (gte mso 9)|(IE)]>
+            <table align="center" border="0" cellspacing="0" cellpadding="0" width="750">
+            <tr>
+            <td align="center" valign="top" width="750">
+            <![endif]-->
+			<table border="0" cellpadding="0" cellspacing="0" class="responsive-table" style="max-width: 750px;" width="100%" role="presentation">
+				<tbody>
+					<tr>
+						<td>
+						<table border="0" cellpadding="0" cellspacing="0" width="100%" role="presentation">
+							<tbody>
+								<tr>
+									<td align="center" style="text-align: center; width: 100%; border-collapse: collapse;padding-bottom: 20px;"><a href="#"><img alt="YOUR CLIENT HERE " src="https://go.newblueinteractive.com/hs-fs/hubfs/NBI_PrimaryLogo.png" style="display: block; margin: 0px auto; border: 0px; max-width: 330px; width: 100%; height: auto;" width="330" /></a></td>
+								</tr>
+								<tr><!-- CONFIGURE: CSS line-height. Currently set at 1.2em -->
+									<td align="left" style="font-size: 18px; line-height: 140%; font-family: Helvetica, Arial, sans-serif; color: #222222;"><!-- COPY --><!-- CONFIGURE: CRM template copy treatment --><!-- If using a CRM that requires the email template is split above and below copy (such as ActionNetwork), this is the point to split --><!-- ActionKit content tags used here. Replace with respective CRM tags as need be -->{{EmailContent}}</td>
+								</tr>
+							</tbody>
+						</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<!--[if (gte mso 9)|(IE)]>
+            </td>
+            </tr>
+            </table>
+            <![endif]--></td>
+		</tr>
+    <!-- footer goes here-->
+        </tbody>
+        </table>
+        </body>
+        </html>
