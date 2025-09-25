@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Snippet Preview • Standalone</title>
+  <style>
+    :root{
+      --bg:#0b0b0f;--panel:#121218;--muted:#a3a3b2;--text:#e9e9f1;--ring:#262637;--accent:#7c7cff;
+      --code-bg:#0a0a0d;--white:#ffffff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Inter,"Helvetica Neue",Arial;line-height:1.5;background:var(--bg);color:var(--text)}
+    .wrap{max-width:1100px;margin-inline:auto;padding:24px}
+    header{display:flex;gap:16px;align-items:flex-start;justify-content:space-between;margin-bottom:20px}
+    h1{font-size:clamp(22px,2.2vw,28px);margin:0}
+    .muted{color:var(--muted)}
+    .row{display:grid;grid-template-columns:1fr;gap:16px}
+    @media (min-width:900px){.row{grid-template-columns:1fr 1fr}}
+    .card{background:var(--panel);border:1px solid var(--ring);border-radius:16px;box-shadow:0 10px 30px #0004;padding:16px}
+    .card h2{margin:0 0 8px 0;font-size:18px}
+    .btn{appearance:none;border:1px solid var(--ring);background:#1a1a26;color:var(--text);padding:8px 12px;border-radius:12px;font-size:14px;cursor:pointer}
+    .btn:hover{background:#1f1f2c}
+    .btn:active{background:#2a2a3a}
+    .btn.primary{border-color:transparent;background:var(--accent);color:#0b0b0f}
+    .toolbar{display:flex;gap:8px;align-items:center}
+    .switch{display:inline-flex;gap:8px;align-items:center;font-size:14px}
+    .preview-box{background:var(--white);color:#000;border-radius:12px;padding:12px;min-height:160px;overflow:auto}
+    pre{background:var(--code-bg);border:1px solid var(--ring);border-radius:12px;padding:12px;margin:12px 0 0 0;overflow:auto}
+    code, textarea{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:13px}
+    textarea{width:100%;height:220px;background:var(--code-bg);color:var(--text);border:1px solid var(--ring);border-radius:12px;padding:10px;resize:vertical}
+    details{background:#0e0e15;border:1px solid var(--ring);border-radius:12px;padding:10px}
+    summary{cursor:pointer}
+    .note{font-size:12px;color:var(--muted);margin-top:8px}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;border:1px solid var(--ring);border-radius:999px;padding:4px 8px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Snippet: Client Signature + NBI Logo</h1>
+        <div class="muted">Live preview • explanation • one‑click copy (no backend)</div>
+      </div>
+      <div class="toolbar">
+        <label class="switch"><input id="editToggle" type="checkbox"> Edit HTML</label>
+        <button id="copyBtn" class="btn">Copy HTML</button>
+        <button id="resetBtn" class="btn">Reset</button>
+      </div>
+    </header>
+
+    <div class="row">
+      <!-- Live Preview -->
+      <section class="card">
+        <h2>Live Preview</h2>
+        <div id="preview" class="preview-box"></div>
+        <div class="note">What you see here is the raw rendering of the snippet inside a neutral white container.</div>
+      </section>
+
+      <!-- Explainer -->
+      <section class="card">
+        <h2>What this code does</h2>
+        <ul>
+          <li><span class="pill">HTML comments</span> <code>&lt;!-- ... --&gt;</code> label the two images (not visible in preview).</li>
+          <li>Each <code>&lt;img&gt;</code> has an <code>alt</code> attribute for accessibility and a <code>src</code> pointing to the EveryAction‑hosted asset.</li>
+          <li>Inline <code>style</code> uses <code>max-width</code> (350px for the signature, 150px for the logo) so images scale down but never exceed those widths.</li>
+          <li><code>&lt;br&gt;</code> adds simple vertical spacing — broadly compatible across email clients.</li>
+        </ul>
+        <details>
+          <summary><strong>Best‑practice tips</strong></summary>
+          <ul>
+            <li>Host assets on a reliable CDN to avoid broken images.</li>
+            <li>Keep <code>alt</code> text concise and descriptive (e.g., “signature”, “NBI logo”).</li>
+            <li>Use minimal inline styles for email compatibility; prefer tables if building complex layouts for Outlook.</li>
+          </ul>
+        </details>
+      </section>
+    </div>
+
+    <!-- Source Panel -->
+    <section class="card" style="margin-top:16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+        <h2 style="margin:0">Snippet HTML</h2>
+        <div class="toolbar">
+          <button id="copyBtn2" class="btn">Copy HTML</button>
+          <label class="switch"><input id="editToggle2" type="checkbox"> Edit HTML</label>
+        </div>
+      </div>
+
+      <pre id="codeBlock"><code></code></pre>
+      <textarea id="editor" style="display:none" spellcheck="false"></textarea>
+      <div class="note">Toggle “Edit HTML” to modify the snippet and see the preview update instantly.</div>
+    </section>
+  </div>
+
+  <script>
+    const DEFAULT_SNIPPET = `<!-- IMAGE OF CLIENT SIGNATURE --><img alt="signature" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88965/images/968a5cd9-11bb-407d-9747-a8f13aed389d.jpg" style="max-width: 350px;" />\n <br>\n<!-- NBI Logo --><img alt="nbi icon" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/NBI%20Social%20Avi.png" style="max-width: 150px" />`;
+
+    const preview = document.getElementById('preview');
+    const codeBlock = document.getElementById('codeBlock').querySelector('code');
+    const editor = document.getElementById('editor');
+    const editToggle = document.getElementById('editToggle');
+    const editToggle2 = document.getElementById('editToggle2');
+
+    function setSnippet(value){
+      codeBlock.textContent = value; // show as code
+      preview.innerHTML = value;     // render live
+      editor.value = value;          // sync editor
+    }
+
+    function setEditing(on){
+      editor.style.display = on ? 'block' : 'none';
+      document.getElementById('codeBlock').style.display = on ? 'none' : 'block';
+      editToggle.checked = on; editToggle2.checked = on;
+    }
+
+    // Initialize
+    setSnippet(DEFAULT_SNIPPET);
+    setEditing(false);
+
+    // Editing
+    editor.addEventListener('input', () => setSnippet(editor.value));
+    editToggle.addEventListener('change', (e)=> setEditing(e.target.checked));
+    editToggle2.addEventListener('change', (e)=> setEditing(e.target.checked));
+
+    // Copy helpers
+    function copyText(txt){
+      if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(txt);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = txt; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); } finally { document.body.removeChild(ta); }
+        return Promise.resolve();
+      }
+    }
+    function bindCopy(btnId){
+      const btn = document.getElementById(btnId);
+      btn.addEventListener('click', async () => {
+        const current = editor.style.display === 'block' ? editor.value : codeBlock.textContent;
+        try {
+          await copyText(current);
+          const prev = btn.textContent; btn.textContent = 'Copied ✓';
+          setTimeout(()=> btn.textContent = prev, 1200);
+        } catch {
+          alert('Copy failed. You can select the code and copy manually.');
+        }
+      });
+    }
+    bindCopy('copyBtn');
+    bindCopy('copyBtn2');
+
+    // Reset
+    document.getElementById('resetBtn').addEventListener('click', ()=> setSnippet(DEFAULT_SNIPPET));
+  </script>
+</body>
+</html>

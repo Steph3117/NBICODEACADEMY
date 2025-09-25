@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Interactive Email Template Builder — Table/VML Safe</title>
+  <style>
+    :root{
+      --ui-bg:#0b1220; --panel:#121a2b; --muted:#2a3552; --text:#e6ecff; --accent:#6ea8fe;
+      --stage:#0f1526;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; background:var(--ui-bg); color:var(--text); font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; display:grid; grid-template-columns:360px 1fr; gap:16px; padding:16px}
+    .panel{background:var(--panel); border:1px solid var(--muted); border-radius:16px; padding:16px; overflow:auto; max-height:calc(100vh - 32px)}
+    .section{margin-bottom:16px}
+    .section h2{font-size:12px; letter-spacing:.08em; text-transform:uppercase; opacity:.8; margin:0 0 8px}
+    .field{display:grid; grid-template-columns:120px 1fr; gap:10px; align-items:center; margin:8px 0}
+    .field input[type="text"],.field input[type="url"],.field input[type="number"],.field select{width:100%; background:#0c1426; color:var(--text); border:1px solid var(--muted); border-radius:10px; padding:8px 10px}
+    .field input[type="color"]{border:none; background:transparent; height:36px}
+    .row{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+    .btn{background:#1f2a44; color:var(--text); border:1px solid var(--muted); padding:10px 12px; border-radius:12px; cursor:pointer}
+    .btn.primary{background:var(--accent); color:#0b1220; border-color:transparent}
+    .stage{background:var(--stage); border:1px solid var(--muted); border-radius:16px; padding:20px; min-height:calc(100vh - 32px); overflow:auto}
+    .preview-wrap{display:grid; place-items:center}
+    .note{opacity:.75; font-size:12px}
+    /* visual frame only; not exported */
+    .frame{max-width:900px; width:100%; background:#fff1; border:1px dashed #2a3552; padding:8px}
+  </style>
+</head>
+<body>
+  <aside class="panel" id="controls">
+    <div class="section">
+      <h2>Template Source</h2>
+      <p class="note">This builder starts with <strong>your exact table/VML email template</strong>. Tweak settings, see a live preview, and export email‑safe HTML with inline styles.</p>
+    </div>
+
+    <div class="section">
+      <h2>Brand & Fonts</h2>
+      <div class="field"><label>Font family</label>
+        <select id="fontFamily">
+          <option value="Helvetica, Arial, sans-serif">Helvetica / Arial</option>
+          <option value="Arial, Helvetica, sans-serif">Arial / Helvetica</option>
+          <option value="Trebuchet MS, Arial, sans-serif">Trebuchet MS</option>
+          <option value="Georgia, Times, 'Times New Roman', serif">Georgia (serif)</option>
+          <option value="Tahoma, Verdana, Segoe, sans-serif">Tahoma / Verdana</option>
+        </select>
+      </div>
+      <div class="field"><label>Link color</label><input type="color" id="linkColor" value="#000000"></div>
+      <div class="field"><label>Base text size</label><input type="number" id="baseFont" value="12" min="10" max="20"></div>
+    </div>
+
+    <div class="section">
+      <h2>Canvas Size</h2>
+      <div class="field"><label>Max width (px)</label><input type="number" id="maxWidth" value="800" min="300" max="900"></div>
+      <div class="field"><label>Background min‑height</label><input type="number" id="minHeight" value="0" min="0" max="1200"></div>
+    </div>
+
+    <div class="section">
+      <h2>Background</h2>
+      <div class="field"><label>Image URL</label><input type="url" id="bgUrl" value="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88965/images/Copy%20of%20PA%20Dems%20Wrapper%20%281%29.png"></div>
+      <div class="field"><label>Body BG (fallback)</label><input type="color" id="bodyBg" value="#ffffff"></div>
+    </div>
+
+    <div class="section">
+      <h2>Social Row</h2>
+      <div class="field"><label>Show social</label><input type="checkbox" id="socialShow" checked></div>
+      <div class="field"><label>Icon size</label><input type="number" id="iconSize" value="50" min="16" max="96"></div>
+      <div class="field"><label>Bluesky URL</label><input type="url" id="bskyHref" placeholder="https://bsky.app/profile/..."/></div>
+      <div class="field"><label>Facebook URL</label><input type="url" id="fbHref" placeholder="https://facebook.com/..."/></div>
+      <div class="field"><label>Instagram URL</label><input type="url" id="igHref" placeholder="https://instagram.com/..."/></div>
+      <div class="field"><label>TikTok URL</label><input type="url" id="ttHref" placeholder="https://tiktok.com/@..."/></div>
+      <div class="field"><label>X (Twitter) URL</label><input type="url" id="xHref" placeholder="https://x.com/..."/></div>
+      <div class="field"><label>YouTube URL</label><input type="url" id="ytHref" placeholder="https://youtube.com/..."/></div>
+    </div>
+
+    <div class="section">
+      <h2>Buttons</h2>
+      <div class="field"><label>Primary label</label><input type="text" id="btn1Label" value="DONATE NOW"></div>
+      <div class="field"><label>Primary URL</label><input type="url" id="btn1Href" value="https://www.newblueinteractive.com"></div>
+      <div class="field"><label>Secondary label</label><input type="text" id="btn2Label" value="VOLUNTEER"></div>
+      <div class="field"><label>Secondary URL</label><input type="url" id="btn2Href" value="https://www.newblueinteractive.com"></div>
+      <div class="field"><label>Button BG</label><input type="color" id="btnBg" value="#25408F"></div>
+      <div class="field"><label>Button Text</label><input type="color" id="btnText" value="#ffffff"></div>
+      <div class="field"><label>Border color</label><input type="color" id="btnBorder" value="#ffffff"></div>
+      <div class="field"><label>Underline?</label><select id="btnUnderline"><option value="underline">Underline</option><option value="none">None</option></select></div>
+      <div class="field"><label>Width (px)</label><input type="number" id="btnW" value="200" min="120" max="360"></div>
+      <div class="field"><label>Height (px)</label><input type="number" id="btnH" value="50" min="32" max="96"></div>
+      <div class="field"><label>Radius (px)</label><input type="number" id="btnR" value="5" min="0" max="24"></div>
+      <div class="field"><label>Show #2</label><input type="checkbox" id="btn2Show" checked></div>
+    </div>
+
+    <div class="section">
+      <h2>Footer</h2>
+      <div class="field"><label>PAC line</label><input type="text" id="paidFor" value="PAID FOR BY YOUR CAMPAIGN"></div>
+      <div class="field"><label>Show footer</label><input type="checkbox" id="footerShow" checked></div>
+    </div>
+
+    <div class="section">
+      <h2>Export</h2>
+      <div class="row">
+        <button class="btn" id="copyHtml">Copy HTML</button>
+        <button class="btn primary" id="downloadHtml">Download .html</button>
+        <button class="btn" id="reset">Reset</button>
+      </div>
+      <p class="note">Export includes your settings with inline styles and VML kept for Outlook.</p>
+    </div>
+  </aside>
+
+  <main class="stage">
+    <div class="preview-wrap">
+      <div class="frame">
+        <!-- ======== BEGIN EMAIL PREVIEW (EXPORTS FROM HERE) ======== -->
+        <center id="rootCenter">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" id="outerTable">
+            <tbody>
+              <tr>
+                <td align="center" id="bgCell" style="background-image:url(https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88965/images/Copy%20of%20PA%20Dems%20Wrapper%20%281%29.png); background-size:cover;">
+                  <!--[if (gte mso 9)|(IE)]>
+                  <table align="center" border="0" cellspacing="0" cellpadding="0"><tr><td align="center" valign="top">
+                  <![endif]-->
+
+                  <div id="bodyShim" style="margin:0; padding:0; background-size:cover;">
+                    <hr style="max-width: 750px; border: 0; height: 1px; background:#00000033;" />
+                    <center>
+                      <!-- SOCIAL ICONS -->
+                      <table border="0" cellpadding="0" cellspacing="0" id="socialTable">
+                        <tbody>
+                          <tr>
+                            <td><a id="bsky" href="#" target="_blank"><img alt="bluesky" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/Bluesky%20Circle_2.png" style="display:block;" width="50" /></a></td>
+                            <td><a id="fb" href="#" target="_blank"><img alt="facebook" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/Facebook%20Circle_2.png" style="display:block;" width="50" /></a></td>
+                            <td><a id="ig" href="#" target="_blank"><img alt="instagram" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/Instagram%20Circle_2.png" style="display:block;" width="50" /></a></td>
+                            <td><a id="tt" href="#" target="_blank"><img alt="tiktok" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/TikTok%20Circle_2.png" style="display:block;" width="50" /></a></td>
+                            <td><a id="x" href="#" target="_blank"><img alt="x" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/X%20Circle_3.png" style="display:block;" width="50" /></a></td>
+                            <td><a id="yt" href="#" target="_blank"><img alt="youtube" src="https://prod.cdn.everyaction.com/images/van/NGP/NGP39/1/88708/images/YouTube%20Circle_2.png" style="display:block;" width="50" /></a></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </center>
+
+                    <table align="center" cellpadding="0" cellspacing="0">
+                      <tbody>
+                        <tr>
+                          <td align="center" style="padding: 15px;">
+                            <table align="center" cellpadding="10" cellspacing="0">
+                              <tbody>
+                                <tr>
+                                  <td align="center">
+                                    <!-- BULLETPROOF DONATE BUTTON -->
+                                    <!--[if mso]>
+                                      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="https://www.newblueinteractive.com" style="height:50px;v-text-anchor:middle;width:200px;" arcsize="8%" strokecolor="#ffffff" fillcolor="#25408F">
+                                        <w:anchorlock/>
+                                        <center style="color:#ffffff; font-family:Helvetica, Arial, sans-serif; font-size:18px; font-weight:bold;">DONATE NOW</center>
+                                      </v:roundrect>
+                                    <![endif]-->
+                                    <!--[if !mso]><!-- -->
+                                      <a id="btn1" href="https://www.newblueinteractive.com" target="_blank"
+                                         style="display:inline-block; background-color:#25408F; color:#ffffff; font-family: Helvetica, Arial, sans-serif; font-size:18px; font-weight:bold; text-decoration:underline; width:200px; line-height:50px; text-align:center; border:2px solid #ffffff; border-radius:5px;">
+                                         DONATE NOW
+                                      </a>
+                                    <!--<![endif]-->
+                                  </td>
+                                </tr>
+                                <tr id="btn2Row">
+                                  <td align="center">
+                                    <!-- BULLETPROOF VOLUNTEER BUTTON -->
+                                    <!--[if mso]>
+                                      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="https://www.newblueinteractive.com" style="height:50px;v-text-anchor:middle;width:200px;" arcsize="8%" strokecolor="#ffffff" fillcolor="#25408F">
+                                        <w:anchorlock/>
+                                        <center style="color:#ffffff; font-family:Helvetica, Arial, sans-serif; font-size:18px; font-weight:bold;">VOLUNTEER</center>
+                                      </v:roundrect>
+                                    <![endif]-->
+                                    <!--[if !mso]><!-- -->
+                                      <a id="btn2" href="https://www.newblueinteractive.com" target="_blank"
+                                         style="display:inline-block; background-color:#25408F; color:#ffffff; font-family: Helvetica, Arial, sans-serif; font-size:18px; font-weight:bold; text-decoration:underline; width:200px; line-height:50px; text-align:center; border:2px solid #ffffff; border-radius:5px;">
+                                         VOLUNTEER
+                                      </a>
+                                    <!--<![endif]-->
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+
+                            <br />
+                            <!-- FOOTER -->
+                            <table align="center" cellpadding="8" cellspacing="0" style="border: 1px solid black; text-align: center; max-width: 360px; font-family: Helvetica, Arial, sans-serif; font-size: 12px; line-height: 1.2em;" width="100%" id="paidForTable">
+                              <tbody>
+                                <tr>
+                                  <td id="paidForCell">PAID FOR BY YOUR CAMPAIGN</td>
+                                </tr>
+                              </tbody>
+                            </table>
+
+                            <table align="center" border="0" cellpadding="0" cellspacing="0" style="max-width: 750px;" width="100%">
+                              <tbody>
+                                <tr>
+                                  <td align="center" id="addrCell" style="font-family: Helvetica, Arial, sans-serif; font-size:12px;">
+                                    <p style="margin-top: 10px;">New Blue Interactive | PO Box 669 | Glen Cove, NY 11542</p>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td align="center" style="font-family: Helvetica, Arial, sans-serif; font-size:12px;">
+                                    <p style="margin-top: 10px;">
+                                      <a id="fewerEmails" href="https://www.newblueinteractive.com" style="color:#000000; text-decoration: underline;">Fewer Emails</a> |
+                                      <a id="donateLink" href="https://www.newblueinteractive.com" style="color:#000000; text-decoration: underline;">Donate</a>
+                                    </p>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td align="center" style="font-family: Helvetica, Arial, sans-serif; font-size:12px;">
+                                    <p style="margin-top: 10px;"><a id="unsubLink" href="https://www.newblueinteractive.com" style="color:#000000; text-decoration: underline;">Unsubscribe</a></p>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]-->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </center>
+        <!-- ======== END EMAIL PREVIEW ======== -->
+      </div>
+      <p class="note" style="margin-top:10px">Preview frame shows your background. Export HTML contains the centered table markup only.</p>
+    </div>
+  </main>
+
+  <script>
+    const $ = (s)=>document.querySelector(s);
+    const setHref = (id, url)=>{ const a = $(id); if(!a) return; if(url && /^https?:\/\//i.test(url)){ a.href=url; a.style.pointerEvents='auto'; a.style.opacity='1'; } else { a.href='#'; a.style.pointerEvents='none'; a.style.opacity='.4'; }}
+    const px = (n)=>`${parseInt(n,10)||0}px`;
+
+    function bind(){
+      // Fonts
+      $('#fontFamily').addEventListener('change', e=>{
+        document.querySelectorAll('#rootCenter [style*="font-family"]').forEach(n=>{
+          // replace only the family portion in inline styles
+          n.style.fontFamily = e.target.value;
+        });
+      });
+      $('#baseFont').addEventListener('input', e=>{
+        document.querySelectorAll('#rootCenter [style*="font-size"]').forEach(n=>{
+          const size = parseInt(e.target.value,10);
+          if(n.style.fontSize) n.style.fontSize = size+'px';
+        });
+      });
+      $('#linkColor').addEventListener('input', e=>{
+        ['#fewerEmails','#donateLink','#unsubLink'].forEach(id=>{ const a=$(id); a.style.color = e.target.value; });
+      });
+
+      // Canvas size
+      $('#maxWidth').addEventListener('input', e=>{ $('#outerTable').style.maxWidth = px(e.target.value); });
+      $('#minHeight').addEventListener('input', e=>{ $('#bgCell').style.minHeight = px(e.target.value); });
+
+      // Background
+      $('#bgUrl').addEventListener('input', e=>{
+        const url = e.target.value.trim();
+        $('#bgCell').style.backgroundImage = url ? `url(${url})` : 'none';
+        document.body.style.backgroundImage = url ? `url(${url})` : 'none'; // visual bonus
+      });
+      $('#bodyBg').addEventListener('input', e=>{ document.body.style.backgroundColor = e.target.value; });
+
+      // Social
+      $('#socialShow').addEventListener('change', e=>{ $('#socialTable').style.display = e.target.checked ? 'table' : 'none'; });
+      $('#iconSize').addEventListener('input', e=>{
+        const w = parseInt(e.target.value,10) || 50;
+        document.querySelectorAll('#socialTable img').forEach(img=> img.width = w);
+      });
+      [['#bsky','#bskyHref'],['#fb','#fbHref'],['#ig','#igHref'],['#tt','#ttHref'],['#x','#xHref'],['#yt','#ytHref']].forEach(([id,input])=>{
+        $(input)?.addEventListener('input', ev=> setHref(id, ev.target.value));
+      });
+
+      // Buttons (web side; VML kept as-is in export)
+      const syncBtn = (btn, label, href, bg, fg, border, deco, w, h, r)=>{
+        const a = $(btn);
+        a.textContent = label || a.textContent;
+        a.href = href || a.href;
+        a.style.backgroundColor = bg; a.style.color = fg; a.style.borderColor = border; a.style.textDecoration = deco;
+        a.style.width = px(w); a.style.lineHeight = px(h); a.style.borderRadius = px(r);
+        // also update the matching mso VML sibling text/attrs if present (best effort)
+        const vml = a.parentElement?.previousElementSibling; // comment node in preview; skip
+      };
+
+      const applyButtons = ()=>{
+        const l1 = $('#btn1Label').value.trim();
+        const l2 = $('#btn2Label').value.trim();
+        const u1 = $('#btn1Href').value.trim();
+        const u2 = $('#btn2Href').value.trim();
+        const bg = $('#btnBg').value; const fg = $('#btnText').value; const bc = $('#btnBorder').value;
+        const deco = $('#btnUnderline').value; const w = +$('#btnW').value; const h = +$('#btnH').value; const r = +$('#btnR').value;
+        syncBtn('#btn1', l1, u1, bg, fg, bc, deco, w, h, r);
+        syncBtn('#btn2', l2, u2, bg, fg, bc, deco, w, h, r);
+        $('#btn2Row').style.display = $('#btn2Show').checked ? '' : 'none';
+      };
+      ['btn1Label','btn1Href','btn2Label','btn2Href','btnBg','btnText','btnBorder','btnUnderline','btnW','btnH','btnR','btn2Show'].forEach(id=>{
+        document.getElementById(id).addEventListener('input', applyButtons);
+        document.getElementById(id).addEventListener('change', applyButtons);
+      });
+
+      // Export
+      $('#copyHtml').addEventListener('click', async ()=>{
+        const html = exportHtml();
+        await navigator.clipboard.writeText(html);
+        toast('HTML copied');
+      });
+      $('#downloadHtml').addEventListener('click', ()=>{
+        const html = exportHtml(true);
+        const blob = new Blob([html],{type:'text/html'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href=url; a.download='email-template-export.html'; a.click(); URL.revokeObjectURL(url);
+      });
+      $('#reset').addEventListener('click', ()=>{ localStorage.removeItem('emailBuilderState'); location.reload(); });
+
+      // Restore saved state if present
+      try{ const saved = JSON.parse(localStorage.getItem('emailBuilderState')||'null'); if(saved) restore(saved); }catch(e){}
+      document.getElementById('controls').addEventListener('input', persist);
+      document.getElementById('controls').addEventListener('change', persist);
+
+      // initial apply
+      applyButtons();
+    }
+
+    function persist(){
+      const st = {
+        font: $('#fontFamily').value, base: $('#baseFont').value, link: $('#linkColor').value,
+        maxW: $('#maxWidth').value, minH: $('#minHeight').value,
+        bg: $('#bgUrl').value, bodyBg: $('#bodyBg').value,
+        social: { show: $('#socialShow').checked, size: $('#iconSize').value, b: $('#bskyHref').value, f: $('#fbHref').value, i: $('#igHref').value, t: $('#ttHref').value, x: $('#xHref').value, y: $('#ytHref').value },
+        btn: { l1: $('#btn1Label').value, u1: $('#btn1Href').value, l2: $('#btn2Label').value, u2: $('#btn2Href').value, bg: $('#btnBg').value, fg: $('#btnText').value, bc: $('#btnBorder').value, deco: $('#btnUnderline').value, w: $('#btnW').value, h: $('#btnH').value, r: $('#btnR').value, s2: $('#btn2Show').checked },
+        footer: { text: $('#paidFor').value, show: $('#footerShow').checked }
+      };
+      localStorage.setItem('emailBuilderState', JSON.stringify(st));
+    }
+
+    function restore(st){
+      $('#fontFamily').value = st.font; document.querySelectorAll('#rootCenter [style*="font-family"]').forEach(n=> n.style.fontFamily = st.font);
+      $('#baseFont').value = st.base; document.querySelectorAll('#rootCenter [style*="font-size"]').forEach(n=>{ if(n.style.fontSize) n.style.fontSize = st.base+'px'; });
+      $('#linkColor').value = st.link; ['#fewerEmails','#donateLink','#unsubLink'].forEach(id=> $(id).style.color = st.link);
+      $('#maxWidth').value = st.maxW; $('#outerTable').style.maxWidth = px(st.maxW);
+      $('#minHeight').value = st.minH; $('#bgCell').style.minHeight = px(st.minH);
+      $('#bgUrl').value = st.bg; $('#bgCell').style.backgroundImage = st.bg ? `url(${st.bg})` : 'none';
+      $('#bodyBg').value = st.bodyBg; document.body.style.backgroundColor = st.bodyBg;
+
+      $('#socialShow').checked = st.social.show; $('#socialTable').style.display = st.social.show ? 'table' : 'none';
+      $('#iconSize').value = st.social.size; document.querySelectorAll('#socialTable img').forEach(img=> img.width = parseInt(st.social.size,10));
+      $('#bskyHref').value = st.social.b; setHref('#bsky', st.social.b);
+      $('#fbHref').value = st.social.f; setHref('#fb', st.social.f);
+      $('#igHref').value = st.social.i; setHref('#ig', st.social.i);
+      $('#ttHref').value = st.social.t; setHref('#tt', st.social.t);
+      $('#xHref').value = st.social.x; setHref('#x', st.social.x);
+      $('#ytHref').value = st.social.y; setHref('#yt', st.social.y);
+
+      $('#btn1Label').value = st.btn.l1; $('#btn1Href').value = st.btn.u1; $('#btn2Label').value = st.btn.l2; $('#btn2Href').value = st.btn.u2;
+      $('#btnBg').value = st.btn.bg; $('#btnText').value = st.btn.fg; $('#btnBorder').value = st.btn.bc; $('#btnUnderline').value = st.btn.deco; $('#btnW').value = st.btn.w; $('#btnH').value = st.btn.h; $('#btnR').value = st.btn.r; $('#btn2Show').checked = st.btn.s2;
+      // apply to buttons
+      document.getElementById('btn1Label').dispatchEvent(new Event('input'));
+
+      $('#paidFor').value = st.footer.text; $('#paidForCell').textContent = st.footer.text; $('#footerShow').checked = st.footer.show; $('#paidForTable').style.display = st.footer.show ? 'table' : 'none';
+    }
+
+    function exportHtml(fullDoc=false){
+      // clone the centered block only
+      const center = $('#rootCenter').cloneNode(true);
+      // strip any preview-only artifacts; ensure max-width and inline styles are preserved
+      // (they already are inline in the preview)
+      const html = center.outerHTML;
+      if(!fullDoc) return html;
+      return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="x-apple-disable-message-reformatting"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Email Export</title></head><body style="margin:0; padding:0;">${html}</body></html>`;
+    }
+
+    function toast(msg){ const t=document.createElement('div'); t.textContent=msg; t.style.cssText='position:fixed;bottom:20px;right:20px;background:#111827;color:#e5e7eb;padding:10px 12px;border-radius:10px;border:1px solid #374151;opacity:0;transform:translateY(6px);transition:.2s;z-index:9999'; document.body.appendChild(t); requestAnimationFrame(()=>{t.style.opacity=1;t.style.transform='translateY(0)'}); setTimeout(()=>{t.style.opacity=0;t.style.transform='translateY(6px)'; setTimeout(()=>t.remove(),200)},1400); }
+
+    // Footer bindings
+    document.addEventListener('DOMContentLoaded', ()=>{
+      bind();
+      $('#paidFor').addEventListener('input', e=> $('#paidForCell').textContent = e.target.value);
+      $('#footerShow').addEventListener('change', e=> $('#paidForTable').style.display = e.target.checked ? 'table' : 'none');
+    });
+  </script>
+</body>
+</html>
