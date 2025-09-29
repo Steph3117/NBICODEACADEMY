@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Photo & Text Badge Builder</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin: 0; background: #f6f7fb; color: #222; }
+    header { padding: 16px 20px; border-bottom: 1px solid #e6e8ef; background: #fff; position: sticky; top: 0; z-index: 10; }
+    header h1 { margin: 0; font-size: 18px; font-weight: 600; }
+
+    .app { display: grid; grid-template-columns: 340px 1fr; gap: 20px; padding: 20px; }
+    @media (max-width: 960px) { .app { grid-template-columns: 1fr; } }
+
+    .panel { background: #fff; border: 1px solid #e6e8ef; border-radius: 14px; padding: 16px; box-shadow: 0 2px 6px rgba(0,0,0,.04); }
+    .panel h2 { margin: 4px 0 12px; font-size: 16px; }
+    .group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .group.full { grid-template-columns: 1fr; }
+    label { font-size: 12px; color: #4a5568; display: block; margin-bottom: 6px; }
+    input[type="text"], input[type="number"], select { width: 100%; padding: 10px 12px; border: 1px solid #d9deea; border-radius: 10px; font-size: 14px; background: #fbfcff; }
+    input[type="color"] { width: 100%; height: 40px; padding: 0; border: 1px solid #d9deea; border-radius: 10px; background: #fbfcff; }
+    .row { display: flex; gap: 10px; align-items: center; margin-bottom: 14px; }
+    .row > * { flex: 1; }
+    .btn { appearance: none; border: 1px solid #1b72ff; background: #1b72ff; color: #fff; padding: 10px 14px; border-radius: 10px; font-weight: 600; cursor: pointer; }
+    .btn.secondary { background: #fff; color: #1b72ff; }
+    .btn:active { transform: translateY(1px); }
+    .muted { color: #6b7280; font-size: 12px; }
+
+    /* Preview card */
+    .stage-wrap { display: grid; gap: 12px; }
+    .stage { background: #fff; border: 1px solid #e6e8ef; border-radius: 14px; padding: 18px; overflow: auto; box-shadow: 0 2px 6px rgba(0,0,0,.04); }
+    .stage label { font-size: 12px; color: #6b7280; margin-bottom: 6px; }
+
+    .code { background: #0b1020; color: #eaf2ff; padding: 12px; border-radius: 10px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 12px; overflow: auto; max-height: 380px; border: 1px solid #111526; }
+    .right-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+    .note { background: #fff8e6; border: 1px solid #ffe3a3; padding: 10px 12px; border-radius: 10px; font-size: 12px; color: #6b4f00; }
+  </style>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <header>
+  <h1>NBICodeAcademy</h1>
+  <p>by New Blue Interactive</p>
+  <nav>
+    <ul class="nav-tabs">
+      <li><a href="../index.html">Home</a></li>
+
+      <li class="dropdown">
+        <a href="../tools.html">NBI Email Tools ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="../EmailChecklist.html">Email Checklist</a></li>
+          <li><a href="../snippetlibrary.html">Snippet Library</a></li>
+          <li><a href="../codebuildertools/choosethetool.html">Email Link Library</a></li>
+          <li><a href="../codebuildertools/SocialIconsite/socialiconcolor.html">Social Icon Tool</a></li>
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a href="../trainings.html">Trainings ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="trainings.html#workshops">Workshops</a></li>
+          <li><a href="trainings.html#videos">Video Library</a></li>
+        </ul>
+      </li>
+
+      <li><a href="../docs.html">Documentation</a></li>
+    </ul>
+  </nav>
+</header>
+
+  <div class="app">
+    <!-- Controls -->
+    <section class="panel" id="controls">
+      <h2>Controls</h2>
+
+      <div class="group full">
+        <div>
+          <label>Container Max Width (px)</label>
+          <input type="number" id="containerMaxWidth" min="280" step="10" value="700" />
+        </div>
+      </div>
+
+      <h3 class="muted">Image</h3>
+      <div class="group full">
+        <div>
+          <label>Image URL</label>
+          <input type="text" id="imgUrl" value="https://prod.cdn.everyaction.com/images/van/EA/EA003/1/72264/images/wayne_100x100.jpg" />
+        </div>
+      </div>
+      <div class="group">
+        <div>
+          <label>Width (px)</label>
+          <input type="number" id="imgW" min="20" value="100" />
+        </div>
+        <div>
+          <label>Height (px)</label>
+          <input type="number" id="imgH" min="20" value="100" />
+        </div>
+      </div>
+      <div class="group">
+        <div>
+          <label>Border Width (px)</label>
+          <input type="number" id="imgBorderW" min="0" value="5" />
+        </div>
+        <div>
+          <label>Border Color</label>
+          <input type="color" id="imgBorderC" value="#f16522" />
+        </div>
+      </div>
+      <div class="group">
+        <div>
+          <label>Roundness (px)</label>
+          <input type="number" id="imgRadius" min="0" value="50" />
+        </div>
+        <div>
+          <label>Margin Right (px)</label>
+          <input type="number" id="imgMR" min="0" value="10" />
+        </div>
+      </div>
+
+      <h3 class="muted">Text</h3>
+      <div class="group full">
+        <div>
+          <label>Line 1</label>
+          <input type="text" id="t1" value="Wayne Pacelle" />
+        </div>
+      </div>
+      <div class="group full">
+        <div>
+          <label>Line 2</label>
+          <input type="text" id="t2" value="President" />
+        </div>
+      </div>
+      <div class="group full">
+        <div>
+          <label>Line 3</label>
+          <input type="text" id="t3" value="Animal Wellness Action" />
+        </div>
+      </div>
+
+      <div class="group">
+        <div>
+          <label>Font Family</label>
+          <select id="fontFamily">
+            <option value="Helvetica, Arial, sans-serif">Helvetica / Arial</option>
+            <option value="Arial, Helvetica, sans-serif">Arial</option>
+            <option value="Georgia, serif">Georgia</option>
+            <option value="Times New Roman, Times, serif">Times New Roman</option>
+            <option value="Tahoma, Geneva, sans-serif">Tahoma</option>
+            <option value="Verdana, Geneva, sans-serif">Verdana</option>
+            <option value="'Trebuchet MS', Tahoma, sans-serif">Trebuchet MS</option>
+            <option value="'Courier New', Courier, monospace">Courier New</option>
+          </select>
+        </div>
+        <div>
+          <label>Font Size (px)</label>
+          <input type="number" id="fontSize" min="10" value="18" />
+        </div>
+      </div>
+
+      <div class="group">
+        <div>
+          <label>Line Height (%)</label>
+          <input type="number" id="lineHeight" min="100" value="140" />
+        </div>
+        <div>
+          <label>Text Color</label>
+          <input type="color" id="fontColor" value="#000000" />
+        </div>
+      </div>
+
+      <div class="row">
+        <button class="btn" id="copyHtml">Copy HTML</button>
+        <button class="btn secondary" id="reset">Reset</button>
+      </div>
+    </section>
+
+    <!-- Preview + Code -->
+    <section class="stage-wrap">
+      <div class="panel stage">
+        <label>Live Preview</label>
+        <div id="preview"></div>
+      </div>
+
+      <div class="panel">
+        <div class="right-actions">
+          <button class="btn" id="copyHtml2">Copy HTML</button>
+        </div>
+        <pre class="code" id="codeBlock"></pre>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const el = id => document.getElementById(id);
+
+    const state = {
+      containerMaxWidth: 700,
+      imgUrl: 'https://prod.cdn.everyaction.com/images/van/EA/EA003/1/72264/images/wayne_100x100.jpg',
+      imgW: 100,
+      imgH: 100,
+      imgBorderW: 5,
+      imgBorderC: '#f16522',
+      imgRadius: 50,
+      imgMR: 10,
+      t1: 'Wayne Pacelle',
+      t2: 'President',
+      t3: 'Animal Wellness Action',
+      fontFamily: 'Helvetica, Arial, sans-serif',
+      fontSize: 18,
+      lineHeight: 140,
+      fontColor: '#000000'
+    };
+
+    const inputs = [
+      'containerMaxWidth','imgUrl','imgW','imgH','imgBorderW','imgBorderC','imgRadius','imgMR','t1','t2','t3','fontFamily','fontSize','lineHeight','fontColor'
+    ];
+
+    function bind() {
+      inputs.forEach(key => {
+        const node = el(key);
+        node.addEventListener('input', () => {
+          state[key] = (node.type === 'number') ? Number(node.value) : node.value;
+          render();
+        });
+      });
+
+      el('copyHtml').addEventListener('click', copyHtml);
+      el('copyHtml2').addEventListener('click', copyHtml);
+      el('reset').addEventListener('click', reset);
+    }
+
+    function tableHtml() {
+      const s = state;
+      const table = `\n<table border="0" cellpadding="0" cellspacing="0" class="responsive-table" style="max-width: ${s.containerMaxWidth}px; width: 100%; background-color: #ffffff">\n  <tbody>\n    <tr>\n      <td style="text-align: left; font-size: ${s.fontSize}px; line-height: ${s.lineHeight}%; font-family: ${s.fontFamily}; min-width: 100%; color: ${s.fontColor}">\n        <table>\n          <tbody>\n            <tr colspan="2">\n              <td style="justify-content: left; padding: 10px; padding-left: 30px">\n                <img alt="Photo" src="${s.imgUrl}" style="width: ${s.imgW}px; height: ${s.imgH}px; border: ${s.imgBorderW}px solid ${s.imgBorderC}; border-radius: ${s.imgRadius}%; margin-right: ${s.imgMR}px;" />\n              </td>\n              <td style="justify-content: left; padding: 10px">\n                <p style="font-size: ${s.fontSize}px; line-height: ${s.lineHeight}%; font-family: ${s.fontFamily}; color: ${s.fontColor}; margin: 0;">${escapeHtml(s.t1)}<br />${escapeHtml(s.t2)}<br />${escapeHtml(s.t3)}</p>\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </td>\n    </tr>\n  </tbody>\n</table>`;
+      return table.trim();
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;');
+    }
+
+    function render() {
+      const html = tableHtml();
+      el('preview').innerHTML = html;
+      el('codeBlock').textContent = html;
+    }
+
+    async function copyHtml() {
+      const html = tableHtml();
+      try {
+        await navigator.clipboard.writeText(html);
+        toast('HTML copied to clipboard');
+      } catch (e) {
+        // Fallback: select code block
+        const range = document.createRange();
+        range.selectNodeContents(el('codeBlock'));
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        toast('Select + Copy the code');
+      }
+    }
+
+    function reset() {
+      Object.assign(state, {
+        containerMaxWidth: 700,
+        imgUrl: 'https://prod.cdn.everyaction.com/images/van/EA/EA003/1/72264/images/wayne_100x100.jpg',
+        imgW: 100,
+        imgH: 100,
+        imgBorderW: 5,
+        imgBorderC: '#f16522',
+        imgRadius: 50,
+        imgMR: 10,
+        t1: 'Wayne Pacelle',
+        t2: 'President',
+        t3: 'Animal Wellness Action',
+        fontFamily: 'Helvetica, Arial, sans-serif',
+        fontSize: 18,
+        lineHeight: 140,
+        fontColor: '#000000'
+      });
+      // Reset form inputs visually
+      inputs.forEach(key => {
+        const node = el(key);
+        node.value = state[key];
+      });
+      render();
+    }
+
+    // tiny toast
+    function toast(msg) {
+      const t = document.createElement('div');
+      t.textContent = msg;
+      t.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#111827;color:#fff;padding:10px 12px;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.2);z-index:9999;font-size:12px;';
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 2000);
+    }
+
+    bind();
+    render();
+  </script>
+</body>
+</html>
